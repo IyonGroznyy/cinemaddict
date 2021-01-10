@@ -15,7 +15,7 @@ namespace Cinemaddict.Views
         public NewItemPage()
         {
             InitializeComponent();
-            BindingContext = new NewItemViewModel();
+            BindingContext = new NewReviewViewModel();
         }
     }
 }

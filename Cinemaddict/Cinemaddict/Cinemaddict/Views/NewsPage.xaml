@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Cinemaddict.Views.NewsPage"
+             xmlns:vm="clr-namespace:Cinemaddict.ViewModels"
+             Title="{Binding Title}">
+    
+    <ContentPage.BindingContext>
+        <vm:NewsViewModel />
+    </ContentPage.BindingContext>
+    
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Color x:Key="Accent">#96d1ff</Color>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <ScrollView>
+            <StackLayout Orientation="Vertical" Padding="30,24,30,24" Spacing="10" BindableLayout.ItemsSource="{Binding CategoriesList}">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate>
+                        <FlexLayout Direction="Column" Wrap="Wrap"
+                            HeightRequest="150"
+                            HorizontalOptions="FillAndExpand"
+                            >
+                            <Label Text="{Binding Id}" HorizontalOptions="StartAndExpand" Margin="0,0,0,10" />
+                            <Label Text="{Binding Text}" HorizontalOptions="StartAndExpand" Margin="0,0,0,10"/>
+                            <Label Text="{Binding Description}" HorizontalOptions="StartAndExpand" Margin="0,0,0,10"/>
+                        </FlexLayout>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </StackLayout>
+        </ScrollView>
+    </Grid>
+
+</ContentPage>

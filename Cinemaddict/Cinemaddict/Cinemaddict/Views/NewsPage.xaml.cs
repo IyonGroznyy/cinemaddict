@@ -1,15 +1,17 @@
-﻿using System;
+﻿using Cinemaddict.ViewModels;
+using System;
 using System.ComponentModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace Cinemaddict.Views
 {
-    public partial class AboutPage : ContentPage
+    public partial class NewsPage : ContentPage
     {
-        public AboutPage()
+        public NewsPage()
         {
             InitializeComponent();
+            BindingContext = new NewsViewModel();
         }
     }
 }

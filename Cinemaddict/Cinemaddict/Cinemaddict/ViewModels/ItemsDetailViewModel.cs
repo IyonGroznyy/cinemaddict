@@ -7,7 +7,7 @@ using Xamarin.Forms;
 namespace Cinemaddict.ViewModels
 {
     [QueryProperty(nameof(ItemId), nameof(ItemId))]
-    public class ItemDetailViewModel : BaseViewModel
+    public class ItemsDetailViewModel : BaseViewModel
     {
         private string itemId;
         private string text;

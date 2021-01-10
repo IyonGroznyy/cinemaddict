@@ -7,12 +7,12 @@ using Xamarin.Forms;
 
 namespace Cinemaddict.ViewModels
 {
-    public class NewItemViewModel : BaseViewModel
+    public class NewReviewViewModel : BaseViewModel
     {
         private string text;
         private string description;
 
-        public NewItemViewModel()
+        public NewReviewViewModel()
         {
             SaveCommand = new Command(OnSave, ValidateSave);
             CancelCommand = new Command(OnCancel);
