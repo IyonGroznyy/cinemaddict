@@ -14,6 +14,7 @@ namespace Cinemaddict.Services
         {
             items = new List<Item>()
             {
+
                 new Item { Id = Guid.NewGuid().ToString(), Text = "First item", Description="This is an item description." },
                 new Item { Id = Guid.NewGuid().ToString(), Text = "Second item", Description="This is an item description." },
                 new Item { Id = Guid.NewGuid().ToString(), Text = "Third item", Description="This is an item description." },
