@@ -13,7 +13,7 @@ namespace Cinemaddict.ViewModels
         private string text;
         private string description;
 
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         public string Text
         {
