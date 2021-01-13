@@ -7,8 +7,20 @@
              x:Class="Cinemaddict.Views.LoginPage"
              Shell.NavBarIsVisible="False">
     <ContentPage.Content>
-        <StackLayout Padding="10,0,10,0" VerticalOptions="Center">
-            <Button VerticalOptions="Center" Text="Login" Command="{Binding LoginCommand}"/>
+        <StackLayout>
+            <Entry Text="{Binding Username}"
+                   HorizontalOptions="FillAndExpand"
+                   VerticalOptions="Center"
+                   Placeholder="Username" />
+            <Entry Text="{Binding Password}"
+                   Placeholder="Password"
+                   IsPassword="True" 
+                   HorizontalOptions="FillAndExpand"
+                   VerticalOptions="Center"/>
+            <Button Text="Log in" 
+                    Clicked="LoginButton_Clicked" 
+                    HorizontalOptions="FillAndExpand" 
+                    VerticalOptions="Center"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

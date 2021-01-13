@@ -8,17 +8,33 @@ namespace Cinemaddict.ViewModels
 {
     public class LoginViewModel : BaseViewModel
     {
-        public Command LoginCommand { get; }
+        private string _username;
+        private string _password;
 
         public LoginViewModel()
         {
-            LoginCommand = new Command(OnLoginClicked);
         }
 
-        private async void OnLoginClicked(object obj)
+        public string Username
         {
-            // Prefixing with `//` switches to a different navigation stack instead of pushing to the active one
-            await Shell.Current.GoToAsync($"//{nameof(NewsPage)}");
+            get => _username;
+            set
+            {
+                if (value == _username) return;
+                _username = value;
+                OnPropertyChanged(nameof(Username));
+            }
+        }
+
+        public string Password
+        {
+            get => _password;
+            set
+            {
+                if (value == _password) return;
+                _password = value;
+                OnPropertyChanged(nameof(Password));
+            }
         }
     }
 }

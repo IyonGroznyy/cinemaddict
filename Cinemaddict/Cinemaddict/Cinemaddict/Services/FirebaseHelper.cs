@@ -66,8 +66,10 @@ namespace XamarinFirebase.Helper
 
         }
     }
-    public interface IFirebaseAuthenticator
+    public interface IFirebaseAuthentication
     {
-        Task<string> LoginWithEmailPassword(string email, string password);
+        Task<string> LoginWithEmailAndPassword(string email, string password);
+        bool SignOut();
+        bool IsSignIn();
     }
 }
