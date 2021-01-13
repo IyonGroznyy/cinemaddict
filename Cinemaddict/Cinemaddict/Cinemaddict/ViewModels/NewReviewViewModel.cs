@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
+using XamarinFirebase.Helper;
 
 namespace Cinemaddict.ViewModels
 {
@@ -11,7 +12,7 @@ namespace Cinemaddict.ViewModels
     {
         private string text;
         private string description;
-
+        FirebaseHelper firebaseHelper = new FirebaseHelper();
         public NewReviewViewModel()
         {
             SaveCommand = new Command(OnSave, ValidateSave);
@@ -51,12 +52,15 @@ namespace Cinemaddict.ViewModels
         {
             Item newItem = new Item()
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = 0,
                 Text = Text,
                 Description = Description
             };
+            await firebaseHelper.AddPerson(newItem);
 
-            await DataStore.AddItemAsync(newItem);
+            //var allPersons = await firebaseHelper.GetAllPersons();
+            //lstPersons.ItemsSource = allPersons;
+            //await DataStore.AddItemAsync(newItem);
 
             // This will pop the current page off the navigation stack
             await Shell.Current.GoToAsync("..");

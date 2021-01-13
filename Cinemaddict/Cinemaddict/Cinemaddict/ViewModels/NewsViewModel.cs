@@ -14,11 +14,11 @@ namespace Cinemaddict.ViewModels
             Title = "News";
             CategoriesList = new ObservableCollection<Item>
             {
-                new Item() { Text = "Data 1", Id =  "1", Description = "sfdadsfasdfasfdasdfasdfasf" },
-                new Item() { Text = "Data 2", Id =  "2", Description = "sfdadsfasdfasfdasdfasdfasf" },
-                new Item() { Text = "Data 3", Id =  "3", Description = "sfdadsfasdfasfdasdfasdfasf" },
-                new Item() { Text = "Data 4", Id =  "4", Description = "sfdadsfasdfasfdasdfasdfasf" },
-                new Item() { Text = "Data 5", Id =  "5", Description = "sfdadsfasdfasfdasdfasdfasf" }
+                new Item() { Text = "Data 1", Id =  1, Description = "sfdadsfasdfasfdasdfasdfasf" },
+                new Item() { Text = "Data 2", Id =  2, Description = "sfdadsfasdfasfdasdfasdfasf" },
+                new Item() { Text = "Data 3", Id =  3, Description = "sfdadsfasdfasfdasdfasdfasf" },
+                new Item() { Text = "Data 4", Id =  4, Description = "sfdadsfasdfasfdasdfasdfasf" },
+                new Item() { Text = "Data 5", Id =  5, Description = "sfdadsfasdfasfdasdfasdfasf" }
             };
         }
 

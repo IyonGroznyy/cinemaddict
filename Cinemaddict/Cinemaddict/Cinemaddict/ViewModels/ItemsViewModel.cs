@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using XamarinFirebase.Helper;
 
 namespace Cinemaddict.ViewModels
 {
@@ -35,7 +36,7 @@ namespace Cinemaddict.ViewModels
             try
             {
                 Items.Clear();
-                var items = await DataStore.GetItemsAsync(true);
+                var items = await new FirebaseHelper().GetAllPersons();
                 foreach (var item in items)
                 {
                     Items.Add(item);
