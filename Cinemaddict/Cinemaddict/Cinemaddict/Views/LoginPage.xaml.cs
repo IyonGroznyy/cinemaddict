@@ -25,10 +25,19 @@ namespace Cinemaddict.Views
 
         private async void LoginButton_Clicked(object sender, EventArgs e)
         {
-            string token = await auth.LoginWithEmailAndPassword(viewModel.Username, viewModel.Password);
+            string token = "";
+            try
+            {
+                token = await auth.LoginWithEmailAndPassword(viewModel.Username, viewModel.Password);
+            }
+            catch(Exception exx)
+            {
+                
+            }
+            
             if (token != string.Empty)
             {
-                Application.Current.MainPage = new MainPage();
+                Application.Current.MainPage = new AppShell();
             }
             else
             {

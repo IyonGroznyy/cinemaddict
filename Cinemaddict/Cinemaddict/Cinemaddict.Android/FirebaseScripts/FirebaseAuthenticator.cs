@@ -11,7 +11,9 @@ using System.Text;
 using System.Threading.Tasks;
 using XamarinFirebase.Helper;
 using Firebase.Auth;
+using Xamarin.Forms;
 
+[assembly: Dependency(typeof(Cinemaddict.Droid.FirebaseAuthentication))]
 namespace Cinemaddict.Droid
 {
     public class FirebaseAuthentication : IFirebaseAuthentication

@@ -29,7 +29,6 @@ namespace XamarinFirebase.Helper
 
         public async Task AddPerson(Item item)
         {
-            var ds = 0;
             item.Id = 0;
             await firebase
               .Child("Items")
