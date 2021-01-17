@@ -18,7 +18,7 @@ namespace Cinemaddict.Views
         public MainPage()
         {
             InitializeComponent();
-            auth = DependencyService.Get<IFirebaseAuthentication>();
+            auth = Application.Current.Properties["auth"] as IFirebaseAuthentication;
         }
 
         private async void SignOutButton_Clicked(object sender, EventArgs e)

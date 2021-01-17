@@ -1,9 +1,9 @@
-﻿using Cinemaddict.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using XamarinFirebase.Helper;
@@ -11,39 +11,31 @@ using XamarinFirebase.Helper;
 namespace Cinemaddict.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class LoginPage : ContentPage
+    public partial class SignUpPage : ContentPage
     {
-        LoginViewModel viewModel;
-        IFirebaseAuthentication auth;
-
-        public LoginPage()
+        IFirebaseAuthentication auth = Application.Current.Properties["auth"] as IFirebaseAuthentication;
+        public SignUpPage()
         {
+            Title = "Sign Up";
             InitializeComponent();
-            Title = "Login";
-            auth = Application.Current.Properties["auth"] as IFirebaseAuthentication;
-            BindingContext = viewModel = new LoginViewModel();
         }
 
         private async void SignUpButton_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new SignUpPage());
-        }
-        
-
-        private async void LoginButton_Clicked(object sender, EventArgs e)
-        {
             string token = "";
             try
             {
-                token = await auth.LoginWithEmailAndPassword(viewModel.Username, viewModel.Password);
+                var signOut = auth.SignOut();
+                token = await auth.SignUpWithEmailAndPassword(EmailEntry.Text, PasswordEntry.Text);
             }
-            catch(Exception exx)
+            catch (Exception exx)
             {
-                
+
             }
-            
+
             if (token != string.Empty)
             {
+                await DisplayAlert("Success", "New User Created", "OK");
                 Application.Current.MainPage = new AppShell();
             }
             else

@@ -24,6 +24,26 @@ namespace Cinemaddict.Droid
             return user != null;
         }
 
+        public async Task<string> SignUpWithEmailAndPassword(string email, string password)
+        {
+            try
+            {
+                var newUser = await FirebaseAuth.Instance.CreateUserWithEmailAndPasswordAsync(email, password);
+                var token = newUser.User.Uid;
+                return token;
+            }
+            catch (FirebaseAuthInvalidUserException e)
+            {
+                e.PrintStackTrace();
+                return string.Empty;
+            }
+            catch (FirebaseAuthInvalidCredentialsException e)
+            {
+                e.PrintStackTrace();
+                return string.Empty;
+            }
+        }
+
         public async Task<string> LoginWithEmailAndPassword(string email, string password)
         {
             try
