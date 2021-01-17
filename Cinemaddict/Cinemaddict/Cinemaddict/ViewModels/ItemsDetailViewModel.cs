@@ -3,6 +3,7 @@ using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using XamarinFirebase.Helper;
 
 namespace Cinemaddict.ViewModels
 {
@@ -44,7 +45,7 @@ namespace Cinemaddict.ViewModels
         {
             try
             {
-                var item = await DataStore.GetItemAsync(itemId);
+                var item = await new FirebaseHelper().GetPerson(int.Parse(itemId));
                 Id = item.Id;
                 Text = item.Text;
                 Description = item.Description;

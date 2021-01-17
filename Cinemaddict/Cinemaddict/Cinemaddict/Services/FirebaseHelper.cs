@@ -7,19 +7,32 @@ using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Cinemaddict.Models;
+using Xamarin.Forms;
 
 namespace XamarinFirebase.Helper
 {
 
     public class FirebaseHelper
     {
-        FirebaseClient firebase = new FirebaseClient("https://database-cinemaddict-default-rtdb.europe-west1.firebasedatabase.app/");
+        FirebaseOptions config = new FirebaseOptions();
 
+        FirebaseClient firebase;
+        string token = Application.Current.Properties["token"] as string;
+
+        public FirebaseHelper()
+        {
+            config.AsAccessToken = true;
+            firebase = new FirebaseClient("https://database-cinemaddict-default-rtdb.europe-west1.firebasedatabase.app/",
+            new FirebaseOptions
+            {
+                AuthTokenAsyncFactory = () => Task.FromResult("vue1DZlnwKuoRQpUo7agavzn44StDmZpB2yURKJK")
+            });
+        }
         public async Task<List<Item>> GetAllPersons()
         {
-
             return (await firebase
-              .Child("Items")
+              .Child("users")
+              .Child(token)
               .OnceAsync<Item>()).Select(item => new Item
               {
                   Text = item.Object.Text,
@@ -29,9 +42,10 @@ namespace XamarinFirebase.Helper
 
         public async Task AddPerson(Item item)
         {
-            item.Id = 0;
+            //item.uid = "RrhVzHwNUZSaZwafdKyyAhkpwZy1";
             await firebase
-              .Child("Items")
+              .Child("users")
+              .Child(token)
               .PostAsync(item);
         }
 
@@ -39,7 +53,8 @@ namespace XamarinFirebase.Helper
         {
             var allPersons = await GetAllPersons();
             await firebase
-              .Child("Items")
+              .Child("users")
+              .Child(token)
               .OnceAsync<Item>();
             return allPersons.Where(a => a.Id == id).FirstOrDefault();
         }
@@ -47,11 +62,13 @@ namespace XamarinFirebase.Helper
         public async Task UpdatePerson(int id, string text)
         {
             var toUpdatePerson = (await firebase
-              .Child("Items")
+              .Child("users")
+              .Child(token)
               .OnceAsync<Item>()).Where(a => a.Object.Id == id).FirstOrDefault();
 
             await firebase
-              .Child("Items")
+              .Child("users")
+              .Child(token)
               .Child(toUpdatePerson.Key)
               .PutAsync(new Item() { Id = id, Text = text });
         }
@@ -59,9 +76,10 @@ namespace XamarinFirebase.Helper
         public async Task DeletePerson(int id)
         {
             var toDeletePerson = (await firebase
-              .Child("Items")
+              .Child("users")
+              .Child(token)
               .OnceAsync<Item>()).Where(a => a.Object.Id == id).FirstOrDefault();
-            await firebase.Child("Items").Child(toDeletePerson.Key).DeleteAsync();
+            await firebase.Child(token).Child(toDeletePerson.Key).DeleteAsync();
 
         }
     }
@@ -70,6 +88,6 @@ namespace XamarinFirebase.Helper
         Task<string> LoginWithEmailAndPassword(string email, string password);
         Task<string> SignUpWithEmailAndPassword(string email, string password);
         bool SignOut();
-        bool IsSignIn();
+        bool IsSignIn(ref string token);
     }
 }

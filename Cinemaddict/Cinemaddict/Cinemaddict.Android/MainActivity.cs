@@ -6,6 +6,8 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using Firebase;
+using System.IO;
 
 namespace Cinemaddict.Droid
 {

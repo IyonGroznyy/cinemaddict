@@ -21,7 +21,7 @@ namespace Cinemaddict.ViewModels
             set
             {
                 if (value == _username) return;
-                _username = value;
+                _username = value.Trim();
                 OnPropertyChanged(nameof(Username));
             }
         }
@@ -32,7 +32,7 @@ namespace Cinemaddict.ViewModels
             set
             {
                 if (value == _password) return;
-                _password = value;
+                _password = value.Trim();
                 OnPropertyChanged(nameof(Password));
             }
         }

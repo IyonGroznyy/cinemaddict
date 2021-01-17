@@ -12,12 +12,14 @@ namespace Cinemaddict
 
         public App()
         {
-            InitializeComponent();
             var auth = DependencyService.Get<IFirebaseAuthentication>();
             Current.Properties["auth"] = auth;
+            InitializeComponent();
             DependencyService.Register<MockDataStore>();
-            if(auth.IsSignIn())
+            string token = null;
+            if(auth.IsSignIn(ref token))
             {
+                Current.Properties["token"] = token;
                 MainPage = new AppShell();
             }
             else

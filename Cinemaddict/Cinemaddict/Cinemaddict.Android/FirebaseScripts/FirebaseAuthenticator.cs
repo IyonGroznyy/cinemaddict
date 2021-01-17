@@ -18,10 +18,17 @@ namespace Cinemaddict.Droid
 {
     public class FirebaseAuthentication : IFirebaseAuthentication
     {
-        public bool IsSignIn()
+        public bool IsSignIn(ref string token)
         {
-            var user = FirebaseAuth.Instance.CurrentUser;
-            return user != null;
+            try
+            {
+                token = FirebaseAuth.Instance.CurrentUser.Uid;
+                return token != null;
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
         }
 
         public async Task<string> SignUpWithEmailAndPassword(string email, string password)
@@ -49,8 +56,7 @@ namespace Cinemaddict.Droid
             try
             {
                 var user = await FirebaseAuth.Instance.SignInWithEmailAndPasswordAsync(email, password);
-                var token = await user.User.GetIdTokenAsync(false);
-                return token.Token;
+                return user.User.Uid;
             }
             catch (FirebaseAuthInvalidUserException e)
             {

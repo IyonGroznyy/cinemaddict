@@ -26,7 +26,7 @@ namespace Cinemaddict.Views
             try
             {
                 var signOut = auth.SignOut();
-                token = await auth.SignUpWithEmailAndPassword(EmailEntry.Text, PasswordEntry.Text);
+                token = await auth.SignUpWithEmailAndPassword(EmailEntry.Text.Trim(), PasswordEntry.Text.Trim());
             }
             catch (Exception exx)
             {
@@ -35,6 +35,7 @@ namespace Cinemaddict.Views
 
             if (token != string.Empty)
             {
+                Application.Current.Properties["token"] = token;
                 await DisplayAlert("Success", "New User Created", "OK");
                 Application.Current.MainPage = new AppShell();
             }

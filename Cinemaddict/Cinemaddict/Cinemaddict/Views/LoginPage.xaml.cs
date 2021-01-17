@@ -44,6 +44,7 @@ namespace Cinemaddict.Views
             
             if (token != string.Empty)
             {
+                Application.Current.Properties["token"] = token;
                 Application.Current.MainPage = new AppShell();
             }
             else
