@@ -7,9 +7,9 @@
              xmlns:model="clr-namespace:Cinemaddict.Models"  
              x:Name="BrowseItemsPage">
 
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Add" Command="{Binding AddItemCommand}" />
-    </ContentPage.ToolbarItems>
+    <!--<ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add" Command="" />
+    </ContentPage.ToolbarItems>-->
     <!--
       x:DataType enables compiled bindings for better performance and compile time validation of binding expressions.
       https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/data-binding/compiled-bindings
@@ -20,6 +20,7 @@
                 SelectionMode="None">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
+
                     <StackLayout Padding="10" x:DataType="model:Item">
                         <Label Text="{Binding Text}" 
                             LineBreakMode="NoWrap" 
