@@ -29,7 +29,6 @@ namespace XamarinFirebase.Helper
 
         public async Task AddPerson(Item item)
         {
-            var ds = 0;
             item.Id = 0;
             await firebase
               .Child("Items")
@@ -66,5 +65,11 @@ namespace XamarinFirebase.Helper
 
         }
     }
-
+    public interface IFirebaseAuthentication
+    {
+        Task<string> LoginWithEmailAndPassword(string email, string password);
+        Task<string> SignUpWithEmailAndPassword(string email, string password);
+        bool SignOut();
+        bool IsSignIn();
+    }
 }
