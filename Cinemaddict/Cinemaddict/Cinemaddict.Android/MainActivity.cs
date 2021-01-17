@@ -19,7 +19,7 @@ namespace Cinemaddict.Droid
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
 
-            Firebase.FirebaseApp.InitializeApp(Application.Context);
+            FirebaseApp.InitializeApp(Application.Context);
             base.OnCreate(savedInstanceState);
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);

@@ -52,7 +52,7 @@ namespace Cinemaddict.ViewModels
         {
             Item newItem = new Item()
             {
-                Id = 0,//firebaseHelper.GetAllPersons().Result.Count,
+                Id = (await firebaseHelper.GetAllPersons()).Count,
                 Text = Text,
                 Description = Description
             };

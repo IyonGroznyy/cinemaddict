@@ -35,6 +35,7 @@ namespace XamarinFirebase.Helper
               .Child(token)
               .OnceAsync<Item>()).Select(item => new Item
               {
+                  Description = item.Object.Description,
                   Text = item.Object.Text,
                   Id = item.Object.Id
               }).ToList();
@@ -59,7 +60,7 @@ namespace XamarinFirebase.Helper
             return allPersons.Where(a => a.Id == id).FirstOrDefault();
         }
 
-        public async Task UpdatePerson(int id, string text)
+        public async Task UpdatePerson(int id, string text, string description)
         {
             var toUpdatePerson = (await firebase
               .Child("users")
@@ -70,7 +71,7 @@ namespace XamarinFirebase.Helper
               .Child("users")
               .Child(token)
               .Child(toUpdatePerson.Key)
-              .PutAsync(new Item() { Id = id, Text = text });
+              .PutAsync(new Item() { Id = id, Text = text , Description = description });
         }
 
         public async Task DeletePerson(int id)
