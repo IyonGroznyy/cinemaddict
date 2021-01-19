@@ -1,6 +1,7 @@
 ﻿using Cinemaddict.ViewModels;
 using System.ComponentModel;
 using Xamarin.Forms;
+using XamarinFirebase.Helper;
 
 namespace Cinemaddict.Views
 {
@@ -11,5 +12,7 @@ namespace Cinemaddict.Views
             InitializeComponent();
             BindingContext = new ItemsDetailViewModel();
         }
+
+
     }
 }

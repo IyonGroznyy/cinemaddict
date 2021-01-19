@@ -16,6 +16,7 @@ namespace Cinemaddict.Views
     {
         ItemsViewModel _viewModel;
         static ItemsViewModel ItemsViewModel = new ItemsViewModel();
+        
         public ItemsPage()
         {
             InitializeComponent();
@@ -41,7 +42,7 @@ namespace Cinemaddict.Views
         };
         ToolbarItem tb2 = new ToolbarItem
         {
-            Text = "DEL",
+            Text = "Chose",
             Order = ToolbarItemOrder.Secondary
         };
     }

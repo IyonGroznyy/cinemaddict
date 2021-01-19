@@ -16,6 +16,7 @@ namespace Cinemaddict.ViewModels
         public ObservableCollection<Item> Items { get; }
         public Command LoadItemsCommand { get; }
         public Command AddItemCommand { get; }
+        public Command<Item> DelItemCommand { get; }
         public Command<Item> ItemTapped { get; }
 
         public ItemsViewModel()
@@ -25,6 +26,8 @@ namespace Cinemaddict.ViewModels
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 
             ItemTapped = new Command<Item>(OnItemSelected);
+
+            DelItemCommand = new Command<Item>(OnDelItem);
 
             AddItemCommand = new Command(OnAddItem);
         }
@@ -73,6 +76,10 @@ namespace Cinemaddict.ViewModels
             await Shell.Current.GoToAsync(nameof(NewItemPage));
         }
 
+        private void OnDelItem(Item item)
+        {
+            var items = new FirebaseHelper().DeletePerson(item.Id);
+        }
         async void OnItemSelected(Item item)
         {
             if (item == null)
@@ -81,5 +88,6 @@ namespace Cinemaddict.ViewModels
             // This will push the ItemDetailPage onto the navigation stack
             await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemsDetailViewModel.ItemId)}={item.Id}");
         }
+
     }
 }
