@@ -6,11 +6,11 @@
              Visual="Material">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Введите почту"
+            <Label Text="Создание аккаунта"
                    TextColor="Black"
                    FontSize= "Large"
                    HorizontalOptions="CenterAndExpand" />
-            <Label Text="Ваш номер телефона будет использоваться для входа в аккаунт"
+            <Label Text="Ваша почта будет использоваться для входа в аккаунт"
                    TextColor="Black"
                    FontSize= "Medium"
                    Padding="10"

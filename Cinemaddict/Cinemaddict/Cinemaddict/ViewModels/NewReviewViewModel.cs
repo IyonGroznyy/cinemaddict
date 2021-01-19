@@ -52,11 +52,11 @@ namespace Cinemaddict.ViewModels
         {
             Item newItem = new Item()
             {
-                Id = (await firebaseHelper.GetAllPersons()).Count,
+                Id = (await firebaseHelper.GetAllPosts()).Count,
                 Text = Text,
                 Description = Description
             };
-            await firebaseHelper.AddPerson(newItem);
+            await firebaseHelper.AddPost(newItem);
 
             // This will pop the current page off the navigation stack
             await Shell.Current.GoToAsync("..");

@@ -45,7 +45,7 @@ namespace Cinemaddict.ViewModels
         {
             try
             {
-                var item = await new FirebaseHelper().GetPerson(int.Parse(itemId));
+                var item = await new FirebaseHelper().GetPost(int.Parse(itemId));
                 Id = item.Id;
                 Text = item.Text;
                 Description = item.Description;

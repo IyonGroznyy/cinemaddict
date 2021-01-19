@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Cinemaddict.Models;
+using Cinemaddict.Services;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,8 +39,16 @@ namespace Cinemaddict.Views
             if (token != string.Empty)
             {
                 Application.Current.Properties["token"] = token;
+                var firebase = new FirebaseHelper();
+                User user = new User()
+                {
+                    Id = (await firebase.GetAllUsers()).Count,
+                    Email = EmailEntry.Text.Trim()
+                };
+                await firebase.AddUser(user);
                 await DisplayAlert("Success", "New User Created", "OK");
-                Application.Current.MainPage = new AppShell();
+                await Navigation.PushAsync(new BIOPage(user));
+                // Application.Current.MainPage = new AppShell();
             }
             else
             {

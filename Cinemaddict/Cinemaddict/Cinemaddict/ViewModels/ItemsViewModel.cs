@@ -12,7 +12,6 @@ namespace Cinemaddict.ViewModels
     public class ItemsViewModel : BaseViewModel
     {
         private Item _selectedItem;
-
         public ObservableCollection<Item> Items { get; }
         public Command LoadItemsCommand { get; }
         public Command AddItemCommand { get; }
@@ -23,9 +22,7 @@ namespace Cinemaddict.ViewModels
             Title = "Browse";
             Items = new ObservableCollection<Item>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
-
             ItemTapped = new Command<Item>(OnItemSelected);
-
             AddItemCommand = new Command(OnAddItem);
         }
 
@@ -36,7 +33,7 @@ namespace Cinemaddict.ViewModels
             try
             {
                 Items.Clear();
-                var items = await new FirebaseHelper().GetAllPersons();
+                var items = await new FirebaseHelper().GetAllPosts();
                 foreach (var item in items)
                 {
                     Items.Add(item);
