@@ -20,34 +20,33 @@
                 SelectionMode="None">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-
-                    <StackLayout Padding="10" x:DataType="model:Item">
-                        <Button
-                            Text="-"
-                            HorizontalOptions="End"
-                            VerticalOptions="Center"
-                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:ItemsViewModel}}, Path=DelItemCommand }"
-                            CommandParameter="{Binding Id}">
-                            
-                        </Button>
-                        <Label Text="{Binding Text}" 
-                            LineBreakMode="NoWrap" 
-                            Style="{DynamicResource ListItemTextStyle}" 
-                            FontSize="16" />
-                        <Label Text="{Binding Description}" 
-                            LineBreakMode="NoWrap"
-                            Style="{DynamicResource ItemTapped}"
-                            FontSize="13" />
-                        <StackLayout.GestureRecognizers>
-                            <TapGestureRecognizer 
-                                NumberOfTapsRequired="1"
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type local:ItemsViewModel}}, Path=ItemTapped}"		
-                                CommandParameter="{Binding .}">
-                            </TapGestureRecognizer>
-                            
-                        </StackLayout.GestureRecognizers>
-                        
-                    </StackLayout>
+                    <FlexLayout Padding="10" Direction="Row" JustifyContent="SpaceBetween" x:DataType="model:Item">
+                        <StackLayout WidthRequest="350">
+                            <Label Text="{Binding Text}" 
+                                       LineBreakMode="NoWrap" 
+                                       Style="{DynamicResource ListItemTextStyle}" 
+                                       FontSize="16" />
+                            <Label Text="{Binding Description}" 
+                                       LineBreakMode="NoWrap"
+                                       Style="{DynamicResource ItemTapped}"
+                                       FontSize="13" />
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer 
+                                            NumberOfTapsRequired="1"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:ItemsViewModel}}, Path=ItemTapped}"		
+                                            CommandParameter="{Binding .}">
+                                </TapGestureRecognizer>
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+                        <ImageButton
+                                    
+                                    Margin="0,5,0,0"
+                                    HeightRequest="30"
+                                    Source="Bucket.png"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type local:ItemsViewModel}}, Path=DelItemCommand }"
+                                    CommandParameter="{Binding Id}">
+                        </ImageButton>
+                    </FlexLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>

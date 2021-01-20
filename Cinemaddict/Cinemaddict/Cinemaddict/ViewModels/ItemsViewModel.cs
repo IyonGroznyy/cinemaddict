@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using XamarinFirebase.Helper;
+using System.Linq;
 
 namespace Cinemaddict.ViewModels
 {
@@ -15,7 +16,7 @@ namespace Cinemaddict.ViewModels
         public ObservableCollection<Item> Items { get; }
         public Command LoadItemsCommand { get; }
         public Command AddItemCommand { get; }
-        public Command<Item> DelItemCommand { get; }
+        public Command<int> DelItemCommand { get; }
         public Command<Item> ItemTapped { get; }
 
         public ItemsViewModel()
@@ -25,7 +26,7 @@ namespace Cinemaddict.ViewModels
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
             ItemTapped = new Command<Item>(OnItemSelected);
 
-            DelItemCommand = new Command<Item>(OnDelItem);
+            DelItemCommand = new Command<int>(OnDelItem);
 
             AddItemCommand = new Command(OnAddItem);
         }
@@ -74,9 +75,10 @@ namespace Cinemaddict.ViewModels
             await Shell.Current.GoToAsync(nameof(NewItemPage));
         }
 
-        private void OnDelItem(Item item)
+        private async void OnDelItem(int id)
         {
-            var items = new FirebaseHelper().DeletePost(item.Id);
+           Items.Remove(Items.Where(x=>x.Id==id).FirstOrDefault());
+           await new FirebaseHelper().DeletePost(id);
         }
         async void OnItemSelected(Item item)
         {
