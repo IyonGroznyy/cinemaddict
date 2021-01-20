@@ -76,7 +76,7 @@ namespace Cinemaddict.ViewModels
 
         private void OnDelItem(Item item)
         {
-            var items = new FirebaseHelper().DeletePerson(item.Id);
+            var items = new FirebaseHelper().DeletePost(item.Id);
         }
         async void OnItemSelected(Item item)
         {
