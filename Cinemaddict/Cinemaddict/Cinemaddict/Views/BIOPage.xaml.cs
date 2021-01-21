@@ -8,7 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using XamarinFirebase.Helper;
@@ -62,12 +62,15 @@ namespace Cinemaddict.Views
         private async void ReadyButton_Clicked(object sender, EventArgs e)
         {
             var firebase = new FirebaseHelper();
-            await firebase.UpdateUser(
-                id: user.Id, 
-                email: user.Email, 
-                displayName: NameEntry.Text, 
-                about: AboutEntry.Text, 
-                photoUri: photoUri);
+            user.About = AboutEntry.Text;
+            user.DisplayName = NameEntry.Text;
+            user.PhotoUri = photoUri;
+            await firebase.AddUser(user);
+            Preferences.Set("DisplayName", user.DisplayName);
+            Preferences.Set("Id", user.Id);
+            Preferences.Set("Email", user.Email);
+            Preferences.Set("About", user.About);
+            Preferences.Set("PhotoUri", user.PhotoUri);
             Application.Current.MainPage = new AppShell();
         }
     }

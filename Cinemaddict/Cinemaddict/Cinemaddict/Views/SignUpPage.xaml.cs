@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using XamarinFirebase.Helper;
@@ -38,17 +38,15 @@ namespace Cinemaddict.Views
 
             if (token != string.Empty)
             {
-                Application.Current.Properties["token"] = token;
+                Preferences.Set("token", token);
                 var firebase = new FirebaseHelper();
                 User user = new User()
                 {
                     Id = (await firebase.GetAllUsers()).Count,
                     Email = EmailEntry.Text.Trim()
                 };
-                await firebase.AddUser(user);
                 await DisplayAlert("Success", "New User Created", "OK");
                 await Navigation.PushAsync(new BIOPage(user));
-                // Application.Current.MainPage = new AppShell();
             }
             else
             {

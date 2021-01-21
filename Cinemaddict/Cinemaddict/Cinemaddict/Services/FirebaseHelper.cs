@@ -10,6 +10,7 @@ using Cinemaddict.Models;
 using Xamarin.Forms;
 using System.IO;
 using Firebase.Storage;
+using Xamarin.Essentials;
 
 namespace XamarinFirebase.Helper
 {
@@ -19,7 +20,7 @@ namespace XamarinFirebase.Helper
         FirebaseOptions config = new FirebaseOptions();
         FirebaseStorage firebaseStorage;
         FirebaseClient firebase;
-        string token = Application.Current.Properties["token"] as string;
+        string token = Preferences.Get("token", "");
 
         public FirebaseHelper()
         {
@@ -128,8 +129,7 @@ namespace XamarinFirebase.Helper
         public async Task<List<User>> GetAllUsers()
         {
             return (await firebase
-              .Child("users")
-              .Child(token)
+              .Child("IdentyUsers")
               .OnceAsync<User>()).Select(item => new User
               {
                   DisplayName = item.Object.DisplayName,
@@ -146,15 +146,29 @@ namespace XamarinFirebase.Helper
               .Child("users")
               .Child(token)
               .PostAsync(item);
+            await firebase
+                .Child("IdentyUsers")
+                .PostAsync(item);
+        }
+
+        public async Task<User> GetCurrentUser()
+        {
+            return (await firebase
+              .Child("users")
+              .Child(token)
+              .OnceAsync<User>()).Select(item => new User
+              {
+                  DisplayName = item.Object.DisplayName,
+                  Id = item.Object.Id,
+                  About = item.Object.About,
+                  Email = item.Object.Email,
+                  PhotoUri = item.Object.PhotoUri
+              }).ToList().FirstOrDefault();
         }
 
         public async Task<User> GetUser(int id)
         {
             var allPersons = await GetAllUsers();
-            await firebase
-              .Child("users")
-              .Child(token)
-              .OnceAsync<User>();
             return allPersons.Where(a => a.Id == id).FirstOrDefault();
         }
 
@@ -163,13 +177,24 @@ namespace XamarinFirebase.Helper
             var toUpdatePerson = (await firebase
               .Child("users")
               .Child(token)
-              .OnceAsync<User>()).Where(a => a.Object.Id == id).FirstOrDefault();
+              .OnceAsync<User>()).FirstOrDefault();
 
             await firebase
               .Child("users")
               .Child(token)
               .Child(toUpdatePerson.Key)
               .PutAsync(new User() { Id = id,  DisplayName = displayName, About = about, Email = email, PhotoUri = photoUri });
+
+            var toUpdateIdentyPerson = (await firebase
+              .Child("IdentyUsers")
+              .OnceAsync<User>()).Where(a => a.Object.Id == id).FirstOrDefault();
+
+            await firebase.Child("IdentyUsers").Child(toUpdateIdentyPerson.Key).DeleteAsync();
+
+            await firebase
+              .Child("IdentyUsers")
+              .Child(toUpdatePerson.Key)
+              .PutAsync(new User() { Id = id, DisplayName = displayName, About = about, Email = email, PhotoUri = photoUri });
         }
 
         public async Task DeleteUser(int id)
@@ -177,8 +202,13 @@ namespace XamarinFirebase.Helper
             var toDeleteUser = (await firebase
               .Child("users")
               .Child(token)
-              .OnceAsync<User>()).Where(a => a.Object.Id == id).FirstOrDefault();
+              .OnceAsync<User>()).FirstOrDefault();
             await firebase.Child("users").Child(token).Child(toDeleteUser.Key).DeleteAsync();
+
+            toDeleteUser = (await firebase
+             .Child("IdentyUsers")
+             .OnceAsync<User>()).Where(a => a.Object.Id == id).FirstOrDefault();
+            await firebase.Child("IdentyUsers").Child(toDeleteUser.Key).DeleteAsync();
         }
         #endregion
     }
@@ -187,6 +217,6 @@ namespace XamarinFirebase.Helper
         Task<string> LoginWithEmailAndPassword(string email, string password);
         Task<string> SignUpWithEmailAndPassword(string email, string password);
         bool SignOut();
-        bool IsSignIn(ref string token);
+        bool IsSignIn();
     }
 }

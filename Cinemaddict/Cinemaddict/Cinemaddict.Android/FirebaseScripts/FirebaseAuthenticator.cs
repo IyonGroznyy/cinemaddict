@@ -18,11 +18,11 @@ namespace Cinemaddict.Droid
 {
     public class FirebaseAuthentication : IFirebaseAuthentication
     {
-        public bool IsSignIn(ref string token)
+        public bool IsSignIn()
         {
             try
             {
-                token = FirebaseAuth.Instance.CurrentUser.Uid;
+                var token = FirebaseAuth.Instance.CurrentUser.Uid;
                 return token != null;
             }
             catch(Exception ex)

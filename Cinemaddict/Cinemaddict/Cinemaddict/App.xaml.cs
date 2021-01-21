@@ -1,6 +1,7 @@
 ﻿using Cinemaddict.Services;
 using Cinemaddict.Views;
 using System;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using XamarinFirebase.Helper;
@@ -16,10 +17,8 @@ namespace Cinemaddict
             Current.Properties["auth"] = auth;
             InitializeComponent();
             DependencyService.Register<MockDataStore>();
-            string token = null;
-            if(auth.IsSignIn(ref token))
+            if(auth.IsSignIn())
             {
-                Current.Properties["token"] = token;
                 MainPage = new AppShell();
             }
             else
