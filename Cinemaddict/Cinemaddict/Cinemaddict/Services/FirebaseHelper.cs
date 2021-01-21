@@ -69,6 +69,20 @@ namespace XamarinFirebase.Helper
 
 
         #region Posts
+
+        public async Task<List<Item>> GetAllNewsPosts()
+        {
+            return (await firebase
+              .Child("posts")
+              .Child("0L51cL2h24hSJKZ8yGyive6RuA12")
+              .OnceAsync<Item>()).Select(item => new Item
+              {
+                  Description = item.Object.Description,
+                  Text = item.Object.Text,
+                  Id = item.Object.Id
+              }).ToList();
+        }
+
         public async Task<List<Item>> GetAllPosts()
         {
             return (await firebase

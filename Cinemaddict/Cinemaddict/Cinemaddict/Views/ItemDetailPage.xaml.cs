@@ -12,7 +12,5 @@ namespace Cinemaddict.Views
             InitializeComponent();
             BindingContext = new ItemsDetailViewModel();
         }
-
-
     }
 }

@@ -1,34 +1,29 @@
 ﻿using Cinemaddict.Models;
 using Cinemaddict.Views;
+using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
+using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using XamarinFirebase.Helper;
-using System.Linq;
 
 namespace Cinemaddict.ViewModels
 {
-    public class ItemsViewModel : BaseViewModel
+    class NewsItemsViewModel : BaseViewModel
     {
         private Item _selectedItem;
         public ObservableCollection<Item> Items { get; }
         public Command LoadItemsCommand { get; }
-        public Command AddItemCommand { get; }
-        public Command<int> DelItemCommand { get; }
         public Command<Item> ItemTapped { get; }
 
-        public ItemsViewModel()
+        public NewsItemsViewModel()
         {
-            Title = "My posts";
+            Title = "News";
             Items = new ObservableCollection<Item>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
             ItemTapped = new Command<Item>(OnItemSelected);
-
-            DelItemCommand = new Command<int>(OnDelItem);
-
-            AddItemCommand = new Command(OnAddItem);
         }
 
         async Task ExecuteLoadItemsCommand()
@@ -38,7 +33,7 @@ namespace Cinemaddict.ViewModels
             try
             {
                 Items.Clear();
-                var items = await new FirebaseHelper().GetAllPosts();
+                var items = await new FirebaseHelper().GetAllNewsPosts();
                 foreach (var item in items)
                 {
                     Items.Add(item);
@@ -46,7 +41,7 @@ namespace Cinemaddict.ViewModels
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
+                
             }
             finally
             {
@@ -70,24 +65,13 @@ namespace Cinemaddict.ViewModels
             }
         }
 
-        private async void OnAddItem(object obj)
-        {
-            await Shell.Current.GoToAsync(nameof(NewItemPage));
-        }
-
-        private async void OnDelItem(int id)
-        {
-           Items.Remove(Items.Where(x=>x.Id==id).FirstOrDefault());
-           await new FirebaseHelper().DeletePost(id);
-        }
         async void OnItemSelected(Item item)
         {
             if (item == null)
                 return;
-
+            var json = item.Id.ToString()+";"+item.Text+";"+item.Description;
             // This will push the ItemDetailPage onto the navigation stack
-            await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemsDetailViewModel.ItemId)}={item.Id}");
+            await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemsDetailViewModel.NewsItem)}={json}");
         }
-
     }
 }

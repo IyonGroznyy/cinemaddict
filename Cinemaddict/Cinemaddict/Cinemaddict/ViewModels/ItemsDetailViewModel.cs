@@ -1,4 +1,5 @@
 ﻿using Cinemaddict.Models;
+using Newtonsoft.Json;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -8,12 +9,13 @@ using XamarinFirebase.Helper;
 namespace Cinemaddict.ViewModels
 {
     [QueryProperty(nameof(ItemId), nameof(ItemId))]
+    [QueryProperty(nameof(NewsItem), nameof(NewsItem))]
     public class ItemsDetailViewModel : BaseViewModel
     {
         private string itemId;
         private string text;
         private string description;
-
+        private string newsItem;
         public int Id { get; set; }
 
         public string Text
@@ -28,6 +30,20 @@ namespace Cinemaddict.ViewModels
             set => SetProperty(ref description, value);
         }
 
+        public string NewsItem
+        {
+            get
+            {
+                return newsItem;
+            }
+            set
+            {
+                newsItem = value;
+                LoadItemJson(newsItem);
+            }
+        }
+
+
         public string ItemId
         {
             get
@@ -40,7 +56,25 @@ namespace Cinemaddict.ViewModels
                 LoadItemId(value);
             }
         }
+        public void LoadItemJson(string itemJson)
+        {
+            Item item = null;
+            try
+            {
+                Id =int.Parse(itemJson.Split(new char[] { ';'})[0]);
+                Text = itemJson.Split(new char[] { ';'})[1];
+                Description = itemJson.Split(new char[] { ';'})[2];
+            }
+            catch(Exception ex)
+            {
 
+            }
+          
+            //Id = item.Id;
+            //Text = item.Text;
+            //Description = item.Description;
+           
+        }
         public async void LoadItemId(string itemId)
         {
             try
