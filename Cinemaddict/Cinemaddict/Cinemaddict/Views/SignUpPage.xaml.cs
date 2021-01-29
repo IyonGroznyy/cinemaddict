@@ -42,8 +42,10 @@ namespace Cinemaddict.Views
                 var firebase = new FirebaseHelper();
                 User user = new User()
                 {
-                    Id = (await firebase.GetAllUsers()).Count,
-                    Email = EmailEntry.Text.Trim()
+                    Id = (await firebase.GetUserCount()),
+                    Email = EmailEntry.Text.Trim(),
+                    Follwers = new List<int>(),
+                    Subscriptions = new List<int>() { 0 }
                 };
                 await DisplayAlert("Success", "New User Created", "OK");
                 await Navigation.PushAsync(new BIOPage(user));

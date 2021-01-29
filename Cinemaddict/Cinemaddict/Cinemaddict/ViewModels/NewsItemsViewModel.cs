@@ -17,10 +17,11 @@ namespace Cinemaddict.ViewModels
         public ObservableCollection<Item> Items { get; }
         public Command LoadItemsCommand { get; }
         public Command<Item> ItemTapped { get; }
-
-        public NewsItemsViewModel()
+        public INavigation Navigation { set; get; }
+        public NewsItemsViewModel(INavigation pNavigation)
         {
             Title = "News";
+            Navigation = pNavigation;
             Items = new ObservableCollection<Item>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
             ItemTapped = new Command<Item>(OnItemSelected);
@@ -34,6 +35,7 @@ namespace Cinemaddict.ViewModels
             {
                 Items.Clear();
                 var items = await new FirebaseHelper().GetAllNewsPosts();
+                //await new FirebaseHelper().GetAllUsers();
                 foreach (var item in items)
                 {
                     Items.Add(item);
@@ -41,7 +43,7 @@ namespace Cinemaddict.ViewModels
             }
             catch (Exception ex)
             {
-                
+
             }
             finally
             {
@@ -69,9 +71,8 @@ namespace Cinemaddict.ViewModels
         {
             if (item == null)
                 return;
-            var json = item.Id.ToString()+";"+item.Text+";"+item.Description;
             // This will push the ItemDetailPage onto the navigation stack
-            await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemsDetailViewModel.NewsItem)}={json}");
+            await Navigation.PushAsync(new NewsDetailPage(new NewDetailViewModel() { Description = item.Description, Text = item.Text }));
         }
     }
 }

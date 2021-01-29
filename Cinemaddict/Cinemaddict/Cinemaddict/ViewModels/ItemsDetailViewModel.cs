@@ -39,7 +39,6 @@ namespace Cinemaddict.ViewModels
             set
             {
                 newsItem = value;
-                LoadItemJson(newsItem);
             }
         }
 
@@ -53,40 +52,6 @@ namespace Cinemaddict.ViewModels
             set
             {
                 itemId = value;
-                LoadItemId(value);
-            }
-        }
-        public void LoadItemJson(string itemJson)
-        {
-            Item item = null;
-            try
-            {
-                Id =int.Parse(itemJson.Split(new char[] { ';'})[0]);
-                Text = itemJson.Split(new char[] { ';'})[1];
-                Description = itemJson.Split(new char[] { ';'})[2];
-            }
-            catch(Exception ex)
-            {
-
-            }
-          
-            //Id = item.Id;
-            //Text = item.Text;
-            //Description = item.Description;
-           
-        }
-        public async void LoadItemId(string itemId)
-        {
-            try
-            {
-                var item = await new FirebaseHelper().GetPost(int.Parse(itemId));
-                Id = item.Id;
-                Text = item.Text;
-                Description = item.Description;
-            }
-            catch (Exception)
-            {
-                Debug.WriteLine("Failed to Load Item");
             }
         }
     }

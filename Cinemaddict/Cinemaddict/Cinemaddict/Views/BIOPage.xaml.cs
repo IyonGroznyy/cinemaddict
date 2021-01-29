@@ -71,6 +71,7 @@ namespace Cinemaddict.Views
             Preferences.Set("Email", user.Email);
             Preferences.Set("About", user.About);
             Preferences.Set("PhotoUri", user.PhotoUri);
+            await firebase.UpdateUserCount();
             Application.Current.MainPage = new AppShell();
         }
     }
