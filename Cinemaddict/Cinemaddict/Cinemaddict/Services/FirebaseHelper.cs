@@ -40,9 +40,12 @@ namespace XamarinFirebase.Helper
 
         public async Task<int> GetUserCount()
         {
+            //await firebase
+            //     .Child("UsersCount")
+            //     .PostAsync(0);
             return (await firebase
-             .Child("UsersCount")
-             .OnceAsync<int>()).Select(x=> x.Object).FirstOrDefault();
+                    .Child("UsersCount")
+                    .OnceAsync<int>()).Select(x => x.Object).FirstOrDefault();
         }
 
         public async Task UpdateUserCount()
