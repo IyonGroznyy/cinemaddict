@@ -37,7 +37,7 @@ namespace Cinemaddict.Views
         };
         ToolbarItem tb2 = new ToolbarItem
         {
-            Text = "Chose",
+            Text = "Choose",
             Order = ToolbarItemOrder.Secondary
         };
     }

@@ -22,7 +22,7 @@ namespace Cinemaddict.ViewModels
 
         public FriendsViewModel()
         {
-            Title = "My posts";
+            Title = "My Friends";
             Users = new ObservableCollection<User>();
             LoadUserCommand = new Command(async () => await ExecuteLoadUsersCommand());
             UserTapped = new Command<User>(OnUserSelected);
@@ -39,11 +39,11 @@ namespace Cinemaddict.ViewModels
             try
             {
                 Users.Clear();
-                //var items = await new FirebaseHelper().GetAllPosts();
-                //foreach (var item in items)
-                //{
-                //    Users.Add(item);
-                //}
+                var usersDB = await new FirebaseHelper().GetAllUsers();
+                foreach(var user in usersDB)
+                {
+                    Users.Add(user);
+                }
             }
             catch (Exception ex)
             {

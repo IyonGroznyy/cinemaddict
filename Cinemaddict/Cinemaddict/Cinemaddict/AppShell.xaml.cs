@@ -1,4 +1,5 @@
 ﻿using Cinemaddict.Models;
+using Cinemaddict.Services;
 using Cinemaddict.ViewModels;
 using Cinemaddict.Views;
 using System;
@@ -16,11 +17,16 @@ namespace Cinemaddict
         {
             CurrentUser = new User()
             {
-                DisplayName = Preferences.Get("DisplayName",""),
-                Id = Preferences.Get("Id",0),
-                Email = Preferences.Get("Email",""),
-                About = Preferences.Get("About",""),
-                PhotoUri = Preferences.Get("PhotoUri","")
+                DisplayName = Preferences.Get("DisplayName", ""),
+                Id = Preferences.Get("Id", 0),
+                Email = Preferences.Get("Email", ""),
+                About = Preferences.Get("About", ""),
+                PhotoUri = Preferences.Get("PhotoUri", ""),
+                //Follwers = Preferences.Get("Follwers", "").Split(';').ToIntList(),
+                //Subscriptions = Preferences.Get("Subscriptions", "").Split(';').ToIntList(),
+                //Follower_count = Preferences.Get("Follower_count", 0),
+                //Following_count = Preferences.Get("Following_count", 0),
+                //Posts_count = Preferences.Get("Posts_count", 0)
             };
             if(string.IsNullOrEmpty(CurrentUser.PhotoUri))
             {

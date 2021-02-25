@@ -192,15 +192,14 @@ namespace XamarinFirebase.Helper
         #region Users
         public async Task<List<User>> GetAllUsers()
         {
-            //var s = firebase
-            //   .Child("users")
-            //   .OrderByValue()
-            //   .LimitToLast(1);
-            //s.A
-            
-            return (await firebase
+            //Делаем глубокий вдох ииии... Ахуеваем
+            var s = (await firebase
               .Child("users")
-              .OnceAsync<User>()).Select(item => new User(item)).ToList();
+              .OnceAsync<List<User>>()).Select(item => 
+                    new List<User>(
+                        item.Object.Select(x => new User(x)).ToList())
+                    ).FirstOrDefault();
+            return s;
         }
 
         public async Task AddUser(User item)
