@@ -48,7 +48,7 @@ namespace XamarinFirebase.Helper
                     .OnceAsync<int>()).Select(x => x.Object).FirstOrDefault();
         }
 
-        public async Task UpdateUserCount()
+        public async Task UpdateUserCount(bool isReset = false)
         {
            var count = await GetUserCount();
 
@@ -56,11 +56,20 @@ namespace XamarinFirebase.Helper
              .Child("UsersCount")
              .OnceAsync<int>()).Select(x=>x.Key).FirstOrDefault();
 
-
-            await firebase
+            if(isReset)
+            {
+                await firebase
                  .Child("UsersCount")
                  .Child(updateCount)
-                 .PutAsync(count+1);
+                 .PutAsync(1);
+            }
+            else
+            {
+                await firebase
+                 .Child("UsersCount")
+                 .Child(updateCount)
+                 .PutAsync(count + 1);
+            }
         }
 
         public async Task<string> GetFile(string fileName)
@@ -231,6 +240,23 @@ namespace XamarinFirebase.Helper
               .Child(user.Id.ToString())
               .Child(toUpdatePerson.Key)
               .PutAsync(user);
+        }
+
+        public async Task DeleteAllUser()
+        {
+            int lastID = await GetUserCount();
+            for (int i = 1; i < lastID; i++)
+            {
+                var toDeleteUser = (await firebase
+                      .Child("users")
+                      .Child(i.ToString())
+                      .OnceAsync<User>()).FirstOrDefault();
+                if(toDeleteUser!=null)
+                {
+                    await firebase.Child("users").Child(i.ToString()).Child(toDeleteUser.Key).DeleteAsync();
+                }
+            }
+            await UpdateUserCount(true);
         }
 
         public async Task DeleteUser(int id)
