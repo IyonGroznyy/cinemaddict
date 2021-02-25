@@ -22,6 +22,10 @@ namespace Cinemaddict
                 About = Preferences.Get("About",""),
                 PhotoUri = Preferences.Get("PhotoUri","")
             };
+            if(string.IsNullOrEmpty(CurrentUser.PhotoUri))
+            {
+                CurrentUser.PhotoUri = "NoAvatar.png";
+            }
             BindingContext = CurrentUser;
             InitializeComponent(); 
             Routing.RegisterRoute(nameof(ItemDetailPage), typeof(ItemDetailPage));

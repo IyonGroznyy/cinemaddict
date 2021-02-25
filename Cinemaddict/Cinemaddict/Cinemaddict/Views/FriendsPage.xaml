@@ -7,7 +7,7 @@
              xmlns:model="clr-namespace:Cinemaddict.Models">
 
 
-    <RefreshView x:DataType="local:ItemsViewModel" Command="{Binding LoadUserCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+    <!--<RefreshView x:DataType="local:ItemsViewModel" Command="{Binding LoadUserCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
         <CollectionView x:Name="ItemsListView"
                 ItemsSource="{Binding Users}"
                 SelectionMode="None">
@@ -43,5 +43,5 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-    </RefreshView>
+    </RefreshView>-->
 </ContentPage>
