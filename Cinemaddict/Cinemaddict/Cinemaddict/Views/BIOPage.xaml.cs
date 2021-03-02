@@ -48,7 +48,7 @@ namespace Cinemaddict.Views
             }
             catch (Exception ex)
             {
-                
+
             }
             //Stream stream = await DependencyService.Get<IPhotoPickerService>().GetImageStreamAsync();
             //if (stream != null)
@@ -71,16 +71,7 @@ namespace Cinemaddict.Views
             user.Following_count = 1;
             user.Posts_count = 0;
             await firebase.AddUser(user);
-            Preferences.Set("DisplayName", user.DisplayName);
-            Preferences.Set("Id", user.Id);
-            Preferences.Set("Email", user.Email);
-            Preferences.Set("About", user.About);
-            Preferences.Set("PhotoUri", user.PhotoUri);
-            Preferences.Set("Follwers", user.Follwers.ToStringFromIntList());
-            Preferences.Set("Subscriptions", user.Subscriptions.ToStringFromIntList());
-            Preferences.Set("Follower_count", user.Follower_count);
-            Preferences.Set("Following_count", user.Following_count);
-            Preferences.Set("Posts_count", user.Posts_count);
+            Util.SaveDataLocal(user);
             await firebase.UpdateUserCount();
             Application.Current.MainPage = new AppShell();
         }

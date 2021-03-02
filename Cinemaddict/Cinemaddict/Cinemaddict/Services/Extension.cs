@@ -10,15 +10,17 @@ namespace Cinemaddict.Services
     {
         public static List<int> ToIntList(this string[] array)
         {
-            if(array.Length==0)
+            var clearArray = array.ToList();
+            clearArray.RemoveAll(x => x == "");
+            if (clearArray.Count < 2)
             {
                 return new List<int>();
             }
-            return array.Select(x => int.Parse(x)).ToList();
+            return clearArray.Select(x => int.Parse(x)).ToList();
         }
         public static List<object> ToListObjFromFirebase(this FirebaseObject<List<object>> item)
         {
-            return new List<object>(item.Object.Select(x=> x).ToList());
+            return new List<object>(item.Object.Select(x => x).ToList());
         }
         public static string ToStringFromIntList(this List<int> list)
         {

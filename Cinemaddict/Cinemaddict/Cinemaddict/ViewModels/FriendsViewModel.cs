@@ -19,10 +19,11 @@ namespace Cinemaddict.ViewModels
         public Command AddUserCommand { get; }
         public Command<int> DelUserCommand { get; }
         public Command<User> UserTapped { get; }
-
-        public FriendsViewModel()
+        public INavigation Navigation { set; get; }
+        public FriendsViewModel(INavigation pNavigation)
         {
             Title = "My Friends";
+            Navigation = pNavigation;
             Users = new ObservableCollection<User>();
             LoadUserCommand = new Command(async () => await ExecuteLoadUsersCommand());
             UserTapped = new Command<User>(OnUserSelected);
@@ -40,7 +41,7 @@ namespace Cinemaddict.ViewModels
             {
                 Users.Clear();
                 var usersDB = await new FirebaseHelper().GetAllUsers();
-                foreach(var user in usersDB)
+                foreach (var user in usersDB)
                 {
                     Users.Add(user);
                 }
@@ -87,7 +88,7 @@ namespace Cinemaddict.ViewModels
                 return;
 
             // This will push the ItemDetailPage onto the navigation stack
-            //await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemsDetailViewModel.ItemId)}={user.Id}");
+            await Navigation.PushAsync(new DetailFriendPage(new DetailFriendViewModel() { Friend = user }));
         }
     }
 }

@@ -2,16 +2,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace Cinemaddict.Models
 {
     public class User
     {
-        public int Id { get; set; }
-        public int Posts_count { get; set; } = 0;
-        public int Follower_count { get; set; } = 0;
-        public int Following_count { get; set; } = 0;
+        public int? Id { get; set; }
+        public int? Posts_count { get; set; }
+        public int? Follower_count { get; set; }
+        public int? Following_count { get; set; }
         public List<int> Follwers { get; set; }
         public List<int> Subscriptions { get; set; }
         public string DisplayName { get; set; }
@@ -57,13 +58,16 @@ namespace Cinemaddict.Models
             }
         }
 
-        public void CopyAndReplace(User user)
+        public void CopyAndReplace(User user) // Тут должны быть заполнены только те поля , что надо изменить в this экземпляре
         {
-            List<object> firstObjs = user.GetType().GetFields().Select(x => x.GetValue(user)).ToList();
+            List<object> firstObjs = user.GetType()
+                                         .GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                                         .Select(x => x.GetValue(user))
+                                         .ToList();
             int i = 0;
-            foreach (var current in GetType().GetFields())
+            foreach (var current in GetType().GetProperties())
             {
-                if (current.GetValue(current) == null)
+                if (firstObjs[i] != null)
                 {
                     current.SetValue(this, firstObjs[i]);
                 }

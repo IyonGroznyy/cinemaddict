@@ -11,6 +11,7 @@ using Xamarin.Forms;
 using System.IO;
 using Firebase.Storage;
 using Xamarin.Essentials;
+using Newtonsoft.Json.Linq;
 
 namespace XamarinFirebase.Helper
 {
@@ -50,18 +51,18 @@ namespace XamarinFirebase.Helper
 
         public async Task UpdateUserCount(bool isReset = false)
         {
-           var count = await GetUserCount();
+            var count = await GetUserCount();
 
-           var updateCount = (await firebase
-             .Child("UsersCount")
-             .OnceAsync<int>()).Select(x=>x.Key).FirstOrDefault();
+            var updateCount = (await firebase
+              .Child("UsersCount")
+              .OnceAsync<int>()).Select(x => x.Key).FirstOrDefault();
 
-            if(isReset)
+            if (isReset)
             {
                 await firebase
                  .Child("UsersCount")
                  .Child(updateCount)
-                 .PutAsync(1);
+                 .PutAsync(0);
             }
             else
             {
@@ -108,7 +109,7 @@ namespace XamarinFirebase.Helper
         {
             var subscriptionsIds = (await GetCurrentUser()).Subscriptions;
             List<Item> items = new List<Item>();
-            if (subscriptionsIds!=null)
+            if (subscriptionsIds != null)
             {
                 foreach (var id in subscriptionsIds)
                 {
@@ -146,9 +147,10 @@ namespace XamarinFirebase.Helper
         {
             await firebase
               .Child("users")
-              .Child(Preferences.Get("Id",-1).ToString())
+              .Child(Preferences.Get("Id", -1).ToString())
               .Child("posts")
               .PostAsync(item);
+            await UpdateUser(new User() { Posts_count = Preferences.Get("Posts_count", 0) + 1 });
         }
 
         public async Task<Item> GetPost(int id)
@@ -156,8 +158,8 @@ namespace XamarinFirebase.Helper
             var allPersons = await GetAllPosts();
             await firebase
               .Child("users")
-              .Child("posts")
               .Child(Preferences.Get("Id", -1).ToString())
+              .Child("posts")
               .OnceAsync<Item>();
             return allPersons.Where(a => a.Id == id).FirstOrDefault();
         }
@@ -166,40 +168,53 @@ namespace XamarinFirebase.Helper
         {
             var toUpdatePerson = (await firebase
               .Child("users")
-              .Child("posts")
               .Child(Preferences.Get("Id", -1).ToString())
+              .Child("posts")
               .OnceAsync<Item>()).Where(a => a.Object.Id == id).FirstOrDefault();
 
             await firebase
               .Child("users")
-              .Child("posts")
               .Child(Preferences.Get("Id", -1).ToString())
+              .Child("posts")
               .Child(toUpdatePerson.Key)
-              .PutAsync(new Item() { Id = id, Text = text , Description = description });
+              .PutAsync(new Item() { Id = id, Text = text, Description = description });
         }
 
         public async Task DeletePost(int id)
         {
             var toDeletePerson = (await firebase
               .Child("users")
-              .Child("posts")
               .Child(Preferences.Get("Id", -1).ToString())
+              .Child("posts")
               .OnceAsync<Item>()).Where(a => a.Object.Id == id).FirstOrDefault();
-            await firebase.Child("posts").Child(token).Child(toDeletePerson.Key).DeleteAsync();
+            await firebase
+              .Child("users")
+              .Child(Preferences.Get("Id", -1).ToString())
+              .Child("posts")
+              .Child(toDeletePerson.Key).DeleteAsync();
+            await UpdateUser(new User() { Posts_count = Preferences.Get("Posts_count", 0) - 1 });
         }
         #endregion
 
         #region Users
         public async Task<List<User>> GetAllUsers()
         {
+            List<User> users = new List<User>();
             //Делаем глубокий вдох ииии... Ахуеваем
-            var s = (await firebase
-              .Child("users")
-              .OnceAsync<List<User>>()).Select(item => 
-                    new List<User>(
-                        item.Object.Select(x => new User(x)).ToList())
-                    ).FirstOrDefault();
-            return s;
+            try
+            {
+                users = (await firebase
+                      .Child("users")
+                      .OnceSingleAsync<List<JObject>>())
+                      .Select(x =>
+                           x.Properties().ToList()[0].Value.ToObject<User>())
+                      .ToList();
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return users;
         }
 
         public async Task AddUser(User item)
@@ -230,15 +245,15 @@ namespace XamarinFirebase.Helper
         {
             var toUpdatePerson = (await firebase
               .Child("users")
-              .Child(user.Id.ToString())
+              .Child(Preferences.Get("Id", -1).ToString())
               .OnceAsync<User>()).FirstOrDefault();
             var updatePerson = new User(toUpdatePerson);
-            user.CopyAndReplace(updatePerson);
+            updatePerson.CopyAndReplace(user);
             await firebase
               .Child("users")
-              .Child(user.Id.ToString())
+              .Child(Preferences.Get("Id", -1).ToString())
               .Child(toUpdatePerson.Key)
-              .PutAsync(user);
+              .PutAsync(updatePerson);
         }
 
         public async Task DeleteAllUser()
@@ -250,7 +265,7 @@ namespace XamarinFirebase.Helper
                       .Child("users")
                       .Child(i.ToString())
                       .OnceAsync<User>()).FirstOrDefault();
-                if(toDeleteUser!=null)
+                if (toDeleteUser != null)
                 {
                     await firebase.Child("users").Child(i.ToString()).Child(toDeleteUser.Key).DeleteAsync();
                 }

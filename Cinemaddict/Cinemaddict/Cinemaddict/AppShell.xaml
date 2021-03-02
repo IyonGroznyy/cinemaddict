@@ -3,6 +3,7 @@
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:local="clr-namespace:Cinemaddict.Views"
        Title="Cinemaddict"
+       x:Name="MainShell"
        x:Class="Cinemaddict.AppShell">
 
     <!--
@@ -29,10 +30,10 @@
                    Margin="30,5,20,0"
                    FontSize="Small"/>
             </StackLayout>
-            
+
         </FlexLayout>
     </Shell.FlyoutHeader>
- 
+
     <Shell.Resources>
         <ResourceDictionary>
             <Style x:Key="BaseStyle" TargetType="Element">
@@ -101,18 +102,6 @@
         FlyoutDisplayOptions="AsMultipleItems" will create a separate flyout item for each child element    
         https://docs.microsoft.com/dotnet/api/xamarin.forms.shellgroupitem.flyoutdisplayoptions?view=xamarin-forms
     -->
-    <FlyoutItem Title="News" Icon="icon_feed.png">
-        <ShellContent Route="NewsPage" ContentTemplate="{DataTemplate local:NewsPage}" />
-    </FlyoutItem>
-    <FlyoutItem Title="Your Posts" Icon="icon_feed.png">
-        <ShellContent Route="ItemsPage" ContentTemplate="{DataTemplate local:ItemsPage}" />
-    </FlyoutItem>
-    <FlyoutItem Title="Your Friends" Icon="icon_feed.png">
-        <ShellContent Route="FriendsPage" ContentTemplate="{DataTemplate local:FriendsPage}" />
-    </FlyoutItem>
-    <FlyoutItem Title="Command Page" Icon="icon_feed.png">
-        <ShellContent Route="FriendsPage" ContentTemplate="{DataTemplate local:CommandPage}" />
-    </FlyoutItem>
 
     <!-- When the Flyout is visible this will be a menu item you can tie a click behavior to  -->
     <MenuItem Text="Logout" StyleClass="MenuItemLayoutStyle" Clicked="OnMenuItemClicked">

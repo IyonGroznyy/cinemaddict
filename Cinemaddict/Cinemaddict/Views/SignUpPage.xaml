@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Cinemaddict.Views.SignUpPage"
+             Shell.NavBarIsVisible="False"
+             Visual="Material">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Создание аккаунта"
+                   TextColor="Black"
+                   FontSize= "Large"
+                   HorizontalOptions="CenterAndExpand" />
+            <Label Text="Ваша почта будет использоваться для входа в аккаунт"
+                   TextColor="Black"
+                   FontSize= "Medium"
+                   Padding="10"
+                   HorizontalOptions="CenterAndExpand" />
+            <Entry x:Name="EmailEntry"
+                   Placeholder="Введите почту">
+            </Entry>
+            <Entry x:Name="PasswordEntry"
+                   IsPassword="True"
+                   Placeholder="Введите пароль">
+            </Entry>
+            <Button Text="Sign Up"
+                    HorizontalOptions="FillAndExpand"
+                    Clicked="SignUpButton_Clicked" 
+                    VerticalOptions="EndAndExpand"
+                    Margin ="12,12,12,25">
+                
+            </Button>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

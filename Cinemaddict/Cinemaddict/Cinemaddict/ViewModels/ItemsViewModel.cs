@@ -18,10 +18,12 @@ namespace Cinemaddict.ViewModels
         public Command AddItemCommand { get; }
         public Command<int> DelItemCommand { get; }
         public Command<Item> ItemTapped { get; }
+        public INavigation Navigation { set; get; }
 
-        public ItemsViewModel()
+        public ItemsViewModel(INavigation pNavigation)
         {
             Title = "My posts";
+            Navigation = pNavigation;
             Items = new ObservableCollection<Item>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
             ItemTapped = new Command<Item>(OnItemSelected);
@@ -77,17 +79,16 @@ namespace Cinemaddict.ViewModels
 
         private async void OnDelItem(int id)
         {
-           Items.Remove(Items.Where(x=>x.Id==id).FirstOrDefault());
-           await new FirebaseHelper().DeletePost(id);
+            Items.Remove(Items.Where(x => x.Id == id).FirstOrDefault());
+            await new FirebaseHelper().DeletePost(id);
         }
         async void OnItemSelected(Item item)
         {
             if (item == null)
                 return;
-
+            await Navigation.PushAsync(new ItemDetailPage(new ItemsDetailViewModel() { Description = item.Description, Text = item.Text }));
             // This will push the ItemDetailPage onto the navigation stack
-            await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemsDetailViewModel.ItemId)}={item.Id}");
+            //await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemsDetailViewModel.ItemId)}={item.Id}");
         }
-
     }
 }
