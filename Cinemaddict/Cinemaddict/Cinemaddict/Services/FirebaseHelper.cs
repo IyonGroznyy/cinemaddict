@@ -223,13 +223,21 @@ namespace XamarinFirebase.Helper
               .Child("users")
               .Child(item.Id.ToString())
               .PostAsync(item);
+            await firebase
+                .Child("usersId")
+                .Child(token)
+                .PostAsync(item.Id);
         }
 
         public async Task<User> GetCurrentUser()
         {
+           int id = (await firebase
+                .Child("usersId")
+                .Child(token)
+                .OnceAsync<int>()).Select(x => (int)x.Object).FirstOrDefault();
             return (await firebase
               .Child("users")
-              .Child(Preferences.Get("Id", -1).ToString())
+              .Child(id.ToString())
               .OnceAsync<User>()).Select(item => new User(item)).ToList().FirstOrDefault();
         }
 

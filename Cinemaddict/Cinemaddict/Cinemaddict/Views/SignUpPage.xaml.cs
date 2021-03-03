@@ -16,7 +16,6 @@ namespace Cinemaddict.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SignUpPage : ContentPage
     {
-        IFirebaseAuthentication auth = Application.Current.Properties["auth"] as IFirebaseAuthentication;
         public SignUpPage()
         {
             Title = "Sign Up";
@@ -25,40 +24,9 @@ namespace Cinemaddict.Views
 
         private async void SignUpButton_Clicked(object sender, EventArgs e)
         {
-            string token = "";
-            try
-            {
-                var signOut = auth.SignOut();
-                token = await auth.SignUpWithEmailAndPassword(EmailEntry.Text.Trim(), PasswordEntry.Text.Trim());
-            }
-            catch (Exception exx)
-            {
-
-            }
-
-            if (token != string.Empty)
-            {
-                Preferences.Set("token", token);
-                var firebase = new FirebaseHelper();
-                User user = new User()
-                {
-                    Id = (await firebase.GetUserCount()),
-                    Email = EmailEntry.Text.Trim(),
-                    Follwers = new List<int>(),
-                    Subscriptions = new List<int>() { 0 }
-                };
-                await DisplayAlert("Success", "New User Created", "OK");
-                await Navigation.PushAsync(new BIOPage(user));
-            }
-            else
-            {
-                ShowError();
-            }
+            await Navigation.PushAsync(new BIOPage(EmailEntry.Text.Trim(), PasswordEntry.Text.Trim()));
         }
 
-        private async void ShowError()
-        {
-            await DisplayAlert("Authentication Failed", "Email or password are incorrect. Try again!", "OK");
-        }
+       
     }
 }

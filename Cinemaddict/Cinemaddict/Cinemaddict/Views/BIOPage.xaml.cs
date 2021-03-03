@@ -18,12 +18,15 @@ namespace Cinemaddict.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class BIOPage : ContentPage
     {
-        User user;
+        string email;
+        string password;
         string photoUri;
         MediaFile file;
-        public BIOPage(User pUser)
+        IFirebaseAuthentication auth = Application.Current.Properties["auth"] as IFirebaseAuthentication;
+        public BIOPage(string pEmail, string pPassword)
         {
-            user = pUser;
+            email = pEmail;
+            password = pPassword;
             InitializeComponent();
         }
 
@@ -50,30 +53,55 @@ namespace Cinemaddict.Views
             {
 
             }
-            //Stream stream = await DependencyService.Get<IPhotoPickerService>().GetImageStreamAsync();
-            //if (stream != null)
-            //{
-            //    photoUri = await new FirebaseHelper().StoreImages(stream, "Avatar");//ImageSource.FromStream(() => stream);
-            //    image.Source = photoUri;
-            //}
             (sender as ImageButton).IsEnabled = true;
         }
 
         private async void ReadyButton_Clicked(object sender, EventArgs e)
         {
-            var firebase = new FirebaseHelper();
-            user.About = AboutEntry.Text;
-            user.DisplayName = NameEntry.Text;
-            user.PhotoUri = photoUri;
-            user.Follwers = new List<int>();
-            user.Subscriptions = new List<int>() { 0 };
-            user.Follower_count = 0;
-            user.Following_count = 1;
-            user.Posts_count = 0;
-            await firebase.AddUser(user);
-            Util.SaveDataLocal(user);
-            await firebase.UpdateUserCount();
-            Application.Current.MainPage = new AppShell();
+            if(string.IsNullOrEmpty(NameEntry.Text) || string.IsNullOrEmpty(AboutEntry.Text))
+            {
+                await DisplayAlert("Authentication Failed", "Name or About text are incorrect. Try again!", "OK");
+                return;
+            }
+            string token = "";
+            try
+            {
+                var signOut = auth.SignOut();
+                token = await auth.SignUpWithEmailAndPassword(email, password);
+            }
+            catch (Exception exx)
+            {
+                await Navigation.PopAsync();
+            }
+
+            if (token != string.Empty)
+            {
+                Preferences.Set("token", token);
+                var firebase = new FirebaseHelper();
+                User user = new User()
+                {
+                    Id = (await firebase.GetUserCount()),
+                    Email = email,
+                    Follwers = new List<int>(),
+                    Subscriptions = new List<int>() { 0 },
+                    About = AboutEntry.Text,
+                    DisplayName = NameEntry.Text,
+                    PhotoUri = photoUri,
+                    Follower_count = 0,
+                    Following_count = 1,
+                    Posts_count = 0
+                };
+                await DisplayAlert("Success", "New User Created", "OK");
+                await firebase.AddUser(user);
+                Util.SaveDataLocal(user);
+                await firebase.UpdateUserCount();
+                Application.Current.MainPage = new AppShell();
+            }
+            else
+            {
+                await DisplayAlert("Authentication Failed", "Email or password are incorrect. Try again!", "OK");
+            }
+            
         }
     }
 }
