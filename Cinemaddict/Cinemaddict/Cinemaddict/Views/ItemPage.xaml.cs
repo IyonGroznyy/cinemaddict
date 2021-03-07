@@ -23,7 +23,7 @@ namespace Cinemaddict.Views
 
             BindingContext = _viewModel = new ItemsViewModel(Navigation);
             ToolbarItems.Add(tb);
-            ToolbarItems.Add(tb2);
+            //ToolbarItems.Add(tb2);
         }
 
         protected override void OnAppearing()
@@ -40,10 +40,10 @@ namespace Cinemaddict.Views
             Order = ToolbarItemOrder.Secondary,
             Command = ItemsViewModel.AddItemCommand
         };
-        ToolbarItem tb2 = new ToolbarItem
-        {
-            Text = "Chose",
-            Order = ToolbarItemOrder.Secondary
-        };
+        //ToolbarItem tb2 = new ToolbarItem
+        //{
+        //    Text = "Choose",
+        //    Order = ToolbarItemOrder.Secondary
+        //};
     }
 }

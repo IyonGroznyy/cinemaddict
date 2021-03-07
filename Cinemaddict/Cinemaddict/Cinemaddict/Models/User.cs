@@ -67,12 +67,35 @@ namespace Cinemaddict.Models
             int i = 0;
             foreach (var current in GetType().GetProperties())
             {
-                if (firstObjs[i] != null)
+                
+                if (current.GetValue(this) is List<int> && current.GetValue(this) != null)
+                {
+                    if (firstObjs[i] != null)
+                    {
+                        List<int> currArr = (List<int>)current.GetValue(this);
+                        List<int> sendArr = (List<int>)firstObjs[i];
+                        if(currArr.Exists(x => sendArr.Find(y => x.Equals(y)) > 0 ? true : false))
+                        {
+                            sendArr.ForEach(x => currArr.Remove(x));
+                        }
+                        else
+                        {
+                            currArr = currArr.Union(sendArr).ToList();
+                            current.SetValue(this, currArr);
+                        }
+                        if (current.Name.Equals("Subscriptions"))
+                        {
+                            Following_count = currArr.Count;
+                        }
+                    }
+                }
+                else  if (firstObjs[i] != null)
                 {
                     current.SetValue(this, firstObjs[i]);
                 }
                 i++;
             }
+
         }
     }
 }

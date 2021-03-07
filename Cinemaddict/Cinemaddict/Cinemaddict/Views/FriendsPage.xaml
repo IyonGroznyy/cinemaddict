@@ -4,8 +4,14 @@
              x:Class="Cinemaddict.Views.FriendsPage"
              Title="{Binding Title}"
              xmlns:local="clr-namespace:Cinemaddict.ViewModels"  
-             xmlns:model="clr-namespace:Cinemaddict.Models">
-
+             xmlns:model="clr-namespace:Cinemaddict.Models" >
+    
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <model:SubscribeColorConverter x:Key="SubscribeColorConverter" />
+            <model:SubscribeTextConverter x:Key="SubscribeTextConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
     <RefreshView x:DataType="local:FriendsViewModel" Command="{Binding LoadUserCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
         <CollectionView x:Name="ItemsListView"
@@ -14,7 +20,7 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <FlexLayout Padding="10" Direction="Row" JustifyContent="SpaceBetween" x:DataType="model:User">
-                        <StackLayout WidthRequest="350">
+                        <StackLayout WidthRequest="260">
                             <Label Text="{Binding DisplayName}" 
                                        LineBreakMode="NoWrap" 
                                        Style="{DynamicResource ListItemTextStyle}" 
@@ -31,14 +37,30 @@
                                 </TapGestureRecognizer>
                             </StackLayout.GestureRecognizers>
                         </StackLayout>
-                        <ImageButton
-                                    
+                        <Button
+                                    x:Name="SubscribeButton"  
                                     Margin="0,5,0,0"
-                                    HeightRequest="30"
-                                    Source="Bucket.png"
-                                    Command="{Binding Source={RelativeSource AncestorType={x:Type local:FriendsViewModel}}, Path=DelUserCommand }"
+                                    HeightRequest="40"
+                                    WidthRequest="120"
+                                    Text="{Binding Source={RelativeSource AncestorType={x:Type local:FriendsViewModel}},
+                                                        UpdateSourceEventName=PropertyChanged,
+                                                        Converter={StaticResource SubscribeTextConverter},  
+                                                        ConverterParameter={x:Reference SubscribeButton} ,Path=ButtonSubCol}"
+                            
+                                    BackgroundColor ="{Binding Source={RelativeSource AncestorType={x:Type local:FriendsViewModel}},
+                                                        UpdateSourceEventName=PropertyChanged,
+                                                        Converter={StaticResource SubscribeColorConverter},  
+                                                        ConverterParameter={x:Reference SubscribeButton} ,Path=ButtonSubCol}"
+                            
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type local:FriendsViewModel}}, Path=SubUserCommand }"
                                     CommandParameter="{Binding Id}">
-                        </ImageButton>
+                            <!--<Button.BackgroundColor>
+                                <MultiBinding Converter="{StaticResource SubscribeConverter}">
+                                    <Binding Path="Id"/>
+                                    <Binding Source="{RelativeSource AncestorType={x:Type local:FriendsViewModel}}" Path="subscribeBoolColor"/>
+                                </MultiBinding>
+                            </Button.BackgroundColor>-->
+                        </Button>
                     </FlexLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
