@@ -54,12 +54,6 @@
                             
                                     Command="{Binding Source={RelativeSource AncestorType={x:Type local:FriendsViewModel}}, Path=SubUserCommand }"
                                     CommandParameter="{Binding Id}">
-                            <!--<Button.BackgroundColor>
-                                <MultiBinding Converter="{StaticResource SubscribeConverter}">
-                                    <Binding Path="Id"/>
-                                    <Binding Source="{RelativeSource AncestorType={x:Type local:FriendsViewModel}}" Path="subscribeBoolColor"/>
-                                </MultiBinding>
-                            </Button.BackgroundColor>-->
                         </Button>
                     </FlexLayout>
                 </DataTemplate>
