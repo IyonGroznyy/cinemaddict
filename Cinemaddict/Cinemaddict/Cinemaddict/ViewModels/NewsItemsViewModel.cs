@@ -72,7 +72,7 @@ namespace Cinemaddict.ViewModels
             if (item == null)
                 return;
             // This will push the ItemDetailPage onto the navigation stack
-            await Navigation.PushAsync(new NewsDetailPage(new NewDetailViewModel() { Description = item.Description, Text = item.Text }));
+            await Navigation.PushAsync(new NewsDetailPage(new ItemsDetailViewModel() { Description = item.Description, Text = item.Text }));
         }
     }
 }

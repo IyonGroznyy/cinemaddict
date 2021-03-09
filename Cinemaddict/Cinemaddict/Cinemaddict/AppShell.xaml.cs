@@ -1,4 +1,5 @@
 ﻿using Cinemaddict.Models;
+using Cinemaddict.Services;
 using Cinemaddict.ViewModels;
 using Cinemaddict.Views;
 using System;
@@ -14,16 +15,63 @@ namespace Cinemaddict
         User CurrentUser;
         public AppShell()
         {
-            CurrentUser = new User()
+            CurrentUser = Util.GetDataLocal();
+            if (string.IsNullOrEmpty(CurrentUser.PhotoUri))
             {
-                DisplayName = Preferences.Get("DisplayName",""),
-                Id = Preferences.Get("Id",0),
-                Email = Preferences.Get("Email",""),
-                About = Preferences.Get("About",""),
-                PhotoUri = Preferences.Get("PhotoUri","")
-            };
+                CurrentUser.PhotoUri = "NoAvatar.png";
+            }
             BindingContext = CurrentUser;
-            InitializeComponent(); 
+            Items.Add(new FlyoutItem
+            {
+                Title = "News",
+                Icon = "icon_feed.png",
+                Items =
+                {
+                    new Tab
+                    {
+                        Items = { new ShellContent {Content = new NewsPage()} }
+                    }
+                }
+            });
+            Items.Add(new FlyoutItem
+            {
+                Title = "Your Posts",
+                Icon = "icon_feed.png",
+                Items =
+                {
+                    new Tab
+                    {
+                        Items = { new ShellContent {Content = new ItemsPage()} }
+                    }
+                }
+            });
+            Items.Add(new FlyoutItem
+            {
+                Title = "FriendsPage",
+                Icon = "icon_feed.png",
+                Items =
+                {
+                    new Tab
+                    {
+                        Items = { new ShellContent {Content = new FriendsPage()} }
+                    }
+                }
+            });
+#if DEBUG
+            Items.Add(new FlyoutItem
+            {
+                Title = "Command Page",
+                Icon = "icon_feed.png",
+                Items =
+                {
+                    new Tab
+                    {
+                        Items = { new ShellContent {Content = new CommandPage()} }
+                    }
+                }
+            });
+#endif
+            InitializeComponent();
             Routing.RegisterRoute(nameof(ItemDetailPage), typeof(ItemDetailPage));
             Routing.RegisterRoute(nameof(NewItemPage), typeof(NewItemPage));
             Routing.RegisterRoute(nameof(FriendsPage), typeof(FriendsPage));

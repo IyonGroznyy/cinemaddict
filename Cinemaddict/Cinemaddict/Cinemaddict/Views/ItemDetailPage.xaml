@@ -5,10 +5,11 @@
              Title="{Binding Title}">
 
     <StackLayout Spacing="20" Padding="15">
-        <Label Text="Text:" FontSize="Medium" />
-        <Label Text="{Binding Text}" FontSize="Small"/>
+        <Label Text="Title:" FontSize="Medium" />
+        <Editor x:Name="TitleEditor" Text="{Binding Text}" FontSize="Small"/>
         <Label Text="Description:" FontSize="Medium" />
-        <Label Text="{Binding Description}" FontSize="Small"/>
+        <Editor x:Name="DescriptionEditor" Text="{Binding Description}" FontSize="Small"/>
+        <Button x:Name="SaveButton" Margin="0,0,0,20" VerticalOptions="EndAndExpand" Text="Save" Clicked="SaveButton_Clicked"/>
     </StackLayout>
 
 </ContentPage>

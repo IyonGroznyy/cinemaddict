@@ -13,7 +13,7 @@ namespace Cinemaddict.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class NewsDetailPage : ContentPage
     {
-        public NewsDetailPage(NewDetailViewModel newDetailViewModel)
+        public NewsDetailPage(ItemsDetailViewModel newDetailViewModel)
         {
             InitializeComponent();
             BindingContext = newDetailViewModel;

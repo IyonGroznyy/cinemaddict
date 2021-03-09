@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Cinemaddict.Views.BIOPage"
+             Shell.NavBarIsVisible="False"
+             Visual="Material">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Регистрация"
+                   TextColor="Black"
+                   FontSize= "Large"
+                   HorizontalOptions="CenterAndExpand" />
+            <StackLayout Margin="0,10,0,0">
+                <Frame CornerRadius="100" 
+                       HeightRequest="200"
+                       WidthRequest="200"
+                       HorizontalOptions="Center"
+                       Padding="0"
+                       IsClippedToBounds="True">
+                    <ImageButton x:Name="image"
+                       Source="NoAvatar.png"
+                       Pressed="ImageButton_Pressed"/>
+                </Frame>
+            </StackLayout>
+            <Entry x:Name="NameEntry"
+                   Placeholder="Введите ваше имя"
+                   Margin ="12,12,12,25">
+            </Entry>
+            <Entry x:Name="AboutEntry"
+                   Placeholder="Введите что-то о себе" 
+                   Margin ="12,12,12,25">
+            </Entry>
+            <Button Text="Ready" 
+                    Clicked="ReadyButton_Clicked" 
+                    VerticalOptions="EndAndExpand"
+                    HorizontalOptions="FillAndExpand"
+                    Margin ="12,12,12,25"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -7,10 +7,15 @@ namespace Cinemaddict.Views
 {
     public partial class ItemDetailPage : ContentPage
     {
-        public ItemDetailPage()
+        public ItemDetailPage(ItemsDetailViewModel itemsDetailViewModel)
         {
             InitializeComponent();
-            BindingContext = new ItemsDetailViewModel();
+            BindingContext = itemsDetailViewModel;
+        }
+
+        private async void SaveButton_Clicked(object sender, System.EventArgs e)
+        {
+            await new FirebaseHelper().UpdatePost(((ItemsDetailViewModel)BindingContext).Id, TitleEditor.Text, DescriptionEditor.Text);
         }
     }
 }

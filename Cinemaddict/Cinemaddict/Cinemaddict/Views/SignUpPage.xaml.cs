@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -16,7 +17,6 @@ namespace Cinemaddict.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SignUpPage : ContentPage
     {
-        IFirebaseAuthentication auth = Application.Current.Properties["auth"] as IFirebaseAuthentication;
         public SignUpPage()
         {
             Title = "Sign Up";
@@ -25,40 +25,33 @@ namespace Cinemaddict.Views
 
         private async void SignUpButton_Clicked(object sender, EventArgs e)
         {
-            string token = "";
-            try
+            if (!Regex.IsMatch(EmailEntry.Text.Trim(), @"^([a-zA-Z0-9]+[a-zA-Z0-9\.]*[a-zA-Z0-9]+)@(gmail)\.(com)$", RegexOptions.IgnoreCase))
             {
-                var signOut = auth.SignOut();
-                token = await auth.SignUpWithEmailAndPassword(EmailEntry.Text.Trim(), PasswordEntry.Text.Trim());
+                await DisplayAlert("Authentication Failed", "Email is incorrect", "OK");
+                EmailEntry.Text = "";
+                return;
             }
-            catch (Exception exx)
+            if (!Regex.IsMatch(PasswordEntry.Text.Trim(), @"[0-9]+", RegexOptions.IgnoreCase))
             {
-
+                await DisplayAlert("Authentication Failed", "Password doesn't contain a number", "OK");
+                PasswordEntry.Text = "";
+                return;
             }
-
-            if (token != string.Empty)
+            if (!Regex.IsMatch(PasswordEntry.Text.Trim(), @"[a-z]+", RegexOptions.IgnoreCase))
             {
-                Preferences.Set("token", token);
-                var firebase = new FirebaseHelper();
-                User user = new User()
-                {
-                    Id = (await firebase.GetUserCount()),
-                    Email = EmailEntry.Text.Trim(),
-                    Follwers = new List<int>(),
-                    Subscriptions = new List<int>() { 0 }
-                };
-                await DisplayAlert("Success", "New User Created", "OK");
-                await Navigation.PushAsync(new BIOPage(user));
+                await DisplayAlert("Authentication Failed", "Password doesn't contain a letter", "OK");
+                PasswordEntry.Text = "";
+                return;
             }
-            else
+            if (!Regex.IsMatch(PasswordEntry.Text.Trim(), @".{8,}", RegexOptions.IgnoreCase))
             {
-                ShowError();
+                await DisplayAlert("Authentication Failed", "Password doesn't contain 8 chars", "OK");
+                PasswordEntry.Text = "";
+                return;
             }
+            await Navigation.PushAsync(new BIOPage(EmailEntry.Text.Trim(), PasswordEntry.Text.Trim()));
         }
 
-        private async void ShowError()
-        {
-            await DisplayAlert("Authentication Failed", "Email or password are incorrect. Try again!", "OK");
-        }
+       
     }
 }
