@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Input;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using XamarinFirebase.Helper;
 
@@ -52,7 +53,7 @@ namespace Cinemaddict.ViewModels
         {
             Item newItem = new Item()
             {
-                Id = 0,
+                Id = Preferences.Get("Posts_count", 0),
                 Text = Text,
                 Description = Description
             };

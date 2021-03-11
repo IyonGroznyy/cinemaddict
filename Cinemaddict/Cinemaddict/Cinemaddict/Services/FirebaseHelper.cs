@@ -150,7 +150,8 @@ namespace XamarinFirebase.Helper
               .Child(Preferences.Get("Id", -1).ToString())
               .Child("posts")
               .PostAsync(item);
-            await UpdateUser(new User() { Posts_count = Preferences.Get("Posts_count", 0) + 1 });
+            Preferences.Set("Posts_count", Preferences.Get("Posts_count", 0) + 1);
+            await UpdateUser(new User() { Posts_count = Preferences.Get("Posts_count", 0)});
         }
 
         public async Task<Item> GetPost(int id)
@@ -182,7 +183,7 @@ namespace XamarinFirebase.Helper
 
         public async Task DeletePost(int id)
         {
-            var toDeletePerson = (await firebase
+            var toDeletePost = (await firebase
               .Child("users")
               .Child(Preferences.Get("Id", -1).ToString())
               .Child("posts")
@@ -191,8 +192,9 @@ namespace XamarinFirebase.Helper
               .Child("users")
               .Child(Preferences.Get("Id", -1).ToString())
               .Child("posts")
-              .Child(toDeletePerson.Key).DeleteAsync();
-            await UpdateUser(new User() { Posts_count = Preferences.Get("Posts_count", 0) - 1 });
+              .Child(toDeletePost.Key).DeleteAsync();
+            Preferences.Set("Posts_count", Preferences.Get("Posts_count", 0) - 1);
+            await UpdateUser(new User() { Posts_count = Preferences.Get("Posts_count", 0)});
         }
         #endregion
 
