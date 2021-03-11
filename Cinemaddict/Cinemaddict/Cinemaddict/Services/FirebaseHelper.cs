@@ -271,15 +271,9 @@ namespace XamarinFirebase.Helper
             int lastID = await GetUserCount();
             for (int i = 1; i < lastID; i++)
             {
-                var toDeleteUser = (await firebase
-                      .Child("users")
-                      .Child(i.ToString())
-                      .OnceAsync<User>()).FirstOrDefault();
-                if (toDeleteUser != null)
-                {
-                    await firebase.Child("users").Child(i.ToString()).Child(toDeleteUser.Key).DeleteAsync();
-                }
+                await firebase.Child("users").Child(i.ToString()).DeleteAsync();
             }
+
             await UpdateUserCount(true);
         }
 
