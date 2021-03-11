@@ -79,8 +79,8 @@ namespace Cinemaddict.ViewModels
 
         private async void OnDelItem(int id)
         {
-            //Items.Remove(Items.Where(x => x.Id == id).FirstOrDefault());
-            //await new FirebaseHelper().DeletePost(id);
+            Items.Remove(Items.Where(x => x.Id == id).FirstOrDefault());
+            await new FirebaseHelper().DeletePost(id);
         }
         async void OnItemSelected(Item item)
         {
