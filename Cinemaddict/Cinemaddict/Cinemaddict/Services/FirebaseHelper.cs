@@ -12,6 +12,7 @@ using System.IO;
 using Firebase.Storage;
 using Xamarin.Essentials;
 using Newtonsoft.Json.Linq;
+using Cinemaddict.Services;
 
 namespace XamarinFirebase.Helper
 {
@@ -181,6 +182,26 @@ namespace XamarinFirebase.Helper
               .PutAsync(new Item() { Id = id, Text = text, Description = description });
         }
 
+        public async Task DeleteAllPosts()
+        {
+            for (int i = 0; i < Preferences.Get("Posts_count", 0); i++)
+            {
+                var toDeletePost = (await firebase
+                    .Child("users")
+                    .Child(Preferences.Get("Id", -1).ToString())
+                    .Child("posts")
+                    .OnceAsync<Item>()).Where(a => a.Object.Id == i).FirstOrDefault();
+                if(toDeletePost != null)
+                {
+                    await firebase
+                          .Child("users")
+                          .Child(Preferences.Get("Id", -1).ToString())
+                          .Child("posts")
+                          .Child(toDeletePost.Key).DeleteAsync();
+                }
+            }
+        }
+
         public async Task DeletePost(int id)
         {
             var toDeletePost = (await firebase
@@ -251,19 +272,45 @@ namespace XamarinFirebase.Helper
               .OnceAsync<User>()).Select(item => new User(item)).ToList().FirstOrDefault();
         }
 
-        public async Task UpdateUser(User user)
+        public async Task UpdateUser(User user, bool isReset = false)
         {
             var toUpdatePerson = (await firebase
               .Child("users")
               .Child(Preferences.Get("Id", -1).ToString())
               .OnceAsync<User>()).FirstOrDefault();
             var updatePerson = new User(toUpdatePerson);
-            updatePerson.CopyAndReplace(user);
-            await firebase
-              .Child("users")
-              .Child(Preferences.Get("Id", -1).ToString())
-              .Child(toUpdatePerson.Key)
-              .PutAsync(updatePerson);
+            if(isReset)
+            {
+                var swipeUser = new User()
+                {
+                    About = "Don't delete this user",
+                    DisplayName = "General User",
+                    Email = "iyongroznyy@gmail.com",
+                    Follower_count = 0,
+                    Following_count = 1,
+                    Id = 0,
+                    PhotoUri = "https://firebasestorage.googleapis.com/v0/b/database-cinemaddict.appspot.com/o/users%2FtIIUIM4pk7VxvuLV4KEf1Q89ZXk1?alt=media&token=1bd20704-0609-45c8-887e-89c2dfa9e883",
+                    Posts_count = 0,
+                    Subscriptions = new List<int>() { 0 },
+                    Follwers = new List<int>()
+                };
+                await firebase
+                      .Child("users")
+                      .Child(Preferences.Get("Id", -1).ToString())
+                      .Child(toUpdatePerson.Key)
+                      .PutAsync(swipeUser);
+                Util.SaveDataLocal(swipeUser);
+            }
+            else
+            {
+                updatePerson.CopyAndReplace(user);
+                await firebase
+                  .Child("users")
+                  .Child(Preferences.Get("Id", -1).ToString())
+                  .Child(toUpdatePerson.Key)
+                  .PutAsync(updatePerson);
+            }
+            
         }
 
         public async Task DeleteAllUser()
@@ -273,7 +320,8 @@ namespace XamarinFirebase.Helper
             {
                 await firebase.Child("users").Child(i.ToString()).DeleteAsync();
             }
-
+            await DeleteAllPosts();
+            await UpdateUser(null, true);
             await UpdateUserCount(true);
         }
 
