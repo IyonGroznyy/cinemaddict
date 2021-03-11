@@ -63,7 +63,7 @@ namespace XamarinFirebase.Helper
                 await firebase
                  .Child("UsersCount")
                  .Child(updateCount)
-                 .PutAsync(0);
+                 .PutAsync(1);
             }
             else
             {
