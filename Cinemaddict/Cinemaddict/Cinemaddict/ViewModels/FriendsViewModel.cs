@@ -10,6 +10,7 @@ using System.Linq;
 using System.Collections.Generic;
 using Cinemaddict.Services;
 using System.Collections.Specialized;
+using Xamarin.Essentials;
 
 namespace Cinemaddict.ViewModels
 {
@@ -116,6 +117,7 @@ namespace Cinemaddict.ViewModels
         private async void OnSubscribeUser(int id)
         {
             await new FirebaseHelper().UpdateUser(new User() { Subscriptions = new List<int>() { id } });
+            await new FirebaseHelper().UpdateUser(new User() { Follwers = new List<int>() { Preferences.Get("Id", -1) } }, id);
             await GetCurrentUserAsync();
             await ExecuteLoadUsersCommand();
         }

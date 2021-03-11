@@ -87,6 +87,10 @@ namespace Cinemaddict.Models
                         {
                             Following_count = currArr.Count;
                         }
+                        if (current.Name.Equals("Follwers"))
+                        {
+                            Follower_count = currArr.Count;
+                        }
                     }
                 }
                 else  if (firstObjs[i] != null)
@@ -95,7 +99,6 @@ namespace Cinemaddict.Models
                 }
                 i++;
             }
-
         }
     }
 }

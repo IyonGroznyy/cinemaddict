@@ -95,6 +95,7 @@ namespace Cinemaddict.Views
                 await firebase.AddUser(user);
                 Util.SaveDataLocal(user);
                 await firebase.UpdateUserCount();
+                await new FirebaseHelper().UpdateUser(new User() { Follwers = new List<int>() { Preferences.Get("Id", -1) } }, 0);
                 Application.Current.MainPage = new AppShell();
             }
             else

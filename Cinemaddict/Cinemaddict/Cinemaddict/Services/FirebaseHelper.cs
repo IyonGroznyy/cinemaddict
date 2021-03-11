@@ -63,7 +63,7 @@ namespace XamarinFirebase.Helper
                 await firebase
                  .Child("UsersCount")
                  .Child(updateCount)
-                 .PutAsync(1);
+                 .PutAsync(1); //Ставить 1 
             }
             else
             {
@@ -270,6 +270,22 @@ namespace XamarinFirebase.Helper
               .Child("users")
               .Child(id.ToString())
               .OnceAsync<User>()).Select(item => new User(item)).ToList().FirstOrDefault();
+        }
+
+        public async Task UpdateUser(User user, int id)// Нельзя менять другого пользователя, но прийдется.
+        {
+            var toUpdatePerson = (await firebase
+              .Child("users")
+              .Child(id.ToString())
+              .OnceAsync<User>()).FirstOrDefault();
+            var updatePerson = new User(toUpdatePerson);
+           
+            updatePerson.CopyAndReplace(user);
+            await firebase
+                .Child("users")
+                .Child(id.ToString().ToString())
+                .Child(toUpdatePerson.Key)
+                .PutAsync(updatePerson);
         }
 
         public async Task UpdateUser(User user, bool isReset = false)
