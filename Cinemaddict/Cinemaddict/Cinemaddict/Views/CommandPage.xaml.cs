@@ -23,16 +23,5 @@ namespace Cinemaddict.Views
         {
             await firebase.DeleteAllUser();
         }
-        private async void BtnDeleteUser_Clicked(object sender, EventArgs e)
-        {
-            //try
-            //{
-            //    await firebase.DeleteUser(int.Parse(DeleteId.Text));
-            //}
-            //catch(Exception ex)
-            //{
-            //    await DisplayAlert("Error", $"Некоректный номер \n {ex.Message}", "Заново");
-            //}
-        }
     }
 }

@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Cinemaddict.Views.DemoFriendsPage"
+             xmlns:local="clr-namespace:Cinemaddict.ViewModels"  
+             xmlns:model="clr-namespace:Cinemaddict.Models" >
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <model:SubscribeColorConverter x:Key="SubscribeColorConverter" />
+            <model:SubscribeTextConverter x:Key="SubscribeTextConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    <ContentPage.Content>
+        <CollectionView x:Name="ItemsListView"
+                ItemsSource="{Binding Users}"
+                SelectionMode="None">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <FlexLayout Padding="10" Direction="Row" JustifyContent="SpaceBetween" x:DataType="model:User">
+                        <StackLayout WidthRequest="260">
+                            <Label Text="{Binding DisplayName}" 
+                                       LineBreakMode="NoWrap" 
+                                       Style="{DynamicResource ListItemTextStyle}" 
+                                       FontSize="16" />
+                            <Label Text="{Binding About}" 
+                                       LineBreakMode="NoWrap"
+                                       Style="{DynamicResource UserTapped}"
+                                       FontSize="13" />
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer 
+                                            NumberOfTapsRequired="1"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:FriendsViewModel}}, Path=UserTapped}"		
+                                            CommandParameter="{Binding .}">
+                                </TapGestureRecognizer>
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+                        <Button
+                                    x:Name="SubscribeButton"  
+                                    Margin="0,5,0,0"
+                                    HeightRequest="40"
+                                    WidthRequest="120"
+                                    Text="{Binding Source={RelativeSource AncestorType={x:Type local:FriendsViewModel}},
+                                                        UpdateSourceEventName=PropertyChanged,
+                                                        Converter={StaticResource SubscribeTextConverter},  
+                                                        ConverterParameter={x:Reference SubscribeButton} ,Path=ButtonSubCol}"
+                            
+                                    BackgroundColor ="{Binding Source={RelativeSource AncestorType={x:Type local:FriendsViewModel}},
+                                                        UpdateSourceEventName=PropertyChanged,
+                                                        Converter={StaticResource SubscribeColorConverter},  
+                                                        ConverterParameter={x:Reference SubscribeButton} ,Path=ButtonSubCol}"
+                            
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type local:FriendsViewModel}}, Path=SubUserCommand }"
+                                    CommandParameter="{Binding Id}">
+                        </Button>
+                    </FlexLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </ContentPage.Content>
+</ContentPage>

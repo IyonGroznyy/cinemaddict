@@ -28,6 +28,7 @@ namespace Cinemaddict.Views
             email = pEmail;
             password = pPassword;
             InitializeComponent();
+            photoUri = "NoAvatar.png";
         }
 
         private async void ImageButton_Pressed(object sender, EventArgs e)
@@ -102,7 +103,6 @@ namespace Cinemaddict.Views
             {
                 await DisplayAlert("Authentication Failed", "Email or password are incorrect. Try again!", "OK");
             }
-            
         }
     }
 }

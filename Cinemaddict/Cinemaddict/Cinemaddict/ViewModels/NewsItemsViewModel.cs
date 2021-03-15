@@ -13,18 +13,20 @@ namespace Cinemaddict.ViewModels
 {
     class NewsItemsViewModel : BaseViewModel
     {
-        private Item _selectedItem;
-        public ObservableCollection<Item> Items { get; }
+        private LocalPost _selectedItem;
+        public ObservableCollection<LocalPost> Items { get; }
         public Command LoadItemsCommand { get; }
         public Command<Item> ItemTapped { get; }
         public INavigation Navigation { set; get; }
+        public Command<Label> LabelItemTapped { get; }
         public NewsItemsViewModel(INavigation pNavigation)
         {
             Title = "News";
             Navigation = pNavigation;
-            Items = new ObservableCollection<Item>();
+            Items = new ObservableCollection<LocalPost>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
             ItemTapped = new Command<Item>(OnItemSelected);
+            LabelItemTapped = new Command<Label>(OnLabelTap);
         }
 
         async Task ExecuteLoadItemsCommand()
@@ -57,7 +59,7 @@ namespace Cinemaddict.ViewModels
             SelectedItem = null;
         }
 
-        public Item SelectedItem
+        public LocalPost SelectedItem
         {
             get => _selectedItem;
             set
@@ -67,12 +69,19 @@ namespace Cinemaddict.ViewModels
             }
         }
 
+        void OnLabelTap(Label item)
+        {
+            if (item == null)
+                return;
+            item.LineBreakMode = LineBreakMode.WordWrap;
+        }
+
         async void OnItemSelected(Item item)
         {
             if (item == null)
                 return;
             // This will push the ItemDetailPage onto the navigation stack
-            await Navigation.PushAsync(new NewsDetailPage(new ItemsDetailViewModel() { Description = item.Description, Text = item.Text }));
+            await Navigation.PushAsync(new NewsDetailPage(new ItemsDetailViewModel() { Description = item.Description, Text = item.Text , Uri = item.Uri}));
         }
     }
 }

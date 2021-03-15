@@ -14,7 +14,7 @@ using Xamarin.Essentials;
 
 namespace Cinemaddict.ViewModels
 {
-    class FriendsViewModel : BaseViewModel
+    public class FriendsViewModel : BaseViewModel
     {
 
         private User _selectedUser;

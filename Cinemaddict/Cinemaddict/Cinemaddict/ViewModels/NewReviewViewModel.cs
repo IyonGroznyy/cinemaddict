@@ -1,6 +1,9 @@
 ﻿using Cinemaddict.Models;
+using Plugin.Media;
+using Plugin.Media.Abstractions;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Windows.Input;
 using Xamarin.Essentials;
@@ -11,8 +14,10 @@ namespace Cinemaddict.ViewModels
 {
     public class NewReviewViewModel : BaseViewModel
     {
+        MediaFile file;
         private string text;
         private string description;
+        private string uri;
         FirebaseHelper firebaseHelper = new FirebaseHelper();
         public NewReviewViewModel()
         {
@@ -39,6 +44,11 @@ namespace Cinemaddict.ViewModels
             get => description;
             set => SetProperty(ref description, value);
         }
+        public string Uri
+        {
+            get => uri;
+            set => SetProperty(ref uri, value);
+        }
 
         public Command SaveCommand { get; }
         public Command CancelCommand { get; }
@@ -49,13 +59,40 @@ namespace Cinemaddict.ViewModels
             await Shell.Current.GoToAsync("..");
         }
 
+        public async void ImageButtonClick(object sender, ImageButton imageButton)
+        {
+            (sender as ImageButton).IsEnabled = false;
+            await CrossMedia.Current.Initialize();
+            try
+            {
+                file = await Plugin.Media.CrossMedia.Current.PickPhotoAsync(new Plugin.Media.Abstractions.PickMediaOptions
+                {
+                    PhotoSize = Plugin.Media.Abstractions.PhotoSize.Medium
+                });
+                if (file == null)
+                    return;
+                imageButton.Source = ImageSource.FromStream(() =>
+                {
+                    var imageStram = file.GetStream();
+                    return imageStram;
+                });
+                Uri = await new FirebaseHelper().StoreImages(file.GetStream(), Path.GetFileName(file.Path));
+            }
+            catch (Exception ex)
+            {
+
+            }
+            (sender as ImageButton).IsEnabled = true;
+        }
+
         private async void OnSave()
         {
             Item newItem = new Item()
             {
                 Id = Preferences.Get("Posts_count", 0),
                 Text = Text,
-                Description = Description
+                Description = Description,
+                Uri = Uri
             };
             await firebaseHelper.AddPost(newItem);
 

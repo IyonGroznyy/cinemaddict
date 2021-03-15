@@ -106,24 +106,26 @@ namespace XamarinFirebase.Helper
 
         #region Posts
 
-        public async Task<List<Item>> GetAllNewsPosts()
+        public async Task<List<LocalPost>> GetAllNewsPosts()
         {
             var subscriptionsIds = (await GetCurrentUser()).Subscriptions;
-            List<Item> items = new List<Item>();
+            List<LocalPost> items = new List<LocalPost>();
             if (subscriptionsIds != null)
             {
                 foreach (var id in subscriptionsIds)
                 {
+                    User user = await GetUser(id);
                     items.AddRange(
                         (await firebase
                           .Child("users")
                           .Child(id.ToString())
                           .Child("posts")
-                          .OnceAsync<Item>()).Select(item => new Item
+                          .OnceAsync<Item>()).Select(item => new LocalPost(user)
                           {
                               Description = item.Object.Description,
                               Text = item.Object.Text,
-                              Id = item.Object.Id
+                              Id = item.Object.Id,
+                              Uri = item.Object.Uri
                           }).ToList());
                 }
             }
@@ -140,7 +142,23 @@ namespace XamarinFirebase.Helper
               {
                   Description = item.Object.Description,
                   Text = item.Object.Text,
-                  Id = item.Object.Id
+                  Id = item.Object.Id,
+                  Uri = item.Object.Uri
+              }).ToList();
+        }
+
+        public async Task<List<Item>> GetAllPosts(int id)
+        {
+            return (await firebase
+              .Child("users")
+              .Child(id.ToString())
+              .Child("posts")
+              .OnceAsync<Item>()).Select(item => new Item
+              {
+                  Description = item.Object.Description,
+                  Text = item.Object.Text,
+                  Id = item.Object.Id,
+                  Uri = item.Object.Uri
               }).ToList();
         }
 

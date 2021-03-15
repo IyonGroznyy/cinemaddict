@@ -17,5 +17,10 @@ namespace Cinemaddict.Views
         {
             await new FirebaseHelper().UpdatePost(((ItemsDetailViewModel)BindingContext).Id, TitleEditor.Text, DescriptionEditor.Text);
         }
+        
+        private void PostImage_Clicked(object sender, System.EventArgs e)
+        {
+            
+        }
     }
 }

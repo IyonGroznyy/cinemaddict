@@ -10,6 +10,7 @@ namespace Cinemaddict.ViewModels
     {
         private string text;
         private string description;
+        private string uri;
         public int Id { get; set; }
 
         public string Text
@@ -22,6 +23,12 @@ namespace Cinemaddict.ViewModels
         {
             get => description;
             set => SetProperty(ref description, value);
+        }
+
+        public string Uri
+        {
+            get => uri;
+            set => SetProperty(ref uri, value);
         }
     }
 }
