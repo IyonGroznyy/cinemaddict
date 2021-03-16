@@ -324,7 +324,7 @@ namespace XamarinFirebase.Helper
                     Following_count = 1,
                     Id = 0,
                     PhotoUri = "https://firebasestorage.googleapis.com/v0/b/database-cinemaddict.appspot.com/o/users%2FtIIUIM4pk7VxvuLV4KEf1Q89ZXk1?alt=media&token=1bd20704-0609-45c8-887e-89c2dfa9e883",
-                    Posts_count = 0,
+                    Posts_count = Preferences.Get("Posts_count", 0),
                     Subscriptions = new List<int>() { 0 },
                     Follwers = new List<int>()
                 };
@@ -343,6 +343,7 @@ namespace XamarinFirebase.Helper
                   .Child(Preferences.Get("Id", -1).ToString())
                   .Child(toUpdatePerson.Key)
                   .PutAsync(updatePerson);
+                Util.SaveDataLocal(updatePerson);
             }
             
         }
