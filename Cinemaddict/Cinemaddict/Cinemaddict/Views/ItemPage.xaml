@@ -41,8 +41,7 @@
                         <ImageButton
                                     BackgroundColor="White"
                                     Margin="0,5,0,0"
-                                    MinimumHeightRequest ="30"
-                                    HeightRequest ="60"
+                                    HeightRequest ="35"
                                     Source="Bucket.png"
                                     Command="{Binding Source={RelativeSource AncestorType={x:Type local:ItemsViewModel}}, Path=DelItemCommand }"
                                     CommandParameter="{Binding Id}">

@@ -27,8 +27,9 @@ namespace Cinemaddict
             }
         }
 
-        protected override void OnStart()
+        protected override async void OnStart()
         {
+            Util.SaveDataLocal(await new FirebaseHelper().GetCurrentUser());
         }
 
         protected override void OnSleep()

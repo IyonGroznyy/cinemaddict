@@ -30,20 +30,18 @@ namespace Cinemaddict.Views
 
         private async void btnSubscribers_Clicked(object sender, EventArgs e)
         {
-            //await Navigation.PushAsync(new DemoFriendsPage(new FriendsViewModel(null, null , true)));
+            if (_viewModel.Friend.Follwers != null)
+            {
+                await Navigation.PushAsync(new DemoFriendsPage(_viewModel.Friend.Follwers));
+            }
         }
 
         private async void btnFollowing_Clicked(object sender, EventArgs e)
         {
-            //if(_viewModel.Friend.Subscriptions!=null)
-            //{
-            //    var users = new ObservableCollection<User>();
-            //    foreach (int id in _viewModel.Friend.Subscriptions)
-            //    {
-            //        users.Add(await new FirebaseHelper().GetUser(id));
-            //    }
-            //    await Navigation.PushAsync(new DemoFriendsPage(new FriendsViewModel(null, users, true)));
-            //}
+            if (_viewModel.Friend.Subscriptions != null)
+            {
+                await Navigation.PushAsync(new DemoFriendsPage(_viewModel.Friend.Subscriptions));
+            }
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Cinemaddict.Services
         {
             var clearArray = array.ToList();
             clearArray.RemoveAll(x => x == "");
-            if (clearArray.Count < 2)
+            if (clearArray.Count < 1)
             {
                 return new List<int>();
             }

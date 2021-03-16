@@ -19,7 +19,7 @@
                 SelectionMode="None">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <FlexLayout Padding="10" Direction="Row" JustifyContent="SpaceBetween" x:DataType="model:User">
+                    <FlexLayout Padding="10" Direction="Row" JustifyContent="SpaceBetween" x:DataType="model:LocalUser">
                         <StackLayout WidthRequest="260">
                             <Label Text="{Binding DisplayName}" 
                                        LineBreakMode="NoWrap" 
@@ -53,7 +53,7 @@
                                                         ConverterParameter={x:Reference SubscribeButton} ,Path=ButtonSubCol}"
                             
                                     Command="{Binding Source={RelativeSource AncestorType={x:Type local:FriendsViewModel}}, Path=SubUserCommand }"
-                                    CommandParameter="{Binding Id}">
+                                    CommandParameter="{Binding LocalIdAndId}">
                         </Button>
                     </FlexLayout>
                 </DataTemplate>

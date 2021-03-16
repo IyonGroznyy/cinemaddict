@@ -14,7 +14,7 @@ namespace Cinemaddict.Views
     public partial class FriendsPage : ContentPage
     {
         FriendsViewModel _viewModel;
-        static FriendsViewModel FriendsViewModel = new FriendsViewModel(null);
+        //static FriendsViewModel FriendsViewModel = new FriendsViewModel(null);
         public FriendsPage()
         {
             InitializeComponent();

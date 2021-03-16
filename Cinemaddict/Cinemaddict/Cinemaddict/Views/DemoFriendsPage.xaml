@@ -11,14 +11,13 @@
             <model:SubscribeTextConverter x:Key="SubscribeTextConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
-    
-    <ContentPage.Content>
+    <RefreshView x:DataType="local:DemoFriendsViewModel" Command="{Binding LoadUserCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
         <CollectionView x:Name="ItemsListView"
                 ItemsSource="{Binding Users}"
                 SelectionMode="None">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <FlexLayout Padding="10" Direction="Row" JustifyContent="SpaceBetween" x:DataType="model:User">
+                    <FlexLayout Padding="10" Direction="Row" JustifyContent="SpaceBetween" x:DataType="model:LocalUser">
                         <StackLayout WidthRequest="260">
                             <Label Text="{Binding DisplayName}" 
                                        LineBreakMode="NoWrap" 
@@ -31,7 +30,7 @@
                             <StackLayout.GestureRecognizers>
                                 <TapGestureRecognizer 
                                             NumberOfTapsRequired="1"
-                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:FriendsViewModel}}, Path=UserTapped}"		
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:DemoFriendsViewModel}}, Path=UserTapped}"		
                                             CommandParameter="{Binding .}">
                                 </TapGestureRecognizer>
                             </StackLayout.GestureRecognizers>
@@ -41,22 +40,22 @@
                                     Margin="0,5,0,0"
                                     HeightRequest="40"
                                     WidthRequest="120"
-                                    Text="{Binding Source={RelativeSource AncestorType={x:Type local:FriendsViewModel}},
+                                    Text="{Binding Source={RelativeSource AncestorType={x:Type local:DemoFriendsViewModel}},
                                                         UpdateSourceEventName=PropertyChanged,
                                                         Converter={StaticResource SubscribeTextConverter},  
                                                         ConverterParameter={x:Reference SubscribeButton} ,Path=ButtonSubCol}"
                             
-                                    BackgroundColor ="{Binding Source={RelativeSource AncestorType={x:Type local:FriendsViewModel}},
+                                    BackgroundColor ="{Binding Source={RelativeSource AncestorType={x:Type local:DemoFriendsViewModel}},
                                                         UpdateSourceEventName=PropertyChanged,
                                                         Converter={StaticResource SubscribeColorConverter},  
                                                         ConverterParameter={x:Reference SubscribeButton} ,Path=ButtonSubCol}"
                             
-                                    Command="{Binding Source={RelativeSource AncestorType={x:Type local:FriendsViewModel}}, Path=SubUserCommand }"
-                                    CommandParameter="{Binding Id}">
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type local:DemoFriendsViewModel}}, Path=SubUserCommand }"
+                                    CommandParameter="{Binding LocalIdAndId}">
                         </Button>
                     </FlexLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-    </ContentPage.Content>
+    </RefreshView>
 </ContentPage>

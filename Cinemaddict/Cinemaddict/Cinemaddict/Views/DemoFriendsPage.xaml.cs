@@ -14,13 +14,12 @@ namespace Cinemaddict.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class DemoFriendsPage : ContentPage
     {
-        internal FriendsViewModel _viewModel;
-        static FriendsViewModel FriendsViewModel = new FriendsViewModel(null);
-        public DemoFriendsPage(FriendsViewModel friendsViewModel)
+        internal DemoFriendsViewModel _viewModel;
+        //static DemoFriendsViewModel FriendsViewModel = new DemoFriendsViewModel(null,null);
+        public DemoFriendsPage(List<int> usersIds)
         {
             InitializeComponent();
-            friendsViewModel.Navigation = Navigation;
-            BindingContext = _viewModel = friendsViewModel;
+            BindingContext = _viewModel = new DemoFriendsViewModel(Navigation,usersIds);
         }
 
         protected override void OnAppearing()

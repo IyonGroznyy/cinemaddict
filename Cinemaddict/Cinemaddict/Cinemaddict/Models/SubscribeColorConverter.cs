@@ -12,7 +12,8 @@ namespace Cinemaddict.Models
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return ((ObservableCollection<Color>)value)[(int)(parameter as Button).CommandParameter];
+            int localId = ((parameter as Button).CommandParameter as Tuple<int, int>).Item2;
+            return ((ObservableCollection<Color>)value)[localId];
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -25,7 +26,8 @@ namespace Cinemaddict.Models
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if(((ObservableCollection<Color>)value)[(int)(parameter as Button).CommandParameter] == Color.Blue)
+            int localId = ((parameter as Button).CommandParameter as Tuple<int, int>).Item2;
+            if (((ObservableCollection<Color>)value)[localId] == Color.Blue)
             {
                 return "Subcribe";
             }
