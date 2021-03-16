@@ -22,7 +22,7 @@
                                    HorizontalOptions="Center"
                                    Padding="0"
                                    IsClippedToBounds="True">
-                                    <ImageButton x:Name="image"
+                                    <ImageButton x:Name="imag2e"
                                              Source="{Binding AuthorPhotoUri}"/>
                                 </Frame>
                                 <Label Margin="20" Text="{Binding AuthorDisplayName}" FontSize="Medium"/>
