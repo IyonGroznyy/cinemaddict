@@ -1,24 +1,23 @@
 ﻿using Cinemaddict.Models;
+using Cinemaddict.Services;
 using Cinemaddict.Views;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using XamarinFirebase.Helper;
-using System.Linq;
-using System.Collections.Generic;
-using Cinemaddict.Services;
-using System.Collections.Specialized;
-using Xamarin.Essentials;
 
 namespace Cinemaddict.ViewModels
 {
-    public class FriendsViewModel : BaseViewModel
+    public class DemoFriendsViewModel : BaseViewModel
     {
-
         private User _selectedUser;
         private User _currentUser;
+        private List<int> _showUserIds;
         public ObservableCollection<LocalUser> Users { get; }
         public Command LoadUserCommand { get; }
         public Command AddUserCommand { get; }
@@ -26,24 +25,48 @@ namespace Cinemaddict.ViewModels
         public Command<User> UserTapped { get; }
         public INavigation Navigation { set; get; }
         public ObservableCollection<Color> ButtonSubCol { set; get; }
-        public FriendsViewModel(INavigation pNavigation)
+        public User SelectedUser
+        {
+            get => _selectedUser;
+            set
+            {
+                SetProperty(ref _selectedUser, value);
+                OnUserSelected(value);
+            }
+        }
+        public DemoFriendsViewModel(INavigation pNavigation, List<int> showUserIds)
         {
             Title = "My Friends";
+            _showUserIds = showUserIds;
             GetCurrentUser();
             Navigation = pNavigation;
             Users = new ObservableCollection<LocalUser>();
             ButtonSubCol = new ObservableCollection<Color>();
             LoadUserCommand = new Command(async () => await ExecuteLoadUsersCommand());
             UserTapped = new Command<User>(OnUserSelected);
-            SubUserCommand = new Command<Tuple<int,int>>(OnSubscribeUser);
+            SubUserCommand = new Command<Tuple<int, int>>(OnSubscribeUser);
             AddUserCommand = new Command(OnAddUser);
+            if (pNavigation != null)
+            {
+                var existingPages = pNavigation.NavigationStack.ToList();
+
+                foreach (var page in existingPages)
+                {
+                    Navigation.RemovePage(page);
+                }
+            }
+                
         }
 
-        void SubButtonsRefresh()
+        async void SubButtonsRefresh()
         {
             var tempList = new ObservableCollection<Color>();
             foreach (var user in Users)
             {
+                if(_currentUser == null)
+                {
+                    await GetCurrentUserAsync();
+                }
                 if (_currentUser.Subscriptions.Exists(x => x == (int)user.Id))
                 {
                     tempList.Add(Color.Gray);
@@ -62,7 +85,12 @@ namespace Cinemaddict.ViewModels
 
             try
             {
-                var usersDB = await new FirebaseHelper().GetAllUsers();
+                var usersDB = new List<User>();
+                foreach (int id in _showUserIds)
+                {
+                    usersDB.Add(await new FirebaseHelper().GetUser(id));
+                }
+                 
                 lock (Users)
                 {
                     Users.Clear();
@@ -77,7 +105,7 @@ namespace Cinemaddict.ViewModels
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
+ 
             }
             finally
             {
@@ -96,20 +124,12 @@ namespace Cinemaddict.ViewModels
             _currentUser = await new FirebaseHelper().GetCurrentUser();
         }
 
-        private async void GetCurrentUser()
+        private void GetCurrentUser()
         {
-            _currentUser = await new FirebaseHelper().GetCurrentUser();
+            _currentUser = Util.GetDataLocal();
         }
 
-        public User SelectedUser
-        {
-            get => _selectedUser;
-            set
-            {
-                SetProperty(ref _selectedUser, value);
-                OnUserSelected(value);
-            }
-        }
+
 
         private async void OnAddUser(object obj)
         {

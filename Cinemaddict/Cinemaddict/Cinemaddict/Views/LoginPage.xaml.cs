@@ -1,9 +1,7 @@
-﻿using Cinemaddict.ViewModels;
+﻿using Cinemaddict.Models;
+using Cinemaddict.Services;
+using Cinemaddict.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -29,7 +27,7 @@ namespace Cinemaddict.Views
         {
             await Navigation.PushAsync(new SignUpPage());
         }
-        
+
 
         private async void LoginButton_Clicked(object sender, EventArgs e)
         {
@@ -38,14 +36,16 @@ namespace Cinemaddict.Views
             {
                 token = await auth.LoginWithEmailAndPassword(viewModel.Username, viewModel.Password);
             }
-            catch(Exception exx)
+            catch (Exception exx)
             {
-                
+
             }
-            
+
             if (token != string.Empty)
             {
                 Preferences.Set("token", token);
+                User user = await new FirebaseHelper().GetCurrentUser();
+                Util.SaveDataLocal(user);
                 Application.Current.MainPage = new AppShell();
             }
             else

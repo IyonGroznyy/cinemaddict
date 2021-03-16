@@ -5,7 +5,7 @@
              Shell.NavBarIsVisible="False"
              Visual="Material">
     <ContentPage.Content>
-        <StackLayout>
+        <StackLayout  Padding="10">
             <Label Text="Создание аккаунта"
                    TextColor="Black"
                    FontSize= "Large"
@@ -13,11 +13,20 @@
             <Label Text="Ваша почта будет использоваться для входа в аккаунт"
                    TextColor="Black"
                    FontSize= "Medium"
-                   Padding="10"
                    HorizontalOptions="CenterAndExpand" />
+            <Label Text="*Принимается только gmail почта"
+                   TextColor="Black"
+                   Margin="10"
+                   FontSize= "Medium"
+                   HorizontalOptions="StartAndExpand" />
             <Entry x:Name="EmailEntry"
                    Placeholder="Введите почту">
             </Entry>
+            <Label Text="Пароль должен содержать:&#10;*хотя бы 1 символ; &#10;*хотя бы одну букву; &#10;*хотя бы 8 знаков;"
+                   TextColor="Black"
+                   Margin="10"
+                   FontSize= "Medium"
+                   HorizontalOptions="StartAndExpand" />
             <Entry x:Name="PasswordEntry"
                    IsPassword="True"
                    Placeholder="Введите пароль">

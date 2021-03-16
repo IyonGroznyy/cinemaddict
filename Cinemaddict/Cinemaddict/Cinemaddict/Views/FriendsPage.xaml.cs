@@ -14,13 +14,13 @@ namespace Cinemaddict.Views
     public partial class FriendsPage : ContentPage
     {
         FriendsViewModel _viewModel;
-        static FriendsViewModel FriendsViewModel = new FriendsViewModel();
+        //static FriendsViewModel FriendsViewModel = new FriendsViewModel(null);
         public FriendsPage()
         {
             InitializeComponent();
-            BindingContext = _viewModel = new FriendsViewModel();
-            ToolbarItems.Add(tb);
-            ToolbarItems.Add(tb2);
+            BindingContext = _viewModel = new FriendsViewModel(Navigation);
+            //ToolbarItems.Add(tb);
+            //ToolbarItems.Add(tb2);
         }
         protected override void OnAppearing()
         {
@@ -28,17 +28,17 @@ namespace Cinemaddict.Views
             _viewModel.OnAppearing();
         }
 
-        ToolbarItem tb = new ToolbarItem
-        {
-            
-            Text = "ADD",
-            Order = ToolbarItemOrder.Secondary,
-            Command = FriendsViewModel.AddUserCommand
-        };
-        ToolbarItem tb2 = new ToolbarItem
-        {
-            Text = "Chose",
-            Order = ToolbarItemOrder.Secondary
-        };
+        //ToolbarItem tb = new ToolbarItem
+        //{
+
+        //    Text = "ADD",
+        //    Order = ToolbarItemOrder.Secondary,
+        //    Command = FriendsViewModel.AddUserCommand
+        //};
+        //ToolbarItem tb2 = new ToolbarItem
+        //{
+        //    Text = "Choose",
+        //    Order = ToolbarItemOrder.Secondary
+        //};
     }
 }

@@ -6,17 +6,22 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using Cinemaddict.ViewModels;
+using XamarinFirebase.Helper;
 
 namespace Cinemaddict.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class NewsDetailPage : ContentPage
+    public partial class CommandPage : ContentPage
     {
-        public NewsDetailPage(ItemsDetailViewModel newDetailViewModel)
+        FirebaseHelper firebase = new FirebaseHelper();
+        public CommandPage()
         {
             InitializeComponent();
-            BindingContext = newDetailViewModel;
+        }
+
+        private async void BtnReset_Clicked(object sender, EventArgs e)
+        {
+            await firebase.DeleteAllUser();
         }
     }
 }
