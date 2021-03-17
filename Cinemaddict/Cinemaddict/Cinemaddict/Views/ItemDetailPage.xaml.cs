@@ -1,4 +1,5 @@
-﻿using Cinemaddict.ViewModels;
+﻿using Cinemaddict.Models;
+using Cinemaddict.ViewModels;
 using System.ComponentModel;
 using Xamarin.Forms;
 using XamarinFirebase.Helper;
@@ -15,7 +16,12 @@ namespace Cinemaddict.Views
 
         private async void SaveButton_Clicked(object sender, System.EventArgs e)
         {
-            await new FirebaseHelper().UpdatePost(((ItemsDetailViewModel)BindingContext).Id, TitleEditor.Text, DescriptionEditor.Text);
+            await new FirebaseHelper().UpdatePost(new Item() 
+            { 
+                Id = ((ItemsDetailViewModel)BindingContext).Id, 
+                Text = TitleEditor.Text,
+                Description = DescriptionEditor.Text 
+            });
         }
         
         private void PostImage_Clicked(object sender, System.EventArgs e)

@@ -123,10 +123,16 @@
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\PostIm.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\DisLike.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\Like.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties TriggeredFromHotReload="False" XamarinHotReloadUnhandledDeviceExceptionCinemaddictAndroidHideInfoBar="True" XamarinHotReloadDebuggerTimeoutExceptionCinemaddictAndroidHideInfoBar="True" />
+      <UserProperties XamarinHotReloadDebuggerTimeoutExceptionCinemaddictAndroidHideInfoBar="True" XamarinHotReloadUnhandledDeviceExceptionCinemaddictAndroidHideInfoBar="True" TriggeredFromHotReload="False" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

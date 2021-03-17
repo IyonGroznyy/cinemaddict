@@ -27,7 +27,7 @@ namespace Cinemaddict
             }
         }
 
-        protected override async void OnStart()
+        protected override void OnStart()
         {
         }
 

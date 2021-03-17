@@ -13,8 +13,8 @@ namespace Cinemaddict.Views
         {
             InitializeComponent();
             BindingContext = _viewModel = new NewsItemsViewModel(Navigation);
+            
         }
-
         protected override void OnAppearing()
         {
             base.OnAppearing();

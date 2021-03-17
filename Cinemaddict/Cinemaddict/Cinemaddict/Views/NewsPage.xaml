@@ -6,6 +6,12 @@
              xmlns:local="clr-namespace:Cinemaddict.ViewModels"  
              xmlns:model="clr-namespace:Cinemaddict.Models"  
              x:Name="NewsItemsPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <model:LikeLabelConverter x:Key="LikeLabelConverter" />
+            <model:LikeImageConverter x:Key="LikeImageConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
     <RefreshView x:DataType="local:NewsItemsViewModel" Command="{Binding LoadItemsCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
         <CollectionView x:Name="ItemsListView"
@@ -17,45 +23,89 @@
                         <StackLayout>
                             <FlexLayout AlignItems="Center">
                                 <Frame CornerRadius="100" 
-                                   HeightRequest="50"
-                                   WidthRequest="50"
-                                   HorizontalOptions="Center"
-                                   Padding="0"
-                                   IsClippedToBounds="True">
+                                           HeightRequest="50"
+                                           WidthRequest="50"
+                                           HorizontalOptions="Center"
+                                           Padding="0"
+                                           IsClippedToBounds="True">
                                     <ImageButton x:Name="imag2e"
                                              Source="{Binding AuthorPhotoUri}"/>
                                 </Frame>
                                 <Label Margin="20" Text="{Binding AuthorDisplayName}" FontSize="Medium"/>
                             </FlexLayout>
                         </StackLayout>
-                        <StackLayout WidthRequest="350" Padding="20" BackgroundColor="Azure" IsClippedToBounds ="True">
-                            <Label Text="{Binding Text}" 
+                        <Frame CornerRadius="50" BackgroundColor="Azure">
+                            <StackLayout WidthRequest="350" Padding="20" IsClippedToBounds ="True">
+                                <Label Text="{Binding Text}" 
                                        LineBreakMode="NoWrap" 
                                        TextColor="Black" 
                                        FontSize="16" />
-                            <Label x:Name="lblDescription" 
+                                <Label x:Name="lblDescription" 
                                        Text="{Binding Description}" 
                                        LineBreakMode="TailTruncation"
                                        TextColor="Black"
                                        Margin="5"
                                        FontSize="13" >
-                                <Label.GestureRecognizers>
-                                    <TapGestureRecognizer 
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer 
                                             NumberOfTapsRequired="1"
                                             Command="{Binding Source={RelativeSource AncestorType={x:Type local:NewsItemsViewModel}}, Path=LabelItemTapped}"		
                                             CommandParameter="{Reference lblDescription}">
-                                    </TapGestureRecognizer>
-                                </Label.GestureRecognizers>
-                            </Label>
-                            <Image BackgroundColor="Azure" Source="{Binding Uri}" HeightRequest="250" Margin="0,20,0,0"/>
-                            <StackLayout.GestureRecognizers>
-                                <TapGestureRecognizer 
+                                        </TapGestureRecognizer>
+                                    </Label.GestureRecognizers>
+                                </Label>
+                                <Image BackgroundColor="Azure" 
+                                       Source="{Binding Uri}" 
+                                       HeightRequest="250" 
+                                       Margin="0,20,0,20"/>
+                                <Label
+                                    Text="{Binding Source={x:Reference Name=LikeButton},
+                                                UpdateSourceEventName=PropertyChanged,
+                                                Converter={StaticResource LikeLabelConverter}, 
+                                                ConverterParameter={x:Reference LikeButton},
+                                                Path=CommandParameter}"/>
+                                <ImageButton x:Name="LikeButton"
+                                    BackgroundColor="Azure"
+                                    HorizontalOptions="StartAndExpand"
+                                    Source="{Binding Source={RelativeSource AncestorType={x:Type local:NewsItemsViewModel}},
+                                                        UpdateSourceEventName=PropertyChanged,
+                                                        Converter={StaticResource LikeImageConverter},  
+                                                        ConverterParameter={x:Reference LikeButton},Path=LikeImage}" 
+                                    HeightRequest="60"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type local:NewsItemsViewModel}}, Path=LikeCommand }"
+                                    CommandParameter="{Binding LikeInfo}">
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroup x:Name="CommonStates">
+                                            <VisualState x:Name="Normal">
+                                                <VisualState.Setters>
+                                                    <Setter Property="Scale"
+                                                            Value="1" />
+                                                    <Setter Property="BackgroundColor"
+                                                            Value="#00ffffff" />
+                                                </VisualState.Setters>
+                                            </VisualState>
+
+                                            <VisualState x:Name="Pressed">
+                                                <VisualState.Setters>
+                                                    <Setter Property="Scale"
+                                                            Value="1.2" />
+                                                    <Setter Property="BackgroundColor"
+                                                            Value="#00ffffff" />
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateManager.VisualStateGroups>
+                                </ImageButton>
+                                
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer 
                                             NumberOfTapsRequired="2"
                                             Command="{Binding Source={RelativeSource AncestorType={x:Type local:NewsItemsViewModel}}, Path=ItemTapped}"		
                                             CommandParameter="{Binding .}">
-                                </TapGestureRecognizer>
-                            </StackLayout.GestureRecognizers>
-                        </StackLayout>
+                                    </TapGestureRecognizer>
+                                </StackLayout.GestureRecognizers>
+                            </StackLayout>
+                        </Frame>
                     </FlexLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
