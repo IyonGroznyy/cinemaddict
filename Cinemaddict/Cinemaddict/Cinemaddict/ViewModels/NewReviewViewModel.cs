@@ -2,10 +2,7 @@
 using Plugin.Media;
 using Plugin.Media.Abstractions;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
-using System.Windows.Input;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using XamarinFirebase.Helper;
@@ -15,7 +12,7 @@ namespace Cinemaddict.ViewModels
     public class NewReviewViewModel : BaseViewModel
     {
         MediaFile file;
-        private string text;
+        private string title;
         private string description;
         private string uri;
         FirebaseHelper firebaseHelper = new FirebaseHelper();
@@ -29,14 +26,14 @@ namespace Cinemaddict.ViewModels
 
         private bool ValidateSave()
         {
-            return !String.IsNullOrWhiteSpace(text)
+            return !String.IsNullOrWhiteSpace(title)
                 && !String.IsNullOrWhiteSpace(description);
         }
 
-        public string Text
+        public string TitleText
         {
-            get => text;
-            set => SetProperty(ref text, value);
+            get => title;
+            set => SetProperty(ref title, value);
         }
 
         public string Description
@@ -87,10 +84,10 @@ namespace Cinemaddict.ViewModels
 
         private async void OnSave()
         {
-            Item newItem = new Item()
+            Post newItem = new Post()
             {
                 Id = Preferences.Get("Posts_count", 0),
-                Text = Text,
+                TitleText = TitleText,
                 Description = Description,
                 Uri = Uri
             };

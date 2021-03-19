@@ -6,7 +6,7 @@
     <ScrollView>
         <StackLayout Spacing="20" Padding="15">
             <Label Text="Title:" FontSize="Medium" />
-            <Label Text="{Binding Text}" FontSize="Small"/>
+            <Label Text="{Binding TitleText}" FontSize="Small"/>
             <Label Text="Description:" FontSize="Medium" />
             <Label Text="{Binding Description}" FontSize="Small"/>
             <Image  BackgroundColor="White" Source="{Binding Uri}" HeightRequest="250"/>

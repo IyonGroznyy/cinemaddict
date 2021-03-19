@@ -8,7 +8,7 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <model:SubscribeColorConverter x:Key="SubscribeColorConverter" />
-            <model:SubscribeTextConverter x:Key="SubscribeTextConverter" />
+            <model:SubscribeTitleConverter x:Key="SubscribeTitleConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
     <RefreshView x:DataType="local:DemoFriendsViewModel" Command="{Binding LoadUserCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
@@ -21,7 +21,7 @@
                         <StackLayout WidthRequest="260">
                             <Label Text="{Binding DisplayName}" 
                                        LineBreakMode="NoWrap" 
-                                       Style="{DynamicResource ListItemTextStyle}" 
+                                       Style="{DynamicResource ListItemTitleStyle}" 
                                        FontSize="16" />
                             <Label Text="{Binding About}" 
                                        LineBreakMode="NoWrap"
@@ -42,7 +42,7 @@
                                     WidthRequest="120"
                                     Text="{Binding Source={RelativeSource AncestorType={x:Type local:DemoFriendsViewModel}},
                                                         UpdateSourceEventName=PropertyChanged,
-                                                        Converter={StaticResource SubscribeTextConverter},  
+                                                        Converter={StaticResource SubscribeTitleConverter},  
                                                         ConverterParameter={x:Reference SubscribeButton} ,Path=ButtonSubCol}"
                             
                                     BackgroundColor ="{Binding Source={RelativeSource AncestorType={x:Type local:DemoFriendsViewModel}},

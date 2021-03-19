@@ -43,8 +43,8 @@
                                 SelectionMode="None">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
-                                <StackLayout WidthRequest="350" Padding="20" x:DataType="model:Item" BackgroundColor="Azure" IsClippedToBounds ="True">
-                                    <Label Text="{Binding Text}" 
+                                <StackLayout WidthRequest="350" Padding="20" x:DataType="model:Post" BackgroundColor="Azure" IsClippedToBounds ="True">
+                                    <Label Text="{Binding TitleText}" 
                                        LineBreakMode="NoWrap" 
                                        TextColor="Black"
                                        FontSize="16" />

@@ -3,14 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Cinemaddict.Views.NewItemPage"
              Shell.PresentationMode="ModalAnimated"
-             Title="New Item"
+             Title="New Post"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
              ios:Page.UseSafeArea="true">
     <ContentPage.Content>
         <ScrollView>
             <StackLayout Spacing="3" Padding="15">
-                <Label Text="Text" FontSize="Medium" />
-                <Entry Text="{Binding Text, Mode=TwoWay}" FontSize="Medium" />
+                <Label Text="Title" FontSize="Medium" />
+                <Entry Text="{Binding TitleText, Mode=TwoWay}" FontSize="Medium" />
                 <Label Text="Description" FontSize="Medium" />
                 <Editor Text="{Binding Description, Mode=TwoWay}" AutoSize="TextChanges" FontSize="Medium" Margin="0" />
                 <ImageButton x:Name="PostImage" BackgroundColor="White" Source="{Binding Uri}" Clicked="PostImage_Clicked" HeightRequest="250"/>

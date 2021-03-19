@@ -6,27 +6,27 @@ using System.Threading.Tasks;
 
 namespace Cinemaddict.Services
 {
-    public class MockDataStore : IDataStore<Item>
+    public class MockDataStore : IDataStore<Post>
     {
-        readonly List<Item> items;
+        readonly List<Post> items;
 
         public MockDataStore()
         {
-            items = new List<Item>()
+            items = new List<Post>()
             {
             };
         }
 
-        public async Task<bool> AddItemAsync(Item item)
+        public async Task<bool> AddItemAsync(Post item)
         {
             items.Add(item);
 
             return await Task.FromResult(true);
         }
 
-        public async Task<bool> UpdateItemAsync(Item item)
+        public async Task<bool> UpdateItemAsync(Post item)
         {
-            var oldItem = items.Where((Item arg) => arg.Id == item.Id).FirstOrDefault();
+            var oldItem = items.Where((Post arg) => arg.Id == item.Id).FirstOrDefault();
             items.Remove(oldItem);
             items.Add(item);
 
@@ -35,18 +35,18 @@ namespace Cinemaddict.Services
 
         public async Task<bool> DeleteItemAsync(string id)
         {
-            var oldItem = items.Where((Item arg) => arg.Id.ToString() == id).FirstOrDefault();
+            var oldItem = items.Where((Post arg) => arg.Id.ToString() == id).FirstOrDefault();
             items.Remove(oldItem);
 
             return await Task.FromResult(true);
         }
 
-        public async Task<Item> GetItemAsync(string id)
+        public async Task<Post> GetItemAsync(string id)
         {
             return await Task.FromResult(items.FirstOrDefault(s => s.Id.ToString() == id));
         }
 
-        public async Task<IEnumerable<Item>> GetItemsAsync(bool forceRefresh = false)
+        public async Task<IEnumerable<Post>> GetItemsAsync(bool forceRefresh = false)
         {
             return await Task.FromResult(items);
         }

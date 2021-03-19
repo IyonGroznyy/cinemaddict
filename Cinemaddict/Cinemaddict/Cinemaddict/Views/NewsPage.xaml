@@ -34,9 +34,10 @@
                                 <Label Margin="20" Text="{Binding AuthorDisplayName}" FontSize="Medium"/>
                             </FlexLayout>
                         </StackLayout>
-                        <Frame CornerRadius="50" BackgroundColor="Azure">
+                        <Frame CornerRadius="30" 
+                               BackgroundColor="Azure">
                             <StackLayout WidthRequest="350" Padding="20" IsClippedToBounds ="True">
-                                <Label Text="{Binding Text}" 
+                                <Label Text="{Binding TitleText}" 
                                        LineBreakMode="NoWrap" 
                                        TextColor="Black" 
                                        FontSize="16" />

@@ -1,9 +1,7 @@
-﻿using Cinemaddict.Services;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
-using System.Text;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -71,7 +69,7 @@ namespace Cinemaddict.Models
         }
     }
 
-    public class SubscribeTextConverter : IValueConverter
+    public class SubscribeTitleConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

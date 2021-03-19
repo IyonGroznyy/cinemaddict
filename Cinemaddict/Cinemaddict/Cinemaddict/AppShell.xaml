@@ -144,7 +144,7 @@
     <Shell.MenuItemTemplate>
         <DataTemplate>
             <ContentView>
-                Bindable Properties: Text, Icon
+                Bindable Properties: Title, Icon
             </ContentView>
         </DataTemplate>
     </Shell.MenuItemTemplate>

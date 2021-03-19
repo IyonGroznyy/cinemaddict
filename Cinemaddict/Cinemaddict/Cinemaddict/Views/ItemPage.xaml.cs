@@ -1,14 +1,5 @@
-﻿using Cinemaddict.Models;
-using Cinemaddict.ViewModels;
-using Cinemaddict.Views;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Cinemaddict.ViewModels;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace Cinemaddict.Views
 {
@@ -42,7 +33,7 @@ namespace Cinemaddict.Views
         };
         //ToolbarItem tb2 = new ToolbarItem
         //{
-        //    Text = "Choose",
+        //    Title = "Choose",
         //    Order = ToolbarItemOrder.Secondary
         //};
     }

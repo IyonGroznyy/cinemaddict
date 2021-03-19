@@ -5,13 +5,28 @@
              Title="{Binding Title}">
 
     <ScrollView>
-        <StackLayout Spacing="20" Padding="15">
-            <Label Text="Title:" FontSize="Medium" />
-            <Editor x:Name="TitleEditor" Text="{Binding Text}" FontSize="Small"/>
-            <Label Text="Description:" FontSize="Medium" />
-            <Editor x:Name="DescriptionEditor" Text="{Binding Description}" FontSize="Small"/>
-            <ImageButton x:Name="PostImage" BackgroundColor="White" Source="{Binding Uri}" Clicked="PostImage_Clicked" HeightRequest="250"/>
-            <Button x:Name="SaveButton" Margin="0,0,0,20" VerticalOptions="EndAndExpand" Text="Save" Clicked="SaveButton_Clicked"/>
+        <StackLayout Spacing="20" 
+                     Padding="15">
+            <Label Text="Title:"
+                   FontSize="Medium" />
+            <Editor x:Name="TitleEditor"
+                    Text="{Binding TitleText}" 
+                    FontSize="Small"/>
+            <Label Text="Description:"
+                   FontSize="Medium" />
+            <Editor x:Name="DescriptionEditor"
+                    Text="{Binding Description}"
+                    FontSize="Small"/>
+            <ImageButton x:Name="PostImage"
+                         BackgroundColor="White"
+                         Source="{Binding Uri}" 
+                         Clicked="PostImage_Clicked" 
+                         HeightRequest="250"/>
+            <Button x:Name="SaveButton" 
+                    Margin="0,0,0,20" 
+                    VerticalOptions="EndAndExpand" 
+                    Text="Save" 
+                    Clicked="SaveButton_Clicked"/>
         </StackLayout>
     </ScrollView>
 

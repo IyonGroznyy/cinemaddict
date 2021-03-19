@@ -12,21 +12,21 @@ namespace Cinemaddict.ViewModels
 {
     public class ItemsViewModel : BaseViewModel
     {
-        private Item _selectedItem;
-        public ObservableCollection<Item> Items { get; }
+        private Post _selectedItem;
+        public ObservableCollection<Post> Items { get; }
         public Command LoadItemsCommand { get; }
         public Command AddItemCommand { get; }
         public Command<int> DelItemCommand { get; }
-        public Command<Item> ItemTapped { get; }
+        public Command<Post> ItemTapped { get; }
         public INavigation Navigation { set; get; }
 
         public ItemsViewModel(INavigation pNavigation)
         {
             Title = "My posts";
             Navigation = pNavigation;
-            Items = new ObservableCollection<Item>();
+            Items = new ObservableCollection<Post>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
-            ItemTapped = new Command<Item>(OnItemSelected);
+            ItemTapped = new Command<Post>(OnItemSelected);
 
             DelItemCommand = new Command<int>(OnDelItem);
 
@@ -62,7 +62,7 @@ namespace Cinemaddict.ViewModels
             SelectedItem = null;
         }
 
-        public Item SelectedItem
+        public Post SelectedItem
         {
             get => _selectedItem;
             set
@@ -82,11 +82,11 @@ namespace Cinemaddict.ViewModels
             Items.Remove(Items.Where(x => x.Id == id).FirstOrDefault());
             await new FirebaseHelper().DeletePost(id);
         }
-        async void OnItemSelected(Item item)
+        async void OnItemSelected(Post item)
         {
             if (item == null)
                 return;
-            await Navigation.PushAsync(new ItemDetailPage(new ItemsDetailViewModel() { Description = item.Description, Text = item.Text, Uri = item.Uri}));
+            await Navigation.PushAsync(new ItemDetailPage(new ItemsDetailViewModel() { Description = item.Description, TitleText = item.TitleText, Uri = item.Uri}));
             // This will push the ItemDetailPage onto the navigation stack
             //await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemsDetailViewModel.ItemId)}={item.Id}");
         }

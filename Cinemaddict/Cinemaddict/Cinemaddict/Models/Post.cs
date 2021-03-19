@@ -6,21 +6,21 @@ using System.Reflection;
 
 namespace Cinemaddict.Models
 {
-    public class Item
+    public class Post
     {
         public int Id { get; set; }
-        public string Text { get; set; }
+        public string TitleText { get; set; }
         public string Description { get; set; }
-        public string Uri { get; set; }
-        public string RepostDecription { get; set; }
-        public Tuple<int,List<int>> LikesAndOwners { get; set; }
+        public string Uri { get; set; }     // Сделать заглушку, когда нет изображения в базе
+        public string RepostDecription { get; set; }       // Future feature
+        public Tuple<int,List<int>> LikesAndOwners { get; set; }        // item1 - кличевство лайков, item2 - список ID пользователей, поставивших лайк
 
-        public Item()
+        public Post()
         {
 
         }
 
-        public Item(Item item)
+        public Post(Post item)
         {
             List<object> firstObjs = item.GetType()
                                         .GetProperties(BindingFlags.Public | BindingFlags.Instance)
@@ -34,22 +34,22 @@ namespace Cinemaddict.Models
             }
         }
 
-        public Item(FirebaseObject<Item> item)
+        public Post(FirebaseObject<Post> item)
         {
             Description = item.Object.Description;
-            Text = item.Object.Text;
+            TitleText = item.Object.TitleText;
             Id = item.Object.Id;
             Uri = item.Object.Uri;
             RepostDecription = item.Object.RepostDecription;
             LikesAndOwners = item.Object.LikesAndOwners;
         }
 
-        public void CopyAndReplace(Item item) // Тут должны быть заполнены только те поля , что надо изменить в this экземпляре
+        public void CopyAndReplace(Post item) // Тут должны быть заполнены только те поля , что надо изменить в this экземпляре
         {
             if(item.Description!=null)
                 Description = item.Description;
-            if (item.Text != null)
-                Text = item.Text;
+            if (item.TitleText != null)
+                TitleText = item.TitleText;
             if (item.Uri != null)
                 Uri = item.Uri;
             if (item.RepostDecription != null)

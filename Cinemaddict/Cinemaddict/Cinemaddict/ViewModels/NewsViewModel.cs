@@ -12,11 +12,11 @@ namespace Cinemaddict.ViewModels
         public NewsViewModel()
         {
             Title = "News";
-            CategoriesList = new ObservableCollection<Item>();
+            CategoriesList = new ObservableCollection<Post>();
         }
 
-        private ObservableCollection<Item> _Categories;
-        public ObservableCollection<Item> CategoriesList
+        private ObservableCollection<Post> _Categories;
+        public ObservableCollection<Post> CategoriesList
         {
             get
             {

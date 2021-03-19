@@ -4,7 +4,6 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -17,7 +16,7 @@ namespace Cinemaddict.ViewModels
         private LocalPost _selectedItem;
         public ObservableCollection<LocalPost> Items { get; }
         public Command LoadItemsCommand { get; }
-        public Command<Item> ItemTapped { get; }
+        public Command<Post> ItemTapped { get; }
         public Command<Tuple<int, Tuple<int, List<int>>>> LikeCommand { get; }
         public INavigation Navigation { set; get; }
         public Command<Label> LabelItemTapped { get; }
@@ -46,7 +45,7 @@ namespace Cinemaddict.ViewModels
             LikeImage = "DisLike.png";
             Items = new ObservableCollection<LocalPost>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
-            ItemTapped = new Command<Item>(OnItemSelected);
+            ItemTapped = new Command<Post>(OnItemSelected);
             LabelItemTapped = new Command<Label>(OnLabelTap);
             LikeCommand = new Command<Tuple<int, Tuple<int, List<int>>>>(OnLikeTap);
         }
@@ -127,7 +126,7 @@ namespace Cinemaddict.ViewModels
             }       
             await new FirebaseHelper().UpdatePost(
                 new LocalPost(
-                            new Item() 
+                            new Post() 
                             { 
                                 LikesAndOwners = likesAndOwners
                             }) 
@@ -137,12 +136,12 @@ namespace Cinemaddict.ViewModels
             await ExecuteLoadItemsCommand();
         }
 
-        async void OnItemSelected(Item item)
+        async void OnItemSelected(Post item)
         {
             if (item == null)
                 return;
             // This will push the ItemDetailPage onto the navigation stack
-            await Navigation.PushAsync(new NewsDetailPage(new ItemsDetailViewModel() { Description = item.Description, Text = item.Text , Uri = item.Uri}));
+            await Navigation.PushAsync(new NewsDetailPage(new ItemsDetailViewModel() { Description = item.Description, TitleText = item.TitleText, Uri = item.Uri}));
         }
     }
 }

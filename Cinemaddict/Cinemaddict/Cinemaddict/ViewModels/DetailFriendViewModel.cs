@@ -1,8 +1,6 @@
 ﻿using Cinemaddict.Models;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using XamarinFirebase.Helper;
@@ -32,11 +30,11 @@ namespace Cinemaddict.ViewModels
             }
         }
 
-        public ObservableCollection<Item> Posts { get; }
+        public ObservableCollection<Post> Posts { get; }
 
         public DetailFriendViewModel()
         {
-            Posts = new ObservableCollection<Item>();
+            Posts = new ObservableCollection<Post>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
             LabelItemTapped = new Command<Label>(OnLabelTap);
         }

@@ -5,9 +5,6 @@ using Plugin.Media.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -61,7 +58,7 @@ namespace Cinemaddict.Views
         {
             if(string.IsNullOrEmpty(NameEntry.Text) || string.IsNullOrEmpty(AboutEntry.Text))
             {
-                await DisplayAlert("Authentication Failed", "Name or About text are incorrect. Try again!", "OK");
+                await DisplayAlert("Authentication Failed", "Name or About Title are incorrect. Try again!", "OK");
                 return;
             }
             string token = "";

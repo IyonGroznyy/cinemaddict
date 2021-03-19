@@ -1,22 +1,16 @@
-﻿using Cinemaddict.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Xamarin.Forms;
-
-namespace Cinemaddict.ViewModels
+﻿namespace Cinemaddict.ViewModels
 {
     public class ItemsDetailViewModel : BaseViewModel
     {
-        private string text;
+        private string title;
         private string description;
         private string uri;
         public int Id { get; set; }
 
-        public string Text
+        public string TitleText
         {
-            get => text;
-            set => SetProperty(ref text, value);
+            get => title;
+            set => SetProperty(ref title, value);
         }
 
         public string Description

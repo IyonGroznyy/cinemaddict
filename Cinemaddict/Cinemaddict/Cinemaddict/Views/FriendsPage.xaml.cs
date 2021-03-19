@@ -1,9 +1,4 @@
 ﻿using Cinemaddict.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -31,13 +26,13 @@ namespace Cinemaddict.Views
         //ToolbarItem tb = new ToolbarItem
         //{
 
-        //    Text = "ADD",
+        //    Title = "ADD",
         //    Order = ToolbarItemOrder.Secondary,
         //    Command = FriendsViewModel.AddUserCommand
         //};
         //ToolbarItem tb2 = new ToolbarItem
         //{
-        //    Text = "Choose",
+        //    Title = "Choose",
         //    Order = ToolbarItemOrder.Secondary
         //};
     }

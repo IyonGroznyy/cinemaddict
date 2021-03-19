@@ -1,15 +1,8 @@
-﻿using Cinemaddict.Models;
-using Cinemaddict.ViewModels;
+﻿using Cinemaddict.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using XamarinFirebase.Helper;
 
 namespace Cinemaddict.Views
 {

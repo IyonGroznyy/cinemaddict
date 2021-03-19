@@ -16,11 +16,11 @@ namespace Cinemaddict.Views
 
         private async void SaveButton_Clicked(object sender, System.EventArgs e)
         {
-            await new FirebaseHelper().UpdatePost(new Item() 
+            await new FirebaseHelper().UpdatePost(new Post() 
             { 
-                Id = ((ItemsDetailViewModel)BindingContext).Id, 
-                Text = TitleEditor.Text,
-                Description = DescriptionEditor.Text 
+                Id = ((ItemsDetailViewModel)BindingContext).Id,
+                TitleText = TitleEditor.Text,
+                Description = DescriptionEditor.Text
             });
         }
         

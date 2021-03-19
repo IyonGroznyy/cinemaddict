@@ -1,9 +1,7 @@
 ﻿using Firebase.Database;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 
 namespace Cinemaddict.Models
 {
@@ -74,7 +72,7 @@ namespace Cinemaddict.Models
                     {
                         List<int> currArr = (List<int>)current.GetValue(this);
                         List<int> sendArr = (List<int>)firstObjs[i];
-                        if(currArr.Exists(x => sendArr.Find(y => x.Equals(y)) > 0 ? true : false))
+                        if(currArr.Exists(x => sendArr.Find(y => x.Equals(y)) > 0))
                         {
                             sendArr.ForEach(x => currArr.Remove(x));
                         }

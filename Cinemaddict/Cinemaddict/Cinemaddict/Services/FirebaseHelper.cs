@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Firebase.Database;
 using Firebase.Database.Query;
 using System.Linq;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using Cinemaddict.Models;
-using Xamarin.Forms;
 using System.IO;
 using Firebase.Storage;
 using Xamarin.Essentials;
@@ -120,31 +117,31 @@ namespace XamarinFirebase.Helper
                           .Child("users")
                           .Child(id.ToString())
                           .Child("posts")
-                          .OnceAsync<Item>()).Select(item => new LocalPost(user, item)).ToList());
+                          .OnceAsync<Post>()).Select(item => new LocalPost(user, item)).ToList());
                 }
             }
             return items;
         }
 
-        public async Task<List<Item>> GetAllPosts()
+        public async Task<List<Post>> GetAllPosts()
         {
             return (await firebase
               .Child("users")
               .Child(Preferences.Get("Id", -1).ToString())
               .Child("posts")
-              .OnceAsync<Item>()).Select(item => new Item(item)).ToList();
+              .OnceAsync<Post>()).Select(item => new Post(item)).ToList();
         }
 
-        public async Task<List<Item>> GetAllPosts(int id)
+        public async Task<List<Post>> GetAllPosts(int id)
         {
             return (await firebase
               .Child("users")
               .Child(id.ToString())
               .Child("posts")
-              .OnceAsync<Item>()).Select(item => new Item(item)).ToList();
+              .OnceAsync<Post>()).Select(item => new Post(item)).ToList();
         }
 
-        public async Task AddPost(Item item)
+        public async Task AddPost(Post item)
         {
             await firebase
               .Child("users")
@@ -155,18 +152,18 @@ namespace XamarinFirebase.Helper
             await UpdateUser(new User() { Posts_count = Preferences.Get("Posts_count", 0)});
         }
 
-        public async Task<Item> GetPost(int id)
+        public async Task<Post> GetPost(int id)
         {
             var allPersons = await GetAllPosts();
             await firebase
               .Child("users")
               .Child(Preferences.Get("Id", -1).ToString())
               .Child("posts")
-              .OnceAsync<Item>();
+              .OnceAsync<Post>();
             return allPersons.Where(a => a.Id == id).FirstOrDefault();
         }
 
-        public async Task UpdatePost(Item update)
+        public async Task UpdatePost(Post update)
         {
             int id = Preferences.Get("Id", -1);
             if (update is LocalPost)
@@ -177,9 +174,9 @@ namespace XamarinFirebase.Helper
               .Child("users")
               .Child(id.ToString())
               .Child("posts")
-              .OnceAsync<Item>()).Where(a => a.Object.Id == update.Id).FirstOrDefault();
+              .OnceAsync<Post>()).Where(a => a.Object.Id == update.Id).FirstOrDefault();
 
-            var postForUpdate = new Item(toUpdateItem);
+            var postForUpdate = new Post(toUpdateItem);
             postForUpdate.CopyAndReplace(update);
 
             await firebase
@@ -187,7 +184,7 @@ namespace XamarinFirebase.Helper
               .Child(id.ToString())
               .Child("posts")
               .Child(toUpdateItem.Key)
-              .PutAsync(new Item(postForUpdate));
+              .PutAsync(new Post(postForUpdate));
         }
 
         public async Task DeleteAllPosts()
@@ -198,7 +195,7 @@ namespace XamarinFirebase.Helper
                     .Child("users")
                     .Child(Preferences.Get("Id", -1).ToString())
                     .Child("posts")
-                    .OnceAsync<Item>()).Where(a => a.Object.Id == i).FirstOrDefault();
+                    .OnceAsync<Post>()).Where(a => a.Object.Id == i).FirstOrDefault();
                 if(toDeletePost != null)
                 {
                     await firebase
@@ -216,7 +213,7 @@ namespace XamarinFirebase.Helper
               .Child("users")
               .Child(Preferences.Get("Id", -1).ToString())
               .Child("posts")
-              .OnceAsync<Item>()).Where(a => a.Object.Id == id).FirstOrDefault();
+              .OnceAsync<Post>()).Where(a => a.Object.Id == id).FirstOrDefault();
             await firebase
               .Child("users")
               .Child(Preferences.Get("Id", -1).ToString())

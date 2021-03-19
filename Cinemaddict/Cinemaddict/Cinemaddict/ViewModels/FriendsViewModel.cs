@@ -6,10 +6,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using XamarinFirebase.Helper;
-using System.Linq;
 using System.Collections.Generic;
-using Cinemaddict.Services;
-using System.Collections.Specialized;
 using Xamarin.Essentials;
 
 namespace Cinemaddict.ViewModels
