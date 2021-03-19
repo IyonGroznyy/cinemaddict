@@ -4,7 +4,10 @@
              x:Class="Cinemaddict.Views.CommandPage">
     <ContentPage.Content>
         <StackLayout>
-            <Button Text="Reset DB" Clicked="BtnReset_Clicked" VerticalOptions="CenterAndExpand" HorizontalOptions="Center"/>
+            <Button Text="Reset DB"
+                    Clicked="BtnReset_Clicked"
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="Center"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
