@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Cinemaddict.Views.DetailFriendPage"
+             xmlns:model="clr-namespace:Cinemaddict.Models"
+             xmlns:local="clr-namespace:Cinemaddict.ViewModels"
+             Title="{Binding Title}">
+    
+    <ContentPage.Content>
+        <RefreshView x:DataType="local:DetailFriendViewModel" Command="{Binding LoadItemsCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+            <ScrollView>
+                <StackLayout Margin="0,10,0,0">
+                    <Frame CornerRadius="100" 
+                       HeightRequest="200"
+                       WidthRequest="200"
+                       HorizontalOptions="Center"
+                       Padding="0"
+                       IsClippedToBounds="True">
+                        <ImageButton x:Name="image"
+                       Source="{Binding Path=Friend.PhotoUri}"/>
+                    </Frame>
+                    <FlexLayout Padding ="10" JustifyContent="SpaceBetween" >
+                        <Button 
+                            Text="{Binding Path=Friend.Posts_count,
+                                StringFormat='Posts &#10; {0:F0}'}"
+                            BackgroundColor="White" 
+                            TextColor="Black"/>
+                        <Button x:Name="btnSubscribers"
+                            Text="{Binding Path=Friend.Follower_count,
+                                StringFormat='Followers &#10; {0:F0}'}" 
+                            BackgroundColor="White" 
+                            TextColor="Black"
+                            Clicked="btnSubscribers_Clicked"/>
+                        <Button x:Name="btnFollowing"
+                            Text="{Binding Path=Friend.Following_count,
+                                 StringFormat='Following &#10; {0:F0}'}" 
+                            BackgroundColor="White" 
+                            Clicked ="btnFollowing_Clicked"
+                            TextColor="Black"/>
+                    </FlexLayout>
+                    <CollectionView x:Name="ItemsListView"
+                                ItemsSource="{Binding Posts}"
+                                SelectionMode="None">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <StackLayout WidthRequest="350" Padding="20" x:DataType="model:Item" BackgroundColor="Azure" IsClippedToBounds ="True">
+                                    <Label Text="{Binding Text}" 
+                                       LineBreakMode="NoWrap" 
+                                       TextColor="Black"
+                                       FontSize="16" />
+                                    <Label x:Name="lblDescription"
+                                           Margin="5"
+                                           Text="{Binding Description}" 
+                                           LineBreakMode="TailTruncation"
+                                           Style="{DynamicResource ItemTapped}"
+                                           TextColor="Black"
+                                           FontSize="13">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                NumberOfTapsRequired="1"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type local:DetailFriendViewModel}}, Path=LabelItemTapped}"		
+                                                CommandParameter="{Reference lblDescription}">
+                                            </TapGestureRecognizer>
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                    <Image BackgroundColor="Azure" Source="{Binding Uri}" HeightRequest="250"  Margin="0,20,0,0"/>
+                                    <StackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer 
+                                            NumberOfTapsRequired="1"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:NewsItemsViewModel}}, Path=ItemTapped}"		
+                                            CommandParameter="{Binding .}">
+                                        </TapGestureRecognizer>
+                                    </StackLayout.GestureRecognizers>
+                                </StackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
+            </ScrollView>
+        </RefreshView>
+    </ContentPage.Content>
+</ContentPage>

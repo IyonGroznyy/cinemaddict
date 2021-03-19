@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Cinemaddict.Views.SignUpPage"
+             Shell.NavBarIsVisible="False"
+             Visual="Material">
+    <ContentPage.Content>
+        <StackLayout  Padding="10">
+            <Label Text="Создание аккаунта"
+                   TextColor="Black"
+                   FontSize= "Large"
+                   HorizontalOptions="CenterAndExpand" />
+            <Label Text="Ваша почта будет использоваться для входа в аккаунт"
+                   TextColor="Black"
+                   FontSize= "Medium"
+                   HorizontalOptions="CenterAndExpand" />
+            <Label Text="*Принимается только gmail почта"
+                   TextColor="Black"
+                   Margin="10"
+                   FontSize= "Medium"
+                   HorizontalOptions="StartAndExpand" />
+            <Entry x:Name="EmailEntry"
+                   Placeholder="Введите почту">
+            </Entry>
+            <Label Text="Пароль должен содержать:&#10;*хотя бы 1 символ; &#10;*хотя бы одну букву; &#10;*хотя бы 8 знаков;"
+                   TextColor="Black"
+                   Margin="10"
+                   FontSize= "Medium"
+                   HorizontalOptions="StartAndExpand" />
+            <Entry x:Name="PasswordEntry"
+                   IsPassword="True"
+                   Placeholder="Введите пароль">
+            </Entry>
+            <Button Text="Sign Up"
+                    HorizontalOptions="FillAndExpand"
+                    Clicked="SignUpButton_Clicked" 
+                    VerticalOptions="EndAndExpand"
+                    Margin ="12,12,12,25">
+                
+            </Button>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

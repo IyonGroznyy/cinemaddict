@@ -1,19 +1,17 @@
 ﻿using Cinemaddict.Models;
 using System;
-using System.Diagnostics;
-using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Text;
 using Xamarin.Forms;
 
 namespace Cinemaddict.ViewModels
 {
-    [QueryProperty(nameof(ItemId), nameof(ItemId))]
     public class ItemsDetailViewModel : BaseViewModel
     {
-        private string itemId;
         private string text;
         private string description;
-
-        public string Id { get; set; }
+        private string uri;
+        public int Id { get; set; }
 
         public string Text
         {
@@ -27,32 +25,10 @@ namespace Cinemaddict.ViewModels
             set => SetProperty(ref description, value);
         }
 
-        public string ItemId
+        public string Uri
         {
-            get
-            {
-                return itemId;
-            }
-            set
-            {
-                itemId = value;
-                LoadItemId(value);
-            }
-        }
-
-        public async void LoadItemId(string itemId)
-        {
-            try
-            {
-                var item = await DataStore.GetItemAsync(itemId);
-                Id = item.Id;
-                Text = item.Text;
-                Description = item.Description;
-            }
-            catch (Exception)
-            {
-                Debug.WriteLine("Failed to Load Item");
-            }
+            get => uri;
+            set => SetProperty(ref uri, value);
         }
     }
 }

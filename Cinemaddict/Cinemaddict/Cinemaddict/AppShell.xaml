@@ -3,6 +3,7 @@
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:local="clr-namespace:Cinemaddict.Views"
        Title="Cinemaddict"
+       x:Name="MainShell"
        x:Class="Cinemaddict.AppShell">
 
     <!--
@@ -10,6 +11,28 @@
     
         https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/shell/
     -->
+    <Shell.FlyoutHeader>
+        <FlexLayout Padding ="10,10,10,10" BackgroundColor="White" JustifyContent="Start">
+            <Frame CornerRadius="100" 
+                       HeightRequest="100"
+                       WidthRequest="100"
+                       HorizontalOptions="Start"
+                       Padding="0"
+                       IsClippedToBounds="True">
+                <ImageButton x:Name="image"
+                       Source="{Binding PhotoUri}" />
+            </Frame>
+            <StackLayout>
+                <Label Text="{Binding DisplayName}"
+                   Margin="30,20,20,0"
+                   FontSize="Medium"/>
+                <Label Text="{Binding About}"
+                   Margin="30,5,20,0"
+                   FontSize="Small"/>
+            </StackLayout>
+
+        </FlexLayout>
+    </Shell.FlyoutHeader>
 
     <Shell.Resources>
         <ResourceDictionary>
@@ -79,12 +102,6 @@
         FlyoutDisplayOptions="AsMultipleItems" will create a separate flyout item for each child element    
         https://docs.microsoft.com/dotnet/api/xamarin.forms.shellgroupitem.flyoutdisplayoptions?view=xamarin-forms
     -->
-    <FlyoutItem Title="News" Icon="icon_feed.png">
-        <ShellContent Route="NewsPage" ContentTemplate="{DataTemplate local:NewsPage}" />
-    </FlyoutItem>
-    <FlyoutItem Title="Reviews" Icon="icon_feed.png">
-        <ShellContent Route="ItemsPage" ContentTemplate="{DataTemplate local:ItemsPage}" />
-    </FlyoutItem>
 
     <!-- When the Flyout is visible this will be a menu item you can tie a click behavior to  -->
     <MenuItem Text="Logout" StyleClass="MenuItemLayoutStyle" Clicked="OnMenuItemClicked">

@@ -8,10 +8,17 @@ namespace Cinemaddict.Views
 {
     public partial class NewsPage : ContentPage
     {
+        NewsItemsViewModel _viewModel;
         public NewsPage()
         {
             InitializeComponent();
-            BindingContext = new NewsViewModel();
+            BindingContext = _viewModel = new NewsItemsViewModel(Navigation);
+            
+        }
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            _viewModel.OnAppearing();
         }
     }
 }
