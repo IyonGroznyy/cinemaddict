@@ -1,5 +1,6 @@
 ﻿using Cinemaddict.Models;
 using Cinemaddict.Services;
+using Cinemaddict.ViewModels;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
 using System;
@@ -19,38 +20,21 @@ namespace Cinemaddict.Views
         string password;
         string photoUri;
         MediaFile file;
+        BIOViewModel viewModel = new BIOViewModel();
         IFirebaseAuthentication auth = Application.Current.Properties["auth"] as IFirebaseAuthentication;
         public BIOPage(string pEmail, string pPassword)
         {
-            email = pEmail;
-            password = pPassword;
             InitializeComponent();
-            photoUri = "NoAvatar.png";
+            viewModel.email = pEmail;
+            viewModel.password = pPassword;
+            viewModel.photoUri = "NoAvatar.png";
+            viewModel.AlertNotify += async (string title, string message, string cancel) => await DisplayAlert(title, message, cancel);
         }
 
         private async void ImageButton_Pressed(object sender, EventArgs e)
         {
             (sender as ImageButton).IsEnabled = false;
-            await CrossMedia.Current.Initialize();
-            try
-            {
-                file = await Plugin.Media.CrossMedia.Current.PickPhotoAsync(new Plugin.Media.Abstractions.PickMediaOptions
-                {
-                    PhotoSize = Plugin.Media.Abstractions.PhotoSize.Medium
-                });
-                if (file == null)
-                    return;
-                image.Source = ImageSource.FromStream(() =>
-                {
-                    var imageStram = file.GetStream();
-                    return imageStram;
-                });
-                photoUri = await new FirebaseHelper().StoreImages(file.GetStream(), Path.GetFileName(file.Path));
-            }
-            catch (Exception ex)
-            {
-
-            }
+            await viewModel.ImagePick(image);
             (sender as ImageButton).IsEnabled = true;
         }
 
@@ -75,25 +59,7 @@ namespace Cinemaddict.Views
             if (token != string.Empty)
             {
                 Preferences.Set("token", token);
-                var firebase = new FirebaseHelper();
-                User user = new User()
-                {
-                    Id = (await firebase.GetUserCount()),
-                    Email = email,
-                    Follwers = new List<int>(),
-                    Subscriptions = new List<int>() { 0 },
-                    About = AboutEntry.Text,
-                    DisplayName = NameEntry.Text,
-                    PhotoUri = photoUri,
-                    Follower_count = 0,
-                    Following_count = 1,
-                    Posts_count = 0
-                };
-                await DisplayAlert("Success", "New User Created", "OK");
-                await firebase.AddUser(user);
-                Util.SaveDataLocal(user);
-                await firebase.UpdateUserCount();
-                await new FirebaseHelper().UpdateUser(new User() { Follwers = new List<int>() { Preferences.Get("Id", -1) } }, 0);
+                await viewModel.CreateUser(AboutEntry.Text, NameEntry.Text);
                 Application.Current.MainPage = new AppShell();
             }
             else

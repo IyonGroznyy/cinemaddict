@@ -44,8 +44,7 @@ namespace Cinemaddict.Views
             if (token != string.Empty)
             {
                 Preferences.Set("token", token);
-                User user = await new FirebaseHelper().GetCurrentUser();
-                Util.SaveDataLocal(user);
+                viewModel.Login();
                 Application.Current.MainPage = new AppShell();
             }
             else

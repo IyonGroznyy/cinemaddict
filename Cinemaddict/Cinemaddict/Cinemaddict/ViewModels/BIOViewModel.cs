@@ -1,0 +1,71 @@
+﻿using Cinemaddict.Models;
+using Cinemaddict.Services;
+using Plugin.Media;
+using Plugin.Media.Abstractions;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
+using Xamarin.Essentials;
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
+using XamarinFirebase.Helper;
+
+namespace Cinemaddict.ViewModels
+{
+    class BIOViewModel
+    {
+        public string email;
+        public string password;
+        public string photoUri;
+        public MediaFile file;
+        public delegate Task AlertHandler(string title, string message, string cancel);
+        public event AlertHandler AlertNotify;
+        IFirebaseAuthentication auth = Application.Current.Properties["auth"] as IFirebaseAuthentication;
+        public async Task ImagePick(ImageButton imageButton)
+        {
+            await CrossMedia.Current.Initialize();
+            try
+            {
+                file = await Plugin.Media.CrossMedia.Current.PickPhotoAsync(new Plugin.Media.Abstractions.PickMediaOptions
+                {
+                    PhotoSize = Plugin.Media.Abstractions.PhotoSize.Medium
+                });
+                if (file == null)
+                    return;
+                imageButton.Source = ImageSource.FromStream(() =>
+                {
+                    var imageStram = file.GetStream();
+                    return imageStram;
+                });
+                photoUri = await new FirebaseHelper().StoreImages(file.GetStream(), Path.GetFileName(file.Path));
+            }
+            catch (Exception ex)
+            {
+                AlertNotify?.Invoke("Image pick Failed", "Failed to pick picture. Try again!", "OK");
+            }
+        }
+        public async Task CreateUser(string pAboutEntry, string pNameEntry)
+        {
+            var firebase = new FirebaseHelper();
+            User user = new User()
+            {
+                Id = (await firebase.GetUserCount()),
+                Email = email,
+                Follwers = new List<int>(),
+                Subscriptions = new List<int>() { 0 },
+                About = pAboutEntry,
+                DisplayName = pNameEntry,
+                PhotoUri = photoUri,
+                Follower_count = 0,
+                Following_count = 1,
+                Posts_count = 0
+            };
+            AlertNotify?.Invoke("Success", "New User Created", "OK");
+            await firebase.AddUser(user);
+            Util.SaveDataLocal(user);
+            await firebase.UpdateUserCount();
+            await new FirebaseHelper().UpdateUser(new User() { Follwers = new List<int>() { Preferences.Get("Id", -1) } }, 0);
+        }
+    }
+}

@@ -1,4 +1,8 @@
-﻿namespace Cinemaddict.ViewModels
+﻿using Cinemaddict.Models;
+using Cinemaddict.Services;
+using XamarinFirebase.Helper;
+
+namespace Cinemaddict.ViewModels
 {
     public class LoginViewModel : BaseViewModel
     {
@@ -29,6 +33,11 @@
                 _password = value.Trim();
                 OnPropertyChanged(nameof(Password));
             }
+        }
+        public void Login()
+        {
+            User user = await new FirebaseHelper().GetCurrentUser();
+            Util.SaveDataLocal(user);
         }
     }
 }

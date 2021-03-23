@@ -1,4 +1,8 @@
-﻿namespace Cinemaddict.ViewModels
+﻿using Cinemaddict.Models;
+using System.Threading.Tasks;
+using XamarinFirebase.Helper;
+
+namespace Cinemaddict.ViewModels
 {
     public class ItemsDetailViewModel : BaseViewModel
     {
@@ -24,5 +28,15 @@
             get => uri;
             set => SetProperty(ref uri, value);
         }
+
+       public async Task SavePost(string pTitleEditor, string pDescriptionEditor)
+       {
+            await new FirebaseHelper().UpdatePost(new Post()
+            {
+                Id = Id,
+                TitleText = pTitleEditor,
+                Description = pDescriptionEditor
+            });
+       }
     }
 }
