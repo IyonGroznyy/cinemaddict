@@ -34,9 +34,9 @@ namespace Cinemaddict.ViewModels
                 OnPropertyChanged(nameof(Password));
             }
         }
-        public void Login()
+        public async void Login()
         {
-            User user = await new FirebaseHelper().GetCurrentUser();
+            User user = await User.GetCurrentUser();
             Util.SaveDataLocal(user);
         }
     }

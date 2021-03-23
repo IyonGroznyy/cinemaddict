@@ -13,8 +13,8 @@
                 <Entry Text="{Binding TitleText, Mode=TwoWay}" FontSize="Medium" />
                 <Label Text="Description" FontSize="Medium" />
                 <Editor Text="{Binding Description, Mode=TwoWay}" AutoSize="TextChanges" FontSize="Medium" Margin="0" />
-                <ImageButton x:Name="PostImage" BackgroundColor="White" Source="{Binding Uri}" Clicked="PostImage_Clicked" HeightRequest="250"/>
-                <StackLayout Orientation="Horizontal">
+                <ImageButton x:Name="PostImage" Margin="0,80,0,0" BackgroundColor="White" Source="{Binding Uri}" Clicked="PostImage_Clicked" HeightRequest="250"/>
+                <StackLayout Orientation="Horizontal" VerticalOptions="EndAndExpand">
                     <Button Text="Cancel" Command="{Binding CancelCommand}" HorizontalOptions="FillAndExpand"></Button>
                     <Button Text="Save" Command="{Binding SaveCommand}" HorizontalOptions="FillAndExpand"></Button>
                 </StackLayout>

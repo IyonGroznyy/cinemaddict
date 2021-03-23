@@ -1,8 +1,11 @@
 ﻿using Firebase.Database;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
+using XamarinFirebase.Helper;
 
 namespace Cinemaddict.Models
 {
@@ -43,6 +46,35 @@ namespace Cinemaddict.Models
             RepostDecription = item.Object.RepostDecription;
             LikesAndOwners = item.Object.LikesAndOwners;
         }
+
+        #region FirebaseFunc
+        public static async Task<List<LocalPost>> GetAllNewsPosts()
+        {
+            return await new FirebaseHelper().GetAllNewsPosts();
+        }
+
+        public static async Task<string> StoreImages(Stream pStream, string pPath)
+        {
+           return await new FirebaseHelper().StoreImages(pStream, Path.GetFileName(pPath));
+        }
+
+        public static async Task DeletePost(int pId)
+        {
+            await new FirebaseHelper().DeletePost(pId);
+        }
+
+        public static async Task UpdatePost(Post pUpdatePost)
+        {
+            await new FirebaseHelper().UpdatePost(pUpdatePost);
+        }
+
+        public static async Task<List<Post>> GetAllPosts(int pId)
+        {
+            return await new FirebaseHelper().GetAllPosts(pId);
+        }
+
+
+        #endregion
 
         public void CopyAndReplace(Post item) // Тут должны быть заполнены только те поля , что надо изменить в this экземпляре
         {

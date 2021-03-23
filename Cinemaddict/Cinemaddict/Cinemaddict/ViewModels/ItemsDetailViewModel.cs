@@ -31,7 +31,7 @@ namespace Cinemaddict.ViewModels
 
        public async Task SavePost(string pTitleEditor, string pDescriptionEditor)
        {
-            await new FirebaseHelper().UpdatePost(new Post()
+            await Post.UpdatePost(new Post()
             {
                 Id = Id,
                 TitleText = pTitleEditor,

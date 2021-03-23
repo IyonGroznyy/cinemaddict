@@ -16,12 +16,9 @@ namespace Cinemaddict.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class BIOPage : ContentPage
     {
-        string email;
-        string password;
-        string photoUri;
-        MediaFile file;
         BIOViewModel viewModel = new BIOViewModel();
         IFirebaseAuthentication auth = Application.Current.Properties["auth"] as IFirebaseAuthentication;
+
         public BIOPage(string pEmail, string pPassword)
         {
             InitializeComponent();
@@ -48,8 +45,11 @@ namespace Cinemaddict.Views
             string token = "";
             try
             {
-                var signOut = auth.SignOut();
-                token = await auth.SignUpWithEmailAndPassword(email, password);
+                token = Preferences.Get("token", token);
+                if(string.IsNullOrEmpty(token))
+                {
+                    throw new Exception();
+                }
             }
             catch (Exception exx)
             {
@@ -58,7 +58,6 @@ namespace Cinemaddict.Views
 
             if (token != string.Empty)
             {
-                Preferences.Set("token", token);
                 await viewModel.CreateUser(AboutEntry.Text, NameEntry.Text);
                 Application.Current.MainPage = new AppShell();
             }

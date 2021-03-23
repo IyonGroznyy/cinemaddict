@@ -56,7 +56,7 @@ namespace Cinemaddict.ViewModels
 
             try
             {
-                var items = await new FirebaseHelper().GetAllNewsPosts();
+                var items = await Post.GetAllNewsPosts();
                 lock (Items)
                 {
                     Items.Clear();

@@ -18,6 +18,7 @@ namespace Cinemaddict.ViewModels
         FirebaseHelper firebaseHelper = new FirebaseHelper();
         public NewReviewViewModel()
         {
+            Uri = "NewPost.png";
             SaveCommand = new Command(OnSave, ValidateSave);
             CancelCommand = new Command(OnCancel);
             this.PropertyChanged +=
@@ -73,7 +74,7 @@ namespace Cinemaddict.ViewModels
                     var imageStram = file.GetStream();
                     return imageStram;
                 });
-                Uri = await new FirebaseHelper().StoreImages(file.GetStream(), Path.GetFileName(file.Path));
+                Uri = await Post.StoreImages(file.GetStream(), Path.GetFileName(file.Path));
             }
             catch (Exception ex)
             {

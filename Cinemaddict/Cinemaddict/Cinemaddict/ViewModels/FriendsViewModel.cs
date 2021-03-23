@@ -59,7 +59,7 @@ namespace Cinemaddict.ViewModels
 
             try
             {
-                var usersDB = await new FirebaseHelper().GetAllUsers();
+                var usersDB = await User.GetAllUsers();
                 lock (Users)
                 {
                     Users.Clear();
@@ -90,12 +90,12 @@ namespace Cinemaddict.ViewModels
 
         private async Task GetCurrentUserAsync()
         {
-            _currentUser = await new FirebaseHelper().GetCurrentUser();
+            _currentUser = await User.GetCurrentUser();
         }
 
         private async void GetCurrentUser()
         {
-            _currentUser = await new FirebaseHelper().GetCurrentUser();
+            _currentUser = await User.GetCurrentUser();
         }
 
         public User SelectedUser
@@ -115,8 +115,20 @@ namespace Cinemaddict.ViewModels
 
         private async void OnSubscribeUser(Tuple<int, int> id)
         {
-            await new FirebaseHelper().UpdateUser(new User() { Subscriptions = new List<int>() { id.Item1 } });
-            await new FirebaseHelper().UpdateUser(new User() { Follwers = new List<int>() { Preferences.Get("Id", -1) } }, id.Item1);
+            await User.UpdateUser(new User() 
+            { 
+                Subscriptions = new List<int>() 
+                { 
+                    id.Item1 
+                } 
+            });
+            await User.UpdateUser(new User() 
+            { 
+                Follwers = new List<int>() 
+                { 
+                    Preferences.Get("Id", -1) 
+                } 
+            }, id.Item1);
             await GetCurrentUserAsync();
             await ExecuteLoadUsersCommand();
         }

@@ -21,7 +21,7 @@ namespace Cinemaddict.ViewModels
         public MediaFile file;
         public delegate Task AlertHandler(string title, string message, string cancel);
         public event AlertHandler AlertNotify;
-        IFirebaseAuthentication auth = Application.Current.Properties["auth"] as IFirebaseAuthentication;
+
         public async Task ImagePick(ImageButton imageButton)
         {
             await CrossMedia.Current.Initialize();
@@ -38,7 +38,7 @@ namespace Cinemaddict.ViewModels
                     var imageStram = file.GetStream();
                     return imageStram;
                 });
-                photoUri = await new FirebaseHelper().StoreImages(file.GetStream(), Path.GetFileName(file.Path));
+                photoUri = await Post.StoreImages(file.GetStream(), Path.GetFileName(file.Path));
             }
             catch (Exception ex)
             {
@@ -47,10 +47,9 @@ namespace Cinemaddict.ViewModels
         }
         public async Task CreateUser(string pAboutEntry, string pNameEntry)
         {
-            var firebase = new FirebaseHelper();
             User user = new User()
             {
-                Id = (await firebase.GetUserCount()),
+                Id = (await User.GetUserCount()),
                 Email = email,
                 Follwers = new List<int>(),
                 Subscriptions = new List<int>() { 0 },
@@ -62,10 +61,10 @@ namespace Cinemaddict.ViewModels
                 Posts_count = 0
             };
             AlertNotify?.Invoke("Success", "New User Created", "OK");
-            await firebase.AddUser(user);
+            await User.AddUser(user);
             Util.SaveDataLocal(user);
-            await firebase.UpdateUserCount();
-            await new FirebaseHelper().UpdateUser(new User() { Follwers = new List<int>() { Preferences.Get("Id", -1) } }, 0);
+            await User.UpdateUserCount();
+            await User.UpdateUser(new User() { Follwers = new List<int>() { (int)user.Id } }, 0); // Подписываем на главного юзера
         }
     }
 }

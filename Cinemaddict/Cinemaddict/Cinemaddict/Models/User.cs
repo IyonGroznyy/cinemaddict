@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
+using XamarinFirebase.Helper;
 
 namespace Cinemaddict.Models
 {
@@ -98,5 +100,52 @@ namespace Cinemaddict.Models
                 i++;
             }
         }
+
+        #region FirebaseFunc
+        public static async Task<User> GetCurrentUser()
+        {
+           return await new FirebaseHelper().GetCurrentUser();
+        }
+
+        public static async Task UpdateUser(User pUser, int pId)
+        {
+             await new FirebaseHelper().UpdateUser(pUser, pId);
+        }
+
+        public static async Task UpdateUser(User pUser)
+        {
+            await new FirebaseHelper().UpdateUser(pUser);
+        }
+
+        public static async Task DeleteAllUser()
+        {
+            await new FirebaseHelper().DeleteAllUser();
+        }
+
+        public static async Task AddUser(User pUser)
+        {
+            await new FirebaseHelper().AddUser(pUser);
+        }
+
+        public static async Task UpdateUserCount()
+        {
+            await new FirebaseHelper().UpdateUserCount();
+        }
+
+        public static async Task<User> GetUser(int pId)
+        {
+            return await new FirebaseHelper().GetUser(pId);
+        }
+
+        public static async Task<int> GetUserCount()
+        {
+            return await new FirebaseHelper().GetUserCount();
+        }
+
+        public static async Task<List<User>> GetAllUsers()
+        {
+            return await new FirebaseHelper().GetAllUsers();
+        }
+        #endregion
     }
 }

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using XamarinFirebase.Helper;
 
 namespace Cinemaddict.Views
 {
@@ -12,6 +14,7 @@ namespace Cinemaddict.Views
         {
             Title = "Sign Up";
             InitializeComponent();
+            Preferences.Clear();
         }
 
         private async void SignUpButton_Clicked(object sender, EventArgs e)
@@ -40,6 +43,22 @@ namespace Cinemaddict.Views
                 PasswordEntry.Text = "";
                 return;
             }
+            var auth = Application.Current.Properties["auth"] as IFirebaseAuthentication;
+            var token = "";
+            try
+            {
+                token = await auth.SignUpWithEmailAndPassword(EmailEntry.Text.Trim(), PasswordEntry.Text.Trim());
+                if(string.IsNullOrEmpty(token))
+                {
+                    throw new Exception();
+                }
+            }
+            catch(Exception ex)
+            {
+                await DisplayAlert("Authentication Failed", "Email is incorrect", "OK");
+                return;
+            }
+            Preferences.Set("token", token);
             await Navigation.PushAsync(new BIOPage(EmailEntry.Text.Trim(), PasswordEntry.Text.Trim()));
         }
 

@@ -87,7 +87,7 @@ namespace Cinemaddict.ViewModels
                 var usersDB = new List<User>();
                 foreach (int id in _showUserIds)
                 {
-                    usersDB.Add(await new FirebaseHelper().GetUser(id));
+                    usersDB.Add(await User.GetUser(id));
                 }
                  
                 lock (Users)
@@ -137,8 +137,20 @@ namespace Cinemaddict.ViewModels
 
         private async void OnSubscribeUser(Tuple<int, int> id)
         {
-            await new FirebaseHelper().UpdateUser(new User() { Subscriptions = new List<int>() { id.Item1 } });
-            await new FirebaseHelper().UpdateUser(new User() { Follwers = new List<int>() { Preferences.Get("Id", -1) } }, id.Item1);
+            await User.UpdateUser(new User() 
+            { 
+                Subscriptions = new List<int>() 
+                { 
+                    id.Item1 
+                } 
+            });
+            await User.UpdateUser(new User() 
+            { 
+                Follwers = new List<int>() 
+                { 
+                    Preferences.Get("Id", -1) 
+                } 
+            }, id.Item1);
             await GetCurrentUserAsync();
             await ExecuteLoadUsersCommand();
         }

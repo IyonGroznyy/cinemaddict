@@ -19,6 +19,7 @@ namespace Cinemaddict.Views
         {
             InitializeComponent();
             Title = "Login";
+            Preferences.Clear();
             auth = Application.Current.Properties["auth"] as IFirebaseAuthentication;
             BindingContext = viewModel = new LoginViewModel();
         }

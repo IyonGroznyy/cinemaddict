@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using XamarinFirebase.Helper;
 using System.Linq;
+using Xamarin.Essentials;
 
 namespace Cinemaddict.ViewModels
 {
@@ -40,7 +41,7 @@ namespace Cinemaddict.ViewModels
             try
             {
                 Items.Clear();
-                var items = await new FirebaseHelper().GetAllPosts();
+                var items = await Post.GetAllPosts(Preferences.Get("Id", 0));
                 foreach (var item in items)
                 {
                     Items.Add(item);
@@ -75,18 +76,24 @@ namespace Cinemaddict.ViewModels
         private async void OnAddItem(object obj)
         {
             await Shell.Current.GoToAsync(nameof(NewItemPage));
+            await ExecuteLoadItemsCommand();
         }
 
         private async void OnDelItem(int id)
         {
             Items.Remove(Items.Where(x => x.Id == id).FirstOrDefault());
-            await new FirebaseHelper().DeletePost(id);
+            await Post.DeletePost(id);
         }
         async void OnItemSelected(Post item)
         {
             if (item == null)
                 return;
-            await Navigation.PushAsync(new ItemDetailPage(new ItemsDetailViewModel() { Description = item.Description, TitleText = item.TitleText, Uri = item.Uri}));
+            await Navigation.PushAsync(new ItemDetailPage(new ItemsDetailViewModel() 
+            { 
+                Description = item.Description, 
+                TitleText = item.TitleText, 
+                Uri = item.Uri
+            }));
             // This will push the ItemDetailPage onto the navigation stack
             //await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemsDetailViewModel.ItemId)}={item.Id}");
         }

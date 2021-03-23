@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cinemaddict.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ namespace Cinemaddict.ViewModels
     {
         public async Task ResetDB()
         {
-           await new FirebaseHelper().DeleteAllUser();
+           await User.DeleteAllUser();
         }
     }
 }

@@ -54,7 +54,7 @@ namespace Cinemaddict.ViewModels
             try
             {
                 Posts.Clear();
-                var items = await new FirebaseHelper().GetAllPosts((int)Friend.Id);
+                var items = await Post.GetAllPosts((int)Friend.Id);
 
                 foreach (var item in items)
                 {

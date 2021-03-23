@@ -82,13 +82,18 @@ namespace XamarinFirebase.Helper
 
         public async Task<string> StoreImages(Stream imageStream, string imageName)
         {
-            var stroageImage = await new FirebaseStorage(
+            if(token != null)
+            {
+                var stroageImage = await new FirebaseStorage(
                 "database-cinemaddict.appspot.com")
                 .Child("users")
                 .Child(token)
                 .PutAsync(imageStream);
-            return stroageImage;
+                return stroageImage;
+            }
+            return null;
         }
+
         //public async Task<string> GetImage(string imageName)
         //{
         //    var stroageImage = await firebaseStorage
