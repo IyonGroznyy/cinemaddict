@@ -80,16 +80,54 @@ namespace XamarinFirebase.Helper
                 .GetDownloadUrlAsync();
         }
 
-        public async Task<string> StoreImages(Stream imageStream, string imageName)
+        /// <returns>Список url фото из Storage</returns>
+        /// <summary>
+        /// Загружает массив или одно фото в Storage
+        /// </summary>
+        /// <param name="imageName">Название фото</param>
+        /// <param name="userOrPost">Куда ложить фото</param>
+        /// <param name="pPost"></param>Если фото для профиля , то по умолчанию = null
+        /// <param name="imageStreams">Поток для фото из телефона</param>
+        /// <returns>Список url фото из Storage</returns>
+        public async Task<List<string>> StoreImages(string imageName, UserOrPost userOrPost, Post pPost = null, params Stream[] imageStreams)
         {
-            if(token != null)
+            User user = Util.GetDataLocal();
+            if (token != null)
             {
-                var stroageImage = await new FirebaseStorage(
-                "database-cinemaddict.appspot.com")
-                .Child("users")
-                .Child(token)
-                .PutAsync(imageStream);
-                return stroageImage;
+                List<string> returnURIs = new List<string>();
+                foreach(var imageStream in imageStreams)
+                {
+                    if(userOrPost.Equals(UserOrPost.User))
+                    {
+                        var stroageImage = await new FirebaseStorage(
+                            "database-cinemaddict.appspot.com")
+                            .Child("users")
+                            .Child(user.Id.ToString())
+                            .Child(imageName)
+                            .PutAsync(imageStream);
+                        returnURIs.Add(stroageImage);
+                    }
+                    else
+                    {
+                        if (pPost == null)
+                        {
+                            return null;
+                        }
+                        else
+                        {
+                            var stroageImage = await new FirebaseStorage(
+                                "database-cinemaddict.appspot.com")
+                                .Child("users")
+                                .Child(user.Id.ToString())
+                                .Child("posts")
+                                .Child(pPost.Id.ToString())
+                                .Child(imageName)
+                                .PutAsync(imageStream);
+                            returnURIs.Add(stroageImage);
+                        }
+                    }
+                }
+                return returnURIs;
             }
             return null;
         }

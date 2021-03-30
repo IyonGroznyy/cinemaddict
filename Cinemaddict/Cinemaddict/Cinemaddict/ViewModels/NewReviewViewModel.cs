@@ -1,8 +1,10 @@
 ﻿using Cinemaddict.Models;
+using Cinemaddict.Services;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
 using System;
 using System.IO;
+using System.Linq;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using XamarinFirebase.Helper;
@@ -74,7 +76,7 @@ namespace Cinemaddict.ViewModels
                     var imageStram = file.GetStream();
                     return imageStram;
                 });
-                Uri = await Post.StoreImages(file.GetStream(), Path.GetFileName(file.Path));
+                Uri = (await Post.StoreImages(Path.GetFileName(file.Path), UserOrPost.Post, file.GetStream())).First();
             }
             catch (Exception ex)
             {
