@@ -1,4 +1,5 @@
-﻿using Firebase.Database;
+﻿using Cinemaddict.Services;
+using Firebase.Database;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -53,9 +54,9 @@ namespace Cinemaddict.Models
             return await new FirebaseHelper().GetAllNewsPosts();
         }
 
-        public static async Task<string> StoreImages(Stream pStream, string pPath)
+        public static async Task<List<string>> StoreImages(string pPath, UserOrPost userOrPost, params Stream[] pStream)
         {
-           return await new FirebaseHelper().StoreImages(pStream, Path.GetFileName(pPath));
+           return await new FirebaseHelper().StoreImages(Path.GetFileName(pPath), UserOrPost userOrPost, pStream);
         }
 
         public static async Task DeletePost(int pId)

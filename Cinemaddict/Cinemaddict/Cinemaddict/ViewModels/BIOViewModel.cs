@@ -5,6 +5,7 @@ using Plugin.Media.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -38,7 +39,7 @@ namespace Cinemaddict.ViewModels
                     var imageStram = file.GetStream();
                     return imageStram;
                 });
-                photoUri = await Post.StoreImages(file.GetStream(), Path.GetFileName(file.Path));
+                photoUri = (await Post.StoreImages(Path.GetFileName(file.Path), UserOrPost.User, file.GetStream())).First();
             }
             catch (Exception ex)
             {
