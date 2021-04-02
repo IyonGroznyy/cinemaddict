@@ -21,7 +21,7 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <FlexLayout Padding="10" Direction="Row" JustifyContent="SpaceBetween" x:DataType="model:Post" AlignContent="Center">
-                        <StackLayout WidthRequest="350">
+                        <StackLayout  WidthRequest="300">
                             <Label Text="{Binding TitleText}" 
                                        LineBreakMode="NoWrap" 
                                        Style="{DynamicResource ListItemTitleStyle}" 
@@ -40,7 +40,7 @@
                         </StackLayout>
                         <ImageButton
                                     BackgroundColor="White"
-                                    Margin="0,5,0,0"
+                                    Margin="0,5,10,0"
                                     HeightRequest ="35"
                                     Source="Bucket.png"
                                     Command="{Binding Source={RelativeSource AncestorType={x:Type local:ItemsViewModel}}, Path=DelItemCommand }"
