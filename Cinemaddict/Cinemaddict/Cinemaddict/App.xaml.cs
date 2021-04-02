@@ -16,7 +16,6 @@ namespace Cinemaddict
             var auth = DependencyService.Get<IFirebaseAuthentication>();
             Current.Properties["auth"] = auth;
             InitializeComponent();
-            DependencyService.Register<MockDataStore>();
             if(auth.IsSignIn())
             {
                 MainPage = new AppShell();

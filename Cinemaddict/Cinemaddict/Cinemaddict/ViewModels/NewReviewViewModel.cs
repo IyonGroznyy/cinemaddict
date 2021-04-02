@@ -76,7 +76,13 @@ namespace Cinemaddict.ViewModels
                     var imageStram = file.GetStream();
                     return imageStram;
                 });
-                Uri = (await Post.StoreImages(Path.GetFileName(file.Path), UserOrPost.Post, file.GetStream())).First();
+                Post newItem = new Post()
+                {
+                    Id = Preferences.Get("Posts_count", 0),
+                    TitleText = TitleText,
+                    Description = Description
+                };
+                Uri = (await Post.StoreImages(Path.GetFileName(file.Path), UserOrPost.Post, newItem, file.GetStream())).First();
             }
             catch (Exception ex)
             {
