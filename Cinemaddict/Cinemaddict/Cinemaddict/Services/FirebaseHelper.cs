@@ -60,7 +60,7 @@ namespace XamarinFirebase.Helper
                 await firebase
                  .Child("UsersCount")
                  .Child(updateCount)
-                 .PutAsync(1); //Ставить 1 
+                 .PutAsync(0); //Ставить 1 
             }
             else
             {
@@ -89,9 +89,13 @@ namespace XamarinFirebase.Helper
         /// <param name="pPost"></param>Если фото для профиля , то по умолчанию = null
         /// <param name="imageStreams">Поток для фото из телефона</param>
         /// <returns>Список url фото из Storage</returns>
-        public async Task<List<string>> StoreImages(string imageName, UserOrPost userOrPost, Post pPost = null, params Stream[] imageStreams)
+        public async Task<List<string>> StoreImages(string imageName, UserOrPost userOrPost, Post pPost = null, User pUser = null, params Stream[] imageStreams)
         {
-            User user = Util.GetDataLocal();
+            if(pUser == null)
+            {
+                pUser = Util.GetDataLocal();
+            }
+            
             if (token != null)
             {
                 List<string> returnURIs = new List<string>();
@@ -102,7 +106,7 @@ namespace XamarinFirebase.Helper
                         var stroageImage = await new FirebaseStorage(
                             "database-cinemaddict.appspot.com")
                             .Child("users")
-                            .Child(user.Id.ToString())
+                            .Child(pUser.Id.ToString())
                             .Child(imageName)
                             .PutAsync(imageStream);
                         returnURIs.Add(stroageImage);
@@ -118,7 +122,7 @@ namespace XamarinFirebase.Helper
                             var stroageImage = await new FirebaseStorage(
                                 "database-cinemaddict.appspot.com")
                                 .Child("users")
-                                .Child(user.Id.ToString())
+                                .Child(pUser.Id.ToString())
                                 .Child("posts")
                                 .Child(pPost.Id.ToString())
                                 .Child(imageName)
@@ -391,14 +395,16 @@ namespace XamarinFirebase.Helper
         #region Command
         public async Task DeleteAllUser()
         {
+            
             int lastID = await GetUserCount();
             for (int i = 1; i < lastID; i++)
             {
                 await firebase.Child("users").Child(i.ToString()).DeleteAsync();
             }
+            await UpdateUserCount(true);
             await DeleteAllPosts();
             await UpdateUser(null, true);
-            await UpdateUserCount(true);
+            
         }
         #endregion
     }

@@ -54,9 +54,9 @@ namespace Cinemaddict.Models
             return await new FirebaseHelper().GetAllNewsPosts();
         }
 
-        public static async Task<List<string>> StoreImages(string pPath, UserOrPost userOrPost,Post pPost = null ,params Stream[] pStream)
+        public static async Task<List<string>> StoreImages(string pPath, UserOrPost userOrPost,Post pPost = null, User pUser = null, params Stream[] pStream)
         {
-           return await new FirebaseHelper().StoreImages(Path.GetFileName(pPath), userOrPost, pPost, pStream);
+           return await new FirebaseHelper().StoreImages(Path.GetFileName(pPath), userOrPost, pPost, pUser, pStream);
         }
 
         public static async Task DeletePost(int pId)

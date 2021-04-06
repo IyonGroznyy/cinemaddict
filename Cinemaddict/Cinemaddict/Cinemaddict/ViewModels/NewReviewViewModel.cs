@@ -82,7 +82,7 @@ namespace Cinemaddict.ViewModels
                     TitleText = TitleText,
                     Description = Description
                 };
-                Uri = (await Post.StoreImages(Path.GetFileName(file.Path), UserOrPost.Post, newItem, file.GetStream())).First();
+                Uri = (await Post.StoreImages(Path.GetFileName(file.Path), UserOrPost.Post, newItem, null, file.GetStream())).First();
             }
             catch (Exception ex)
             {

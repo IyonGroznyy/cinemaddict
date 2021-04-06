@@ -39,7 +39,7 @@ namespace Cinemaddict.ViewModels
                     var imageStram = file.GetStream();
                     return imageStram;
                 });
-                photoUri = (await Post.StoreImages(Path.GetFileName(file.Path), UserOrPost.User, null ,file.GetStream())).First();
+                photoUri = (await Post.StoreImages(Path.GetFileName(file.Path), UserOrPost.User, null , new User() { Id = (await User.GetUserCount()) } ,file.GetStream())).First();
             }
             catch (Exception ex)
             {

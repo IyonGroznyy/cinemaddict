@@ -25,6 +25,7 @@ namespace Cinemaddict.Views
                 EmailEntry.Text = "";
                 return;
             }
+#if !DEBUG
             if (!Regex.IsMatch(PasswordEntry.Text.Trim(), @"[0-9]+", RegexOptions.IgnoreCase))
             {
                 await DisplayAlert("Authentication Failed", "Password doesn't contain a number", "OK");
@@ -43,6 +44,7 @@ namespace Cinemaddict.Views
                 PasswordEntry.Text = "";
                 return;
             }
+#endif
             var auth = Application.Current.Properties["auth"] as IFirebaseAuthentication;
             var token = "";
             try
